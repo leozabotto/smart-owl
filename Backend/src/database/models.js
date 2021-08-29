@@ -47,11 +47,6 @@ const AdminUser = connection.define('admin_user', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  active: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: true,
-  },
 }, {
   freezeTableName: true,
   paranoid: true,
