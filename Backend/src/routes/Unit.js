@@ -10,7 +10,6 @@ route.get('/unit/:id', Controller.handleFindOne);
 
 route.put('/unit/:id', Controller.handleEdit);
 
-route.put('/unit/:id/activate', Controller.handleActivate);
-route.put('/unit/:id/inactivate', Controller.handleInactivate);
+route.delete('/unit/:id', Controller.handleDelete)
 
 module.exports = route;

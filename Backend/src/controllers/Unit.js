@@ -4,6 +4,7 @@ const {
 } = require('../database/models');
 
 module.exports = {
+  // criar no banco de dados
   async handleCreate(req, res) {
     try {
       const {
@@ -88,5 +89,20 @@ module.exports = {
     } catch (err) {
       res.status(400).json(err);
     }
-  }
+  },
+  async handleDelete(req, res) {
+    try {
+      const { id } = req.params;
+
+      await Unit.destroy({
+        where: {
+          id,
+        }
+      });  
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(400).json(err)
+    }
+
+  }   
 }
