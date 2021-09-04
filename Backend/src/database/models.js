@@ -52,8 +52,60 @@ const AdminUser = connection.define('admin_user', {
   paranoid: true,
 });
 
+const Course = connection.define('course', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  workload: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+}, {
+  freezeTableName: true,
+  paranoid: true,
+});
+
+const Class = connection.define('class', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  ageGroup: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  status: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
+  openingQuantity: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+}, {
+  freezeTableName: true,
+  paranoid: true,
+});
+
 Unit.hasMany(AdminUser);
 AdminUser.belongsTo(Unit);
+Class.hasOne(Course);
+Class.belongsTo(Unit);
 
 module.exports = {
   AdminUser,
