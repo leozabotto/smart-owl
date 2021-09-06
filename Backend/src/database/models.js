@@ -104,7 +104,7 @@ const Class = connection.define('class', {
 
 Unit.hasMany(AdminUser);
 AdminUser.belongsTo(Unit);
-Class.hasOne(Course);
+Course.belongsToMany(Class);
 Class.belongsTo(Unit);
 
 module.exports = {
