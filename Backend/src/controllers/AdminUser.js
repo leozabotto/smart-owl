@@ -1,3 +1,4 @@
+
 const {
   AdminUser
 } = require('../database/models');
@@ -42,10 +43,7 @@ module.exports = {
       const {
         name,
         email,
-        //password
       } = req.body;
-
-      // verificar se existe esse id
 
       const existingAdminUser = await AdminUser.findOne({
         where: {
@@ -59,7 +57,6 @@ module.exports = {
 
       existingAdminUser.name = name
       existingAdminUser.email = email
-      //existingAdminUser.password = password
 
       await existingAdminUser.save()
 

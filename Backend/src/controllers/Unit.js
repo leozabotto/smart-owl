@@ -1,5 +1,4 @@
 const {
-  AdminUser,
   Unit,
 } = require('../database/models');
 

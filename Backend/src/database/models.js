@@ -104,10 +104,15 @@ const Class = connection.define('class', {
 
 Unit.hasMany(AdminUser);
 AdminUser.belongsTo(Unit);
-Course.belongsToMany(Class);
+Course.associations = () => {
+  Course.belongsToMany(Class)
+}
+//Course.belongsToMany(Class1);
 Class.belongsTo(Unit);
 
 module.exports = {
   AdminUser,
   Unit,
+  Course,
+  Class
 }
