@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Routes from './routes';
+
 ReactDOM.render(
-  <h1>Smart Owl</h1>,
+  <Routes />,
   document.getElementById('root')
 );
