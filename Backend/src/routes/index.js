@@ -1,13 +1,13 @@
 const express = require('express');
 const routes = express.Router();
 
-// const Unit = require('./Unit');
+const Unidade = require('./Unidade');
 // const AdminUser = require('./AdminUser');
 // const Course = require('./Course');
 // const Class = require('./Class');
 // const Login = require('./Login');
 
-// routes.use(Unit);
+routes.use(Unidade);
 // routes.use(AdminUser)
 // routes.use(Course)
 // routes.use(Login)
