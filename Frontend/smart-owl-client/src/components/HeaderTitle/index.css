@@ -1,0 +1,24 @@
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-size: 1.8rem;
+}
+
+.header p {
+  font-size: 1rem;
+  line-height: 30px;
+}
+
+.header h2, .header p, .header-subtitle h3 {
+  color: var(--text);
+}
+
+.header-subtitle {
+  display: grid;
+  gap: 5px;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

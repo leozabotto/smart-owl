@@ -1,0 +1,42 @@
+.notfound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.notfound img {
+  width: 100%;
+  height: auto;
+  margin: 20px;
+}
+
+.notfound h2, .notfound p {
+  text-align: center;
+  color: var(--text);
+  line-height: 30px;
+}
+
+.notfound a {
+  text-decoration: none;
+}
+
+.notfound button {
+  margin-top: 30px;
+}
+
+@media (min-width: 425px) {
+  .notfound img {
+    width: 75% !important;
+  }  
+}
+
+@media (min-width: 768px) {
+  .notfound img {
+    width: 55% !important;
+  } 
+}

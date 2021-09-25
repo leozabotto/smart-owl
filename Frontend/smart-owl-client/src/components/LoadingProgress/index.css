@@ -1,0 +1,20 @@
+.loading-container {
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-style .loading-info h3{
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--text);
+}
+
+.loading-style .loading-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 20px;
+}

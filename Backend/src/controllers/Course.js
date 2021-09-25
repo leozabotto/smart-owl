@@ -10,13 +10,13 @@ module.exports = {
             const {
                 name,
                 description,
-                workload
+                hours
             } = req.body;
 
             const information = {
                 name, 
                 description,
-                workload
+                hours
             }
 
             const courses = await Course.create(information);
@@ -60,7 +60,7 @@ module.exports = {
             const {
                 name,
                 description,
-                workload
+                hours
             } = req.body;
 
             const existingCourse = await Course.findOne({
@@ -75,7 +75,7 @@ module.exports = {
 
             existingCourse.name = name;
             existingCourse.description = description;
-            existingCourse.workload = workload
+            existingCourse.hours = hours
 
             await existingCourse.save()
 

@@ -1,0 +1,20 @@
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-size: 1.6rem;
+}
+
+.header p {
+  font-size: 1rem;
+  line-height: 30px;
+}
+
+.form-subtitle {
+  display: grid;
+  gap: 5px;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

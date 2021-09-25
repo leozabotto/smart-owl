@@ -47,6 +47,11 @@ const AdminUser = connection.define('admin_user', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  active: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true,
+    allowNull: false,
+  }
 }, {
   freezeTableName: true,
   paranoid: true,
@@ -66,7 +71,7 @@ const Course = connection.define('course', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  workload: {
+  hours: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -107,7 +112,6 @@ AdminUser.belongsTo(Unit);
 Course.associations = () => {
   Course.belongsToMany(Class)
 }
-//Course.belongsToMany(Class1);
 Class.belongsTo(Unit);
 
 module.exports = {

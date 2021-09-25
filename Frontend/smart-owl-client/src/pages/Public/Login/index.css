@@ -1,0 +1,73 @@
+div.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form.login-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+form.login-form div.input-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+form.login-form div.input-block input{
+  width: auto;
+  height: 20px;
+}
+
+form.login-form div.btn-submit {
+  display: grid;
+  grid-template-rows: 1fr;
+  gap: 1.2rem;
+
+  justify-content: center;
+  align-items: center;
+  
+  margin-top: 30px;
+}
+
+form.login-form div.btn-submit a{
+  color: var(--black);
+  text-decoration: none;
+}
+
+@media (min-width: 425px) {
+  form.login-form div.input-block input{
+    width: 250px !important;
+    height: 20px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  form.login-form div.input-block input{
+    width: 350px !important;
+    height: 20px !important;
+  }
+
+  form.login-form div.btn-submit {
+    grid-template-rows: none !important;
+    grid-template-columns: 1fr 2fr;
+
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  form.login-form div.btn-submit a {
+    justify-self: flex-end !important;
+  }
+}

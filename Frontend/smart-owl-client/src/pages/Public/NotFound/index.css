@@ -1,0 +1,42 @@
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.not-found img {
+  width: 100%;
+  height: auto;
+  margin: 20px;
+}
+
+.not-found h2, .not-found p {
+  text-align: center;
+  color: var(--text);
+  line-height: 30px;
+}
+
+.not-found a {
+  text-decoration: none;
+}
+
+.not-found button {
+  margin-top: 30px;
+}
+
+@media (min-width: 425px) {
+  .not-found img {
+    width: 75% !important;
+  }  
+}
+
+@media (min-width: 768px) {
+  .not-found img {
+    width: 55% !important;
+  } 
+}

@@ -1,0 +1,15 @@
+.datagrid-container {  
+  width: auto;
+}
+
+.datagrid-title {
+  color: #413E3E;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.datagrid-table {
+  margin-top: 10px;  
+  height: 40vh;
+  width: 100%;
+}
