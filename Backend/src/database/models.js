@@ -114,7 +114,7 @@ const Curso = connection.define('curso', {
     allowNull: false
   },
   carga_horaria: {
-    type: Sequelize.INT,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
 }, {
@@ -137,7 +137,7 @@ const Turma = connection.define('turma', {
     allowNull: false
   },
   qtd_vagas: {
-    type: Sequelize.INT,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   aberta: {
@@ -145,11 +145,11 @@ const Turma = connection.define('turma', {
     allowNull: false
   },
   idade_min: {
-    type: Sequelize.INT,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   idade_max: {
-    type: Sequelize.INT,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   hora_inicio: {

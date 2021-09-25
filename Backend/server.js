@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 
 const routes = require('./src/routes');
+const models = require('./src/database/models');
 
 const connection = require('./src/database/connection');
 
