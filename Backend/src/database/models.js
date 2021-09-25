@@ -1,40 +1,13 @@
 const { Sequelize } = require('sequelize');
 const connection = require('./connection');
 
-const Unit = connection.define('unit', {
+const Usuario = connection.define('usuario', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  location: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
-  mainPhone: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  mainEmail: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-}, {
-  freezeTableName: true,
-  paranoid: true,
-});
-
-const AdminUser = connection.define('admin_user', {
-  id: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true
-  },
-  name: {
+  nome: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -43,13 +16,17 @@ const AdminUser = connection.define('admin_user', {
     allowNull: false,
     unique: true,
   },
-  password: {
+  senha: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  active: {
+  ativo: {
     type: Sequelize.BOOLEAN,
     defaultValue: true,
+    allowNull: false,
+  },
+  tipo: {
+    type: Sequelize.STRING,
     allowNull: false,
   }
 }, {
@@ -57,49 +34,87 @@ const AdminUser = connection.define('admin_user', {
   paranoid: true,
 });
 
-const Course = connection.define('course', {
+const PermissoesAdmin = connection.define('permissoes_administrador', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  description: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
-  hours: {
-    type: Sequelize.STRING,
-    allowNull: false
+  cadastros: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
   },
 }, {
   freezeTableName: true,
   paranoid: true,
 });
 
-const Class = connection.define('class', {
+const Unidade = connection.define('unidade', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: {
+  nome: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  ageGroup: {
-    type: Sequelize.TEXT,
+  email: {
+    type: Sequelize.STRING,
     allowNull: false
   },
-  status: {
-    type: Sequelize.TEXT,
+  telefone: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  rua: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
-  openingQuantity: {
-    type: Sequelize.INTEGER,
+  numero_endereco: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  cep: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  bairro: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  estado: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  cidade: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  }
+}, {
+  freezeTableName: true,
+  paranoid: true,
+});
+
+
+
+const Curso = connection.define('curso', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  nome: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  descricao: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  carga_horaria: {
+    type: Sequelize.INT,
     allowNull: false
   },
 }, {
@@ -107,16 +122,74 @@ const Class = connection.define('class', {
   paranoid: true,
 });
 
-Unit.hasMany(AdminUser);
-AdminUser.belongsTo(Unit);
-Course.associations = () => {
-  Course.belongsToMany(Class)
-}
-Class.belongsTo(Unit);
+const Turma = connection.define('turma', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  nome: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  modalidade: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  qtd_vagas: {
+    type: Sequelize.INT,
+    allowNull: false
+  },
+  aberta: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false
+  },
+  idade_min: {
+    type: Sequelize.INT,
+    allowNull: false
+  },
+  idade_max: {
+    type: Sequelize.INT,
+    allowNull: false
+  },
+  hora_inicio: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  hora_fim: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+}, {
+  freezeTableName: true,
+  paranoid: true,
+});
+
+const AdminUnidade = connection.define('admin_unidade', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+});
+
+Usuario.hasOne(PermissoesAdmin);
+PermissoesAdmin.belongsTo(Usuario);
+
+Usuario.belongsToMany(Unidade, { through: AdminUnidade });
+Unidade.belongsToMany(Usuario, { through: AdminUnidade });
+
+Unidade.hasMany(Turma);
+Turma.belongsTo(Unidade);
+
+Turma.belongsTo(Curso);
+Curso.hasMany(Turma);
 
 module.exports = {
-  AdminUser,
-  Unit,
-  Course,
-  Class
+  AdminUnidade,
+  Curso,
+  PermissoesAdmin,
+  Turma,
+  Unidade,
+  Usuario,
 }

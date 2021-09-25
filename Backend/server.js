@@ -15,9 +15,19 @@ app.use(cors());
 app.use(routes);
 
 app.post('/syncDB', async (req, res) => {
+  
+  const { force } = req.body;
+  let params = {};
+
+  if (force) {
+    params.force = true
+  } else {
+    params.alter = true
+  }
+  console.log(params);
   try {
     await connection.sync({
-      alter: true
+      force: true,
     });
     console.log('Database has been sync successfully!');
     res.sendStatus(200);
