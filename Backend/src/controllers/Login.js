@@ -4,66 +4,45 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 const { 
-  Unit,
-  AdminUser,
+  Unidade,
+  Usuario,
  }= require('../database/models');
 
 module.exports = {
    async handleLogin(req, res) {
 
-    console.log(req.body);
-     
     try {
       const {
         email,
-        password,        
-        type,
-      } = req.body;
-
-      const user = {
-        email,
-        password,
-        type,
-      }
+        senha,        
+      } = req.body;     
 
       let payload = {};
-      
-      if (user.type === 'ADM') {
-        const user = await AdminUser.findOne(
-          { 
-            where: { email, active: 1 },        
-          }
-        );
-              
-        if(user === null || !user) {
-          return res.status(404).json({ message: 'E-mail ou Senha inválidos!' });
+
+      const usuario = await Usuario.findOne({ 
+          where: { email, ativo: 1 },        
         }
-
-        user.dataValues.type = req.body.type;
-
-        const correctPassword = bcrypt.compareSync(password, user.dataValues.password);    
-
-        if (!correctPassword) {
-          return res.status(404).json({ message: 'E-mail ou Senha inválidos!' });      
-        } else {
-          payload = { ...user.dataValues };
-          payload.password = undefined;              
-        }      
-      }  
-
-      else if (user.type === 'PUB') {
-        return res.status(400).json({ message: "Em desenvolvimento."});
-      }  
+      );
       
-      else {
-        return res.status(400).json({ message: "Tipo de usuário inválido."});
-      }       
-       
-      jwt.sign({ ...payload }, process.env['JWT_SECRET'], { expiresIn: '4h' }, (err, token) => {
+      if(usuario === null || !usuario) {
+        return res.status(404).json({ message: 'E-mail ou Senha inválidos!' });
+      }
+
+      const senhaCorreta = bcrypt.compareSync(senha, usuario.dataValues.senha);  
+
+      
+      if (!senhaCorreta) {
+        return res.status(404).json({ message: 'E-mail ou Senha inválidos!' });      
+      } else {
+        payload = { ...usuario.dataValues };
+        payload.senha = undefined;              
+      }      
+
+      jwt.sign({ ...payload }, process.env['JWT_SECRET'], { expiresIn: '5h' }, (err, token) => {
         if (err) return res.status(400).json({
           err: 'Falha interna: ' + err + '; Contate o desenvolvedor'
         });     
-        return res.status(200).json({ token });
+        return res.status(200).json({ token, });
       });               
     } catch (err) {
       console.log(err.stack);

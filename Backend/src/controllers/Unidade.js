@@ -14,7 +14,7 @@ module.exports = {
         email,
         telefone,
         rua,
-        num_endereco,
+        numero_endereco,
         cep,
         bairro,
         estado,
@@ -26,7 +26,7 @@ module.exports = {
         email,
         telefone,
         rua,
-        num_endereco,
+        numero_endereco,
         cep,
         bairro,
         estado,
@@ -34,90 +34,105 @@ module.exports = {
       }
 
       if(!checkEmptyFields(data)) {
-        return res.status(400).send({ msg: "Preencha todos os campos obrigatórios!"});
+        return res.status(400).send({ mensagem: "Preencha todos os campos obrigatórios!"});
       }
 
-      // const unit = await Unit.create(data);
-      // res.status(200).json(unit);
+      const unidade = await Unidade.create({ ...data });
+      return res.status(200).json(unidade);
 
     } catch (err) {
       res.status(400).json(err);
     }
   },
+
   async handleEdit(req, res) {
     try {
       const { id } = req.params;
 
       const {
-        name,
-        location,
-        mainPhone,
-        mainEmail
+        nome,
+        email,
+        telefone,
+        rua,
+        numero_endereco,
+        cep,
+        bairro,
+        estado,
+        cidade,
       } = req.body;
 
-      const existingUnit = await Unit.findOne({
+      const data = {
+        nome,
+        email,
+        telefone,
+        rua,
+        numero_endereco,
+        cep,
+        bairro,
+        estado,
+        cidade,
+      }
+
+      const unidade = await Unidade.findOne({
         where: {
           id,
         }
-      });
+      });   
 
-      if(!existingUnit) {
-        res.sendStatus(404);
+      if(unidade === null || !unidade) {
+        return res.status(404).send({ mensagem: "Unidade não existe!"});
       }
 
-      existingUnit.name = name;
-      existingUnit.location = location;
-      existingUnit.mainPhone = mainPhone;
-      existingUnit.mainEmail = mainEmail;
+      if(!checkEmptyFields(data)) {
+        return res.status(400).send({ mensagem: "Preencha todos os campos obrigatórios!"});
+      }
 
-      await existingUnit.save();
+      unidade.nome = nome;
+      unidade.email = email;
+      unidade.telefone = telefone;
+      unidade.rua = rua;
+      unidade.numero_endereco = numero_endereco;
+      unidade.cep = cep;
+      unidade.bairro = bairro;
+      unidade.estado = estado;
+      unidade.cidade = cidade;
 
-      res.status(200).send(existingUnit);
+      await unidade.save();
+
+      res.status(200).send(unidade);
 
     } catch (err) {
       res.status(400).json(err);
     }
   },
+
   async handleFindOne(req, res) {
     try {
       const { id } = req.params;
 
-      const existingUnit = await Unit.findOne({
+      const unidade = await Unidade.findOne({
         where: {
           id,
         }
       });
 
-      if(!existingUnit) {
-        res.sendStatus(404);
+      if(unidade === null || !unidade) {
+        return res.status(404).send({ mensagem: "Unidade não existe!"});
       }
 
-      res.status(200).send(existingUnit)
+      return res.status(200).send(unidade);
 
     } catch (err) {
       res.status(400).json(err);
     }
   },
+
   async handleFindAll(req, res) {
     try {
-      const units = await Unit.findAll();
-      res.status(200).send(units);
+      const unidades = await Unidade.findAll();
+      res.status(200).send(unidades);
     } catch (err) {
       res.status(400).json(err);
     }
   },
-  async handleDelete(req, res) {
-    try {
-      const { id } = req.params;
-
-      await Unit.destroy({
-        where: {
-          id,
-        }
-      });  
-      res.sendStatus(200);
-    } catch (err) {
-      res.status(400).json(err)
-    }
-  }   
 }
