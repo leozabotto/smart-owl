@@ -13,8 +13,10 @@ const PublicRoute = ({ type, ...rest }) => {
   }
 
   if(signed) {
-    if(role === 'ADM')
+    if(role === 'MASTER' || role === 'ADM')
       return <Redirect to="/adm/dashboard" />
+    if(role === 'CAND')
+      return <Redirect to="/dashboard" />
   }
 
   return <Route {...rest} />

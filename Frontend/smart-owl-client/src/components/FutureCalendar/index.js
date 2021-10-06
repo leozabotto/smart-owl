@@ -1,19 +1,23 @@
 import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+import ptBR from 'date-fns/locale/pt-BR/index';
 
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 const Calendar = ({...props}) => {
   return(
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
-      <DatePicker        
+      <KeyboardDatePicker       
         openTo="year"
         format="dd/MM/yyyy"
         color="primary"
         views={["year", "month", "date"]}
         variant="inline"
-        autoOk
+        autoOk      
+        invalidDateMessage="Insira uma data válida."
+        KeyboardButtonProps={{
+          'aria-label': 'change date',
+        }}
         {...props}
         />
     </MuiPickersUtilsProvider>

@@ -25,14 +25,14 @@ module.exports = {
       );
       
       if(usuario === null || !usuario) {
-        return res.status(404).json({ message: 'E-mail ou Senha inválidos!' });
+        return res.status(404).json({ mensagem: 'E-mail ou Senha inválidos!' });
       }
 
       const senhaCorreta = bcrypt.compareSync(senha, usuario.dataValues.senha);  
 
       
       if (!senhaCorreta) {
-        return res.status(404).json({ message: 'E-mail ou Senha inválidos!' });      
+        return res.status(404).json({ mensagem: 'E-mail ou Senha inválidos!' });      
       } else {
         payload = { ...usuario.dataValues };
         payload.senha = undefined;              
@@ -46,7 +46,7 @@ module.exports = {
       });               
     } catch (err) {
       console.log(err.stack);
-      return res.status(400).json({ message: 'ERROR: ' + err.message, stack: 'STACK: ' + err.stack });
+      return res.status(400).json({ mensagem: 'ERROR: ' + err.mensagem, stack: 'STACK: ' + err.stack });
     }
   },
 }

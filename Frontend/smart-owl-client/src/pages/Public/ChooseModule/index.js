@@ -3,17 +3,18 @@ import React, { useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 
 import PersonIcon from '@material-ui/icons/Person';
-import LockIcon from '@material-ui/icons/Lock';
 
 import CardLink from '../../../components/CardLink';
+import CreateIcon from '@material-ui/icons/Create';
+import SecurityIcon from '@material-ui/icons/Security';
 
-import mainLogo from '../../../assets/img/smart-owl-logo.png';
+import mainLogo from '../../../assets/img/mainLogo.png';
 import './index.css';
 
 const ChooseModule = () => {
 
   useEffect(() => {
-    document.title = 'Seleção de Módulo | Smart Owl'
+    document.title = 'Smart Owl'
   }, [])
 
   return (
@@ -25,7 +26,7 @@ const ChooseModule = () => {
         alignItems="center"
         css={{ height: 35 + 'vh' }}
       >
-        <img className="responsive-logo" src={mainLogo} alt="Smart Owl" />
+        <img className="responsive-logo" src={mainLogo} alt="Gest Facil" />
       </Box>
 
       <Box
@@ -34,14 +35,18 @@ const ChooseModule = () => {
         flexDirection="row"
         justifyContent="center"
         alignItems="center"
-      >
-        <CardLink link="/pub/login" icon={<PersonIcon/>}>
-          Candidato
+      >        
+        <CardLink link="/cursos" icon={<CreateIcon />}>
+          Cursos
         </CardLink>
 
-        <CardLink link="/adm/login" icon={<LockIcon/>}>
-          Administração
+        <CardLink link="/login" icon={<PersonIcon />}>
+          Área do Candidato
         </CardLink>
+
+        <CardLink link="/adm/login" icon={<SecurityIcon />}>
+          Administração
+        </CardLink>       
       </Box>
     </div>
   );

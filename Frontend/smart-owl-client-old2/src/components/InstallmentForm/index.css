@@ -1,0 +1,36 @@
+.installment-form-container .installment-form {
+  display: grid;
+  gap: 10px;
+}
+
+.installment-form-container .installment-form .installment-form-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 5rem;
+}
+
+@media (min-width: 768px){
+  .installment-form-container .installment-form {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .installment-form-container .installment-form .installment-form-button {
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    
+  }
+}
+
+@media (min-width: 1024px){
+  .installment-form-container .installment-form {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (min-width: 1440px){
+  .installment-form-container .installment-form {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}

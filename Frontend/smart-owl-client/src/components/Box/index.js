@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import IconsButton from '../IconButton';
-import mainLogo from '../../assets/img/smart-owl-logo.png';
+import mainLogo from '../../assets/img/mainLogo.png';
 
 import './index.css';
 

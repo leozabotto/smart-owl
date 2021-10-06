@@ -1,4 +1,4 @@
-.not-found {
+.notfound {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,34 +9,34 @@
   margin-left: 20px;
 }
 
-.not-found img {
+.notfound img {
   width: 100%;
   height: auto;
   margin: 20px;
 }
 
-.not-found h2, .not-found p {
+.notfound h2, .notfound p {
   text-align: center;
   color: var(--text);
   line-height: 30px;
 }
 
-.not-found a {
+.notfound a {
   text-decoration: none;
 }
 
-.not-found button {
+.notfound button {
   margin-top: 30px;
 }
 
 @media (min-width: 425px) {
-  .not-found img {
+  .notfound img {
     width: 75% !important;
   }  
 }
 
 @media (min-width: 768px) {
-  .not-found img {
+  .notfound img {
     width: 55% !important;
   } 
 }

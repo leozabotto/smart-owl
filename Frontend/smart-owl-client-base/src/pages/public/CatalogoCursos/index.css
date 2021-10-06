@@ -1,0 +1,60 @@
+.catalogo-cursos-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.catalogo-cursos-container .cabecalho {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 50px;
+}
+
+.catalogo-cursos-container .cabecalho h1 {
+  font-size: 1.8rem;
+  font-weight: 500 !important;  
+}
+
+.catalogo-cursos-container .cabecalho img {
+  width: 90%;
+}
+
+.catalogo-cursos-container .cursos {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 4px;
+  padding: 30px;
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .catalogo-cursos-container .cursos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .catalogo-cursos-container .cursos {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .catalogo-cursos-container .cursos {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+  .catalogo-cursos-container .cursos {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+
+@media screen and (min-width: 1201px) {
+  .catalogo-cursos-container .cursos {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+}

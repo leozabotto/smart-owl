@@ -1,0 +1,42 @@
+.in-development {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.in-development img {
+  width: 100%;
+  height: auto;
+  margin: 20px;
+}
+
+.in-development h2, .in-development p {
+  text-align: center;
+  color: var(--text);
+  line-height: 30px;
+}
+
+.in-development a {
+  text-decoration: none;
+}
+
+.in-development button {
+  margin-top: 30px;
+}
+
+@media (min-width: 425px) {
+  .in-development img {
+    width: 75% !important;
+  }  
+}
+
+@media (min-width: 768px) {
+  .in-development img {
+    width: 55% !important;
+  } 
+}

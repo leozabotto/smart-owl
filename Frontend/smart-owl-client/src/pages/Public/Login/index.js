@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { TextField } from '@material-ui/core';
 import { useFormik } from 'formik';
@@ -22,7 +22,7 @@ const Login = (props) => {
     email: yup.string()
       .email('Digite um e-mail válido!')
       .required(true),
-    password: yup.string()
+    senha: yup.string()
       .required(true),
   });
 
@@ -30,11 +30,10 @@ const Login = (props) => {
     validationSchema: validationSchema,
     initialValues: {
       email: '',
-      password: '',
-      type: props.type
+      senha: '',
     },
-    onSubmit: (values) => { 
-      handleLogin(values.email, values.password, props.type);
+    onSubmit: (values) => {
+      handleLogin(values.email, values.senha);
     },
   });
 
@@ -42,8 +41,8 @@ const Login = (props) => {
     <div className="login-container">
       <Box link="/">
         <div className="login-form">
-          <p><b> Login do &nbsp;
-            {props.type==='PUB' ? 'Candidato' : 'Administrador'}
+          <p><b> Área do&nbsp; 
+            {props.type==='ADM' ? 'Administrador' : 'Candidato'}
           </b></p>
           <form className="login-form" onSubmit={auth.handleSubmit}>
             <div className="input-block">
@@ -60,18 +59,18 @@ const Login = (props) => {
             </div>
             <div className="input-block">
               <TextField
-                name="password"
+                name="senha"
                 label="Senha"
-                type="password"
+                type="senha"
                 variant="outlined"
-                value={auth.values.password}
+                value={auth.values.senha}
                 onChange={auth.handleChange}
-                error={auth.touched.password && Boolean(auth.errors.password)}
+                error={auth.touched.senha && Boolean(auth.errors.senha)}
               />
             </div>
             <div className="btn-submit">
               <PrimaryButton variant="contained" size="large" type="submit">Entrar</PrimaryButton>
-              {/*<Link to="forgotten_password">Esqueceu a senha?</Link>*/}
+              <Link to="forgotten_senha">Esqueceu a senha?</Link>
             </div>
           </form>
         </div>

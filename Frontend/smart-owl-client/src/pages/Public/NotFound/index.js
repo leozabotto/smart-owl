@@ -7,17 +7,17 @@ import PrimaryButton from '../../../components/Button';
 
 import './index.css';
 
-import smartOwlLogo from '../../../assets/img/smart-owl-logo.png';
+import owl from '../../../assets/img/owl.png';
 
 const NotFound = () => {
 
   useEffect(() => {
-    document.title = 'Em desenvolvimento | Smart Owl'
+    document.title = 'GestFacil | Seleção de Módulo'
   }, [])
 
   return (
     
-    <div className="not-found">
+    <div className="notfound">
        <Box
         display="flex"
         flexWrap="wrap"
@@ -25,8 +25,21 @@ const NotFound = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <img className="responsive-logo" src={smartOwlLogo} alt="Smart Owl" />
+        <img className="responsive-logo" src={owl} alt="Gest Facil" />
       </Box>
+
+    
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <h2>Página não encontrada</h2>
+
+      </Box>
+
 
       <Box
         display="flex"
@@ -35,19 +48,8 @@ const NotFound = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <h2>ERRO 404</h2>
-      </Box>
+        <p>A página que você tentou acessar não existe ou foi removida.</p>
 
-      <Box
-        display="flex"
-        flexWrap="wrap"
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <p>
-          Opa! A página que você tentou acessar não existe. =P
-        </p>
       </Box>
 
       <Box
@@ -57,15 +59,12 @@ const NotFound = () => {
         justifyContent="flex-end"
         alignItems="flex-end"
       >
-        <Link to="/">
-          <PrimaryButton variant="contained" startIcon={<ArrowBackIcon />}>
-            Voltar ao início
-          </PrimaryButton>
-        </Link>
+      <Link to="/"><PrimaryButton variant="contained" startIcon={<ArrowBackIcon />}>Voltar ao início</PrimaryButton></Link>
+
       </Box>
     </div>
-
   );
 };
+
 
 export default NotFound;

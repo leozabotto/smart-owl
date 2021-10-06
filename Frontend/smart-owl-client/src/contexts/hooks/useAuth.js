@@ -12,6 +12,7 @@ export default function useAuth() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState('');
   const [userId, setUserId] = useState('');
+  const [permissions, setPermissions] = useState('');
 
   useEffect(() => {
     async function loadData() {
@@ -33,7 +34,8 @@ export default function useAuth() {
           setUser(JSON.parse(user));
           api.defaults.headers.Authorization = `Bearer ${token}`;
 
-          setRole(token_decoded.type);
+          setPermissions(token_decoded.permissions);
+          setRole(token_decoded.tipo);
           setUserId(token_decoded.id);
           setLoading(false);
         }
@@ -45,21 +47,21 @@ export default function useAuth() {
     
   }, []);
 
-  async function handleLogin(email, password, type) {
+  async function handleLogin(email, senha) {
 
     try {
 
-      const response = await api.post('/login', { email, password, type });   
-
+      const response = await api.post('/login', { email, senha });   
+      
       let token_decoded = jwt_decode(response.data.token);
   
       const user = {
-        name: token_decoded.name,
-        lastName: token_decoded.lastName,
+        nome: token_decoded.nome,
         email: token_decoded.email,
       }
       
-      setRole(token_decoded.type);
+      setPermissions(token_decoded.permissions);
+      setRole(token_decoded.tipo);
       setUser(user);
 
       localStorage.setItem('user', JSON.stringify(user));
@@ -73,7 +75,8 @@ export default function useAuth() {
         setSnack({ message: 'Encontramos um erro ao efetuar o login. Entre em contato com o suporte! ' + err, type: 'error', open: true})
       }
       else {        
-        let msg = err.response.data.message;
+        console.log(err.response)
+        let msg = err.response.data.mensagem;
         setSnack({ message: `${msg}`, type: 'error', open: true });
       }
     }
@@ -82,9 +85,10 @@ export default function useAuth() {
   function handleLogout() {
     setUser(null);
     setRole(null);
+    setPermissions(null);
     localStorage.clear();
     api.defaults.headers.Authorization = undefined;
   }
 
-  return { signed: !!user, user, userId, loading, role, handleLogin, handleLogout };
+  return { signed: !!user, user, userId, permissions, loading, role, handleLogin, handleLogout };
 }

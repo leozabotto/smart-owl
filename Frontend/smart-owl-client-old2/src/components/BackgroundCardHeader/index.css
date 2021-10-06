@@ -1,0 +1,15 @@
+.background-card-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.action-buttons button {
+  margin: 2px;
+}
+
+.background-card-header .title {
+  font-size: 1.8rem;
+  color: var(--text);
+}

@@ -1,0 +1,59 @@
+div.forgotten-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.forgotten-form .header-text {
+  margin-bottom: 20px;
+}
+
+div.forgotten-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form.forgotten-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+form.forgotten-form div.input-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+form.forgotten-form div.input-block input{
+  width: auto;
+  height: 20px;
+}
+
+form.forgotten-form div.btn-submit {
+  display: flex;
+  margin-top: 30px;
+}
+
+form.forgotten-form div.btn-submit a{
+  color: var(--black);
+  text-decoration: none;
+}
+
+@media (min-width: 425px) {
+  form.forgotten-form div.input-block input{
+    width: 270px !important;
+    height: 20px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  form.forgotten-form div.input-block input{
+    width: 350px !important;
+    height: 20px !important;
+  }
+}

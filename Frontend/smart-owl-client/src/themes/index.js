@@ -11,8 +11,8 @@ const UiTheme = createMuiTheme({
   },
   palette: {
     primary: {
-      light: '#f9fbe7',
-      main: '#43004E',
+      light: '#e78504',
+      main: '#e78504',
       nav: "#ffffff",
       contrastText: '#fff',
     },
@@ -25,7 +25,7 @@ const UiTheme = createMuiTheme({
     textPrimary: {
       main: '#fff'
     }
-  }
+  },
 }, ptBR);
 
 export default UiTheme;
