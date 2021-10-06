@@ -12,6 +12,9 @@ import Login from '../pages/public/Login';
 import PublicRoute from './public.routes';
 import PrivateRoute from './private.routes';
 
+import PainelAdm from '../pages/adm/PainelAdm';
+import Unidades from '../pages/adm/Unidades';
+import Cursos from '../pages/adm/Cursos';
 
 import browserHistory from '../history';
 
@@ -24,7 +27,7 @@ const Routes = () =>{
           exact path="/" 
           component={() => <ChooseModule />} 
         />
-
+       
         {/* Login */}
               
         <PublicRoute 
@@ -35,7 +38,26 @@ const Routes = () =>{
         <PublicRoute 
           exact path="/adm/login" 
           component={() => <Login type="ADM" />} 
-        />          
+        />    
+
+        {/* Administração */}
+
+        <PrivateRoute
+          exact path="/adm/painel" 
+          component={() => <PainelAdm type="MASTER" />} 
+        /> 
+
+        <PrivateRoute
+          exact path="/adm/unidades" 
+          component={() => <Unidades type="ADM" />} 
+        /> 
+
+        <PrivateRoute
+          exact path="/adm/cursos" 
+          component={() => <Cursos type="ADM" />} 
+        /> 
+
+  
 
         <Route component={NotFound} />
       </Switch>

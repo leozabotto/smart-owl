@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 
 import BackgroundCard from '../../../components/BackgroundCard';
-import ClientDrawer from '../../../components/ClientDrawer';
+import AdmDrawer from '../../../components/AdmDrawer';
 import { HeaderTitle } from '../../../components/HeaderTitle';
 import { AuthContext } from '../../../contexts/AuthContext';
 import CardLink from '../../../components/CardLink';
@@ -17,19 +17,19 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 import './index.css';
 
-const ClientDashboard = () => {
+const PainelAdm = () => {
   const { user, role } = useContext(AuthContext);
   
   useEffect(() => {
-    document.title = 'Dashboard | GestFacil';
+    document.title = 'Dashboard | Smart Owl';
   }, [role])
 
   return (
-    <ClientDrawer title="Dashboard">
+    <AdmDrawer title="Painel Admistrativo">
       <BackgroundCard>
         <div className="master-dashboard">
           <HeaderTitle
-            title={`Olá, ${user.name}!`}          
+            title={`Olá, ${user.nome}!`}          
           />
           <Box
             display="flex"
@@ -39,7 +39,7 @@ const ClientDashboard = () => {
             alignItems="left"
             css={{ marginTop: 20 }}
           >       
-            <CardLink link="/cli/payable_accounts" icon={<AccountBalanceWallet />}>
+            {/* <CardLink link="/cli/payable_accounts" icon={<AccountBalanceWallet />}>
               Contas a Pagar
             </CardLink> 
             <CardLink link="/cli/receivable_accounts" icon={<MonetizationIcon />}>
@@ -50,12 +50,12 @@ const ClientDashboard = () => {
             </CardLink> 
             <CardLink link="/cli/account_posting" icon={<PublishIcon />}>
               Lançamento
-            </CardLink>       
+            </CardLink>        */}
           </Box>
         </div>
       </BackgroundCard>
-    </ClientDrawer>
+    </AdmDrawer>
   );
 };
 
-export default ClientDashboard;
+export default PainelAdm;

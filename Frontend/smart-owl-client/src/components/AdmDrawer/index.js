@@ -17,36 +17,31 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
-import PersonIcon from '@material-ui/icons/Person';
 import LocalShippingIcon from '@material-ui/icons/LocalShippingOutlined';
 import AccountBalanceOutlinedIcon 
 from '@material-ui/icons/AccountBalanceOutlined';
 import SupervisorAccountIcon 
 from '@material-ui/icons/SupervisorAccountOutlined';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import BusinessCenterOutlinedIcon
 from '@material-ui/icons/BusinessCenterOutlined';
 import AccountCircle from '@material-ui/icons/AccountCircleOutlined';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import CategoryOutlinedIcon from '@material-ui/icons/CategoryOutlined';
-import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
-import AccountBalanceWallet 
-from '@material-ui/icons/AccountBalanceWalletOutlined';
-import CheckIcon 
-from '@material-ui/icons/CheckOutlined';
-import MonetizationIcon 
-from '@material-ui/icons/MonetizationOnOutlined';
-import DoneAllIcon from '@material-ui/icons/DoneAllOutlined';
-import PublishIcon from '@material-ui/icons/PublishOutlined';
+import PlaceIcon from '@material-ui/icons/PlaceOutlined';
+import PersonIcon from '@material-ui/icons/PersonOutlined';
+import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
+import SupervisorAccount from '@material-ui/icons/SupervisorAccountOutlined';
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { NavContext } from '../../contexts/NavContext';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import './index.css';
+import jwtDecode from 'jwt-decode';
 
 const drawerWidth = 280;
 
@@ -87,12 +82,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   selected: {
-    borderRight: '5px solid var(--green)',
+    borderRight: '5px solid purple',
   },
 }));
 
-const ClientDrawer = (props) => {
+const AdmDrawer = (props) => {
+
   const { user, handleLogout, permissions } = useContext(AuthContext);
+  const [userType, setUserType] = useState();
 
   const history = useHistory();
 
@@ -133,17 +130,75 @@ const ClientDrawer = (props) => {
         <ListItem button 
           classes={{ selected: classes.selected }} 
           component={Link} 
-          to="/cli/dashboard" 
-          selected={location.pathname === "/cli/dashboard"}
+          to="/adm/painel" 
+          selected={location.pathname === "/adm/painel"}
         >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Início" />
+        </ListItem>       
+       
+        <ListItem button 
+          classes={{ selected: classes.selected }} 
+          component={Link} 
+          to="/adm/cursos" 
+          selected={location.pathname === "/adm/cursos"}
+        >
+          <ListItemIcon>
+            <BorderColorOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Cursos" />
+        </ListItem> 
+
+        <ListItem button 
+          classes={{ selected: classes.selected }} 
+          component={Link} 
+          to="/adm/turmas" 
+          selected={location.pathname === "/adm/turmas"}
+        >
+          <ListItemIcon>
+            <SupervisorAccount />
+          </ListItemIcon>
+          <ListItemText primary="Turmas" />
+        </ListItem> 
+
+        <ListItem button 
+          classes={{ selected: classes.selected }} 
+          component={Link} 
+          to="/adm/unidades" 
+          selected={location.pathname === "/adm/unidades"}
+        >
+          <ListItemIcon>
+            <PlaceIcon />
+          </ListItemIcon>
+          <ListItemText primary="Unidades" />
+        </ListItem>
+        
+        <ListItem button 
+          classes={{ selected: classes.selected }} 
+          component={Link} 
+          to="/adm/usuarios" 
+          selected={location.pathname === "/adm/usuarios"}
+          disabled
+        >
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
+          <ListItemText primary="Usuários" />
+        </ListItem>
+        
+        <ListItem button 
+          classes={{ selected: classes.selected }} 
+          onClick={() => handleLogout()} 
+        >
+          <ListItemIcon>
+            <ExitToAppIcon  />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
         </ListItem>
 
-        {permissions.register ? <>
-        <ListItem button onClick={handleRegister}>
+        <ListItem button onClick={handleRegister} disabled>
           <ListItemIcon>
             <FolderOutlinedIcon />
           </ListItemIcon>
@@ -191,7 +246,7 @@ const ClientDrawer = (props) => {
                 <AccountBalanceOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary="Contas Bancárias" />
-            </ListItem>                                  
+            </ListItem>                                            
 
             <ListItem button 
               classes={{ selected: classes.selected }} 
@@ -220,159 +275,7 @@ const ClientDrawer = (props) => {
             </ListItem> 
                        
           </List>     
-        </Collapse> </>: ''}
-
-        {permissions.financial ?
-        <>
-        <ListItem button onClick={handleCashFlow}>
-          <ListItemIcon>
-            <AttachMoneyOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Financeiro" />
-          {cashFlow ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-
-        <Collapse in={cashFlow} timeout="auto" unmountOnExit>          
-          <List component="div" disablePadding>
-            
-            <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/payable_accounts" 
-              selected={location.pathname === "/cli/payable_accounts"}              
-            >
-              <ListItemIcon>
-                <AccountBalanceWallet />
-              </ListItemIcon>
-              <ListItemText primary="Contas a Pagar" />
-            </ListItem>
-
-            <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/paid_accounts" 
-              selected={location.pathname === "/cli/paid_accounts"}                          
-            >
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText primary="Contas Pagas" />
-            </ListItem>
-
-            <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/receivable_accounts" 
-              selected={location.pathname === "/cli/receivable_accounts"}                           
-            >
-              <ListItemIcon>
-                <MonetizationIcon />
-              </ListItemIcon>
-              <ListItemText primary="Contas a Receber" />
-            </ListItem>
-            
-            <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/received_accounts" 
-              selected={location.pathname === "/cli/received_accounts"}                          
-            >
-              <ListItemIcon>
-                <DoneAllIcon />
-              </ListItemIcon>
-              <ListItemText primary="Contas Recebidas" />
-            </ListItem>
-            
-            <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/statement" 
-              selected={location.pathname === "/cli/statement"}          
-            >
-              <ListItemIcon>
-                <DescriptionOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Extrato" />
-            </ListItem>
-
-            {/* <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/in_progress" 
-              selected={location.pathname === "/cli/cash_flow"}
-              disabled
-            >
-              <ListItemIcon>
-                <BarChartOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Fluxo de Caixa" />
-            </ListItem> */}
-
-            {/*<ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/cli/in_progress" 
-              selected={location.pathname === "/cli/invoices"}
-              disabled
-            >
-              <ListItemIcon>                
-                <LocalAtmIcon />
-              </ListItemIcon>
-              <ListItemText primary="Boletos" />
-            </ListItem>
-
-            */}                                    
-            </List> 
         </Collapse>
-        </>   
-        : '' } 
-
-        {permissions.accountPosting ? 
-        <ListItem button 
-          classes={{ selected: classes.selected }} 
-          component={Link} 
-          to="/cli/account_posting" 
-          selected={location.pathname === "/cli/account_posting"}
-        >
-          <ListItemIcon>
-            <PublishIcon />
-          </ListItemIcon>
-          <ListItemText primary="Lançamento" />
-        </ListItem>
-        : ''}
-      
-        {/*<ListItem button 
-          classes={{ selected: classes.selected }} 
-          component={Link} 
-          to="/cli/in_progress" 
-          selected={location.pathname === '/cli/settings'}
-          disabled
-        >
-          <ListItemIcon>
-            <FileIcon />
-          </ListItemIcon>
-          <ListItemText primary="Arquivos" />
-        </ListItem>*/}
-
-        {/*<ListItem button 
-          classes={{ selected: classes.selected }} 
-          component={Link} 
-          to="/cli/in_progress" 
-          selected={location.pathname === '/cli/settings'}
-          disabled
-        >
-          <ListItemIcon>
-            <SettingsOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Configurações" />
-        </ListItem>*/}
       </List>
     </div>
   );
@@ -475,20 +378,15 @@ const ClientDrawer = (props) => {
             <div className="container-info">
               <div className="module-name">
                 <div className="name">
-                  <h2>Cliente</h2>
+                  <h2>ADM</h2>
                 </div>
                 <Divider />
               </div>
               <div className="user">
                 <div className="user-info">
-                  <Avatar className="avatar">{ user.name[0] }</Avatar>
-                  <h3>{ user.name } { user.lastName }</h3>
-                </div>
-                <div className="actions">
-                  <Link to="/cli/profile/"><PersonIcon />Meu Perfil</Link>
-                  <p>/</p>
-                  <button onClick={handleLogout}><ExitToAppIcon />Sair</button>
-                </div>
+                  <Avatar className="avatar">{ user.nome[0] }</Avatar>
+                  <h3>{ user.nome }</h3>
+                </div>               
               </div>
             </div>
             <Divider />
@@ -506,4 +404,4 @@ const ClientDrawer = (props) => {
   );
 }
 
-export default ClientDrawer;
+export default AdmDrawer;

@@ -61,7 +61,7 @@ const Login = (props) => {
               <TextField
                 name="senha"
                 label="Senha"
-                type="senha"
+                type="password"
                 variant="outlined"
                 value={auth.values.senha}
                 onChange={auth.handleChange}

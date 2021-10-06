@@ -14,18 +14,18 @@ const PrivateRoute = ({ ...rest }) => {
     return <Loading/>;
   }
 
-  if(!signed || rest.type !== role) {
+  if(!signed) {
     return <Redirect to="/"/>
   }
 
-  if(rest.permission && !permissions[rest.permission]) {
-    setSnack({ 
-      message: 'Sem permissão!', 
-      type: 'error', 
-      open: true
-    });
-    return <Redirect to="/"/>
-  }
+  // if(rest.permission && !permissions[rest.permission]) {
+  //   setSnack({ 
+  //     message: 'Sem permissão!', 
+  //     type: 'error', 
+  //     open: true
+  //   });
+  //   return <Redirect to="/"/>
+  // }
   
   return <Route {...rest}/>
 }

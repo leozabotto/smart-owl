@@ -13,7 +13,7 @@ const AccountingDashboard = () => {
   const { user } = useContext(AuthContext);
   
   useEffect(() => {
-    document.title = 'Dashboard | GestFacil';
+    document.title = 'Dashboard | Smart Owl';
   }, [])
 
   return (
@@ -21,7 +21,7 @@ const AccountingDashboard = () => {
       <BackgroundCard>
         <div className="master-dashboard">
           <HeaderTitle
-            title={`Olá, ${user.name}!`}
+            title={`Bem-vindo, ${user.name}!`}
           />
           <Box
             display="flex"
@@ -30,8 +30,7 @@ const AccountingDashboard = () => {
             justifyContent="left"
             alignItems="left"
             css={{ marginTop: 20 }}
-          >
-      
+          >      
           </Box>
         </div>
       </BackgroundCard>
