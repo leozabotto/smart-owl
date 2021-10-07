@@ -15,9 +15,10 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
-        hora_inicio,
-        hora_fim,
-        aberta,
+        status,
+        manha,
+        tarde,
+        noite,
         cursoId,
         unidadeId,
       } = req.body;
@@ -28,9 +29,10 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
-        hora_inicio,
-        hora_fim,
-        aberta,
+        manha,
+        tarde,
+        noite,
+        status,
         cursoId,
         unidadeId,
       }
@@ -58,9 +60,7 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
-        hora_inicio,
-        hora_fim,
-        aberta,
+        status,
         cursoId,
       } = req.body;
 
@@ -70,9 +70,7 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
-        hora_inicio,
-        hora_fim,
-        aberta,
+        status,
         cursoId,
       }
 
@@ -97,7 +95,7 @@ module.exports = {
       turma.idade_max = idade_max;
       turma.hora_inicio = hora_inicio;
       turma.hora_fim = hora_fim;
-      turma.aberta = aberta;
+      turma.status = status;
       turma.cursoId = cursoId;
 
       await turma.save();

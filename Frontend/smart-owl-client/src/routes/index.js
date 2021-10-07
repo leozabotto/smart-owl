@@ -8,6 +8,7 @@ import {
 
 import ChooseModule from '../pages/public/ChooseModule';
 import NotFound from '../pages/public/NotFound';
+import CatalogoCursos from '../pages/public/CatalogoCursos';
 import Login from '../pages/public/Login';
 import PublicRoute from './public.routes';
 import PrivateRoute from './private.routes';
@@ -26,6 +27,11 @@ const Routes = () =>{
         <PublicRoute 
           exact path="/" 
           component={() => <ChooseModule />} 
+        />
+
+        <PublicRoute 
+          exact path="/cursos" 
+          component={() => <CatalogoCursos />} 
         />
        
         {/* Login */}
