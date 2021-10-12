@@ -48,7 +48,6 @@ module.exports = {
       const usuario = await Usuario.create(data);
       return res.status(200).send(usuario);
     }catch (err) {
-      console.log(err);
       return res.status(400).json(err);
     }
 

@@ -173,6 +173,45 @@ const AdminUnidade = connection.define('admin_unidade', {
   },
 });
 
+const Candidato = connection.define('candidatos', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  nome: {
+    type:Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  senha: {
+    type: Sequelize.STRING,
+    allowNull:false
+  },
+  genero: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  nascimento: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  documentoCpf: {
+    type: Sequelize.STRING,
+    allowNull:false
+  },
+  documentoRg: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+},{
+  freezeTableName: true,
+  paranoid: true,
+});
+
 Usuario.hasOne(PermissoesAdmin);
 PermissoesAdmin.belongsTo(Usuario);
 
@@ -192,4 +231,5 @@ module.exports = {
   Turma,
   Unidade,
   Usuario,
+  Candidato,
 }

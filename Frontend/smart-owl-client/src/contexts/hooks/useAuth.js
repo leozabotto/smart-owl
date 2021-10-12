@@ -70,7 +70,7 @@ export default function useAuth() {
       api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
 
     } catch (err) {
-      
+      console.log(err)
       if(!err.response){       
         setSnack({ message: 'Encontramos um erro ao efetuar o login. Entre em contato com o suporte! ' + err, type: 'error', open: true})
       }

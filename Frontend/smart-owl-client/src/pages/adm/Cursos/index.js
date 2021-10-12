@@ -170,7 +170,7 @@ const Cursos = () => {
             :
             <>
            
-            <PrimaryButton variant="contained" size="large" title={"Nova Unidade"}
+            <PrimaryButton variant="contained" size="large" title={"Novo Curso"}
               onClick={() => handleCreateModalOpen()}  
             >
               <AddIcon />
