@@ -140,8 +140,8 @@ const Turma = connection.define('turma', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  aberta: {
-    type: Sequelize.BOOLEAN,
+  status: {
+    type: Sequelize.STRING,
     allowNull: false
   },
   idade_min: {
@@ -152,14 +152,6 @@ const Turma = connection.define('turma', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  hora_inicio: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  hora_fim: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
 }, {
   freezeTableName: true,
   paranoid: true,
