@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { 
-  CircularProgress  
+  CircularProgress, MenuItem, TextField
 } from '@material-ui/core'
 
 import { DataGrid, ptBR } from '@material-ui/data-grid';
@@ -16,7 +16,7 @@ import PrimaryButton from '../../../components/Button';
 import BackgroundCardHeader from '../../../components/BackgroundCardHeader';
 import IconButton from '../../../components/IconButton'
 
-import FormCadastroUnidade from '../../../components/FormCadastroUnidade';
+import FormCadastroTurmas from '../../../components/FormCadastroTurmas';
 
 import { HeaderSubtitle } from '../../../components/HeaderTitle';
 import { SnackContext } from '../../../contexts/SnackContext';
@@ -24,7 +24,9 @@ import { SnackContext } from '../../../contexts/SnackContext';
 import api from '../../../services/api';
 
 import './index.css';
+
 import FormEdicaoUnidade from '../../../components/FormEdicaoUnidade';
+import SelectUnidades from '../../../components/SelectUnidades';
 
 
 const Unidades = () => {
@@ -33,21 +35,33 @@ const Unidades = () => {
   
   const [unidadeParaEditar, setUnidadeParaEditar] = useState(null);
   const [modalEdicao, setModalEdicao] = useState(false);
-  const [unidadeEditada, setUnidadeEditada] = useState({});
+  const [unidadeEditada, setTurmaEditada] = useState({});
 
   const [modalCadastro, setModalCadastro] = useState(false);
-  const [unidadeCriada, setUnidadeCriada] = useState({});
+  const [turmaCriada, setTurmaCriada] = useState({});
 
   const [loading, setLoading] = useState(false);
 
   //const [processandoRelatorio, setProcessandoRelatorio] = useState(false); 
   
-  const [unidades, setUnidades] = useState([]); 
+  const [turmas, setTurmas] = useState([]); 
+
+  const [unidade, setUnidade] = useState([]); 
+
+  const handleUnidadeChange = (value) => {
+    setUnidade(value)
+  }
+
+  const [status, setStatus] = useState('Aberta'); 
+
+  const handleStatusChange = (value) => {
+    setStatus(value)
+  }
 
   const handleCreateModalOpen = () => {
     setModalCadastro(true);
   }
-
+    
   const handleCreateModalClose = () => {
     setModalCadastro(false);
   }
@@ -69,11 +83,34 @@ const Unidades = () => {
     setUnidadeParaEditar(null);
   }   
 
+  const handleFilter = async () => {
+    try {
+
+      const turmas = await api.get('/turma', { 
+        params: {
+          unidadeId: unidade.id, 
+          status
+        }
+      });
+
+      setTurmas(turmas.data);
+
+    } catch (err) {
+      setSnack({ 
+        message: 'Ocorreu um erro ao buscar as turmas. Caso persista, contate o suporte! ' + err, 
+        type: 'error', 
+        open: true
+      });
+
+      console.log(err);
+    }
+  }
+
   const columns = [  
     { 
       field: 'actions', 
       headerName: 'Ações', 
-      width: 220,
+      width: 100,
       sortable: false,
       renderCell: (account) => {                      
         return (<>            
@@ -82,7 +119,7 @@ const Unidades = () => {
             onClick={() => {        
               handleSelecionarParaEditar(account.row);        
             }
-          }>
+          } disabled>
             <CreateOutlinedIcon />
           </IconButton>                                
         </>);
@@ -95,66 +132,79 @@ const Unidades = () => {
       sortable: true,      
     },
     { 
-      field: 'email', 
-      headerName: 'E-mail', 
+      field: 'curso', 
+      headerName: 'Curso', 
+      width: 240,
+      sortable: true,
+      renderCell: (turma) => {
+        return turma.row.curso.nome
+      }
+    },
+    { 
+      field: 'unidade', 
+      headerName: 'Unidade', 
+      width: 200,
+      sortable: true,
+      renderCell: (turma) => {
+        return turma.row.unidade.nome
+      }
+    },
+    { 
+      field: 'periodo', 
+      headerName: 'Período', 
+      width: 150,
+      sortable: true,
+    },
+    { 
+      field: 'modalidade', 
+      headerName: 'Modalidade', 
       width: 200,
       sortable: true,
     },
     { 
-      field: 'telefone', 
-      headerName: 'Telefone', 
+      field: 'qtd_vagas', 
+      headerName: 'Qtd. Vagas', 
+      width: 150,
+      sortable: true,
+    },
+    { 
+      field: 'status', 
+      headerName: 'Status', 
       width: 200,
       sortable: true,
     },
   ];
 
   useEffect(() => {
-    document.title = 'Unidades | Smart Owl';  
-    
-    async function getUnidades() {
-      try {
-        setLoading(true);
-        const unidades = await api.get('/unidade');
-        setUnidades(unidades.data);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        setSnack({ 
-          message: 'Erro ao buscar as unidades!' + err.mensagem, 
-          type: 'error', 
-          open: true 
-        });
-      }
-    }
-    getUnidades();
-
-  }, [setSnack, setUnidades]);
+    document.title = 'Turmas | Smart Owl';         
+  }, []);
 
 
   useEffect(() => {
-    if(Object.keys(unidadeCriada).length !== 0) {
-      let unidade = {...unidadeCriada.data };
-      setUnidades(unidades.concat(unidade));
+    console.log(turmaCriada)
+    if(Object.keys(turmaCriada).length !== 0) {
+      let turma = {...turmaCriada.data };
+      setTurmas(turmas.concat(turma));
     }   
-  }, [unidadeCriada])
+  }, [turmaCriada])
 
   useEffect(() => {
     if(Object.keys(unidadeEditada).length !== 0) {
       let unidade = {...unidadeEditada.data };      
-      setUnidades(unidades.map(unid => {
+      /*setUnidades(unidades.map(unid => {
         if (unid.id === unidade.id) {
           unid = unidade;
         }
         return unid;
-      }));
+      }));*/
     } 
   }, [unidadeEditada])
 
   return (
-    <AdmDrawer title="Unidades">
+    <AdmDrawer title="Turmas">
       <div className="master-dashboard">                
         <BackgroundCard>
-          <BackgroundCardHeader title="Unidades">
+          <BackgroundCardHeader title="Turmas">
             { /* processandoRelatorio */ false  ?
             <div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <CircularProgress />
@@ -175,6 +225,37 @@ const Unidades = () => {
           }
           </BackgroundCardHeader>
           <HeaderSubtitle/>
+
+          <div className="filter-form-container">
+            <form className="filter-form" onSubmit={null} id="filter-form">
+              <div className="filter-form-basic">
+                <SelectUnidades 
+                  value={unidade}
+                  onChange={handleUnidadeChange}
+                />
+
+                <div className="input-block">
+                  <TextField                                    
+                    label="Status"
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={status}
+                    onChange={(e) => handleStatusChange(e.target.value)}
+                    error={null}
+                    fullWidth 
+                    select                
+                  >
+                    <MenuItem value="Aberta" key="1">Aberta</MenuItem>
+                    <MenuItem value="Fechada" key="2">Fechada</MenuItem>
+                  </TextField> 
+                </div>
+                <div className="input-block">
+                  <PrimaryButton size="large" variant="contained" onClick={() => handleFilter()}>Buscar</PrimaryButton>
+                </div> 
+              </div>
+            </form>
+          </div>
         
           {
             loading ?
@@ -185,12 +266,12 @@ const Unidades = () => {
             <>
             <div style={{ height: '70vh', width: '100%', marginTop: '40px'}}>  
               <DataGrid 
-                rows={unidades} 
+                rows={turmas} 
                 columns={columns} 
                 pageSize={50} 
                 localeText={ptBR.props.MuiDataGrid.localeText}              
                 disableSelectionOnClick              
-              /> 
+              />
             </div> 
             </>
           }                                                              
@@ -199,11 +280,11 @@ const Unidades = () => {
         </BackgroundCard>                  
       </div>
 
-      <FormCadastroUnidade     
+      <FormCadastroTurmas     
         createModal={modalCadastro} 
         handleCreateModalClose={handleCreateModalClose}   
         type={'-'}     
-        setUnidadeCriada={setUnidadeCriada}
+        setTurmaCriada={setTurmaCriada}
         allowKeepPosting
       />
 
@@ -211,7 +292,7 @@ const Unidades = () => {
         editModal={modalEdicao} 
         handleEditModalClose={handleEditModalClose}   
         type={'-'}     
-        setUnidadeEditada={setUnidadeEditada}     
+        setTurmaEditada={setTurmaEditada}     
         unidadeParaEditar={unidadeParaEditar}
         handleUnselectToEdit={handleUnselectToEdit}
       />

@@ -46,7 +46,7 @@ const FormCadastroCurso = (props) => {
       case 'cgCargaHoraria': 
         return {
           ...state,
-          carga_horaria: action.value,
+          carga_horaria: parseInt(action.value) < 0 ? action.value * -1 : action.value ,
         }  
       case 'resetForm':       
         return {
@@ -155,6 +155,9 @@ const FormCadastroCurso = (props) => {
                     label="Descrição"
                     variant="outlined"
                     type="text"
+                    multiline
+                    rows={4}
+                    rowsMax={6}
                     autoComplete="off"
                     value={form.descricao}
                     onChange={(e) => dispatch({
@@ -169,7 +172,7 @@ const FormCadastroCurso = (props) => {
                   <TextField                                    
                     label="Carga Horária"
                     variant="outlined"
-                    type="text"
+                    type="number"
                     autoComplete="off"
                     value={form.carga_horaria}
                     onChange={(e) => dispatch({
@@ -179,7 +182,7 @@ const FormCadastroCurso = (props) => {
                     error={null}
                     fullWidth                 
                   />  
-                </div>                                       
+                </div>                                                     
               </div>                                                  
             </form>
           </div>

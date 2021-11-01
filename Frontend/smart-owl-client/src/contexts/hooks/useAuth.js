@@ -47,11 +47,15 @@ export default function useAuth() {
     
   }, []);
 
-  async function handleLogin(email, senha) {
+  async function handleLogin(userData, type) {
 
     try {
 
-      const response = await api.post('/login', { email, senha });   
+      const response = await api.post('/login', { 
+        email: userData.email, 
+        senha: userData.senha,
+        type, 
+      });   
       
       let token_decoded = jwt_decode(response.data.token);
   
@@ -75,7 +79,6 @@ export default function useAuth() {
         setSnack({ message: 'Encontramos um erro ao efetuar o login. Entre em contato com o suporte! ' + err, type: 'error', open: true})
       }
       else {        
-        console.log(err.response)
         let msg = err.response.data.mensagem;
         setSnack({ message: `${msg}`, type: 'error', open: true });
       }

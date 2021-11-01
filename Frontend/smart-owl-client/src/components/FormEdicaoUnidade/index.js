@@ -8,6 +8,7 @@ import React, {
 import { 
   TextField, 
   CircularProgress,
+  MenuItem,
 } from '@material-ui/core';
 
 import PrimaryButton from '../Button';
@@ -107,6 +108,17 @@ const FormCadastroUnidade = (props) => {
       return;
     }
 
+    for (let i = 0; i < Object.keys(form).length; i++) {
+      if(form[Object.keys(form)[i]] === '') {
+        setSnack({ 
+          message: 'Preencha todos os campos!', 
+          type: 'error', 
+          open: true
+        });
+        return;
+      }
+    }    
+
     setLoading(true);
 
     try {
@@ -169,7 +181,7 @@ const FormCadastroUnidade = (props) => {
       setUnidade(); 
     }
 
-  }, [props.unidadeParaEditar]);
+  }, [props, setSnack]);
 
   return (
     <Modal
@@ -313,7 +325,7 @@ const FormCadastroUnidade = (props) => {
                   /> 
                 </div>
                 <div className="input-block"> 
-                  <TextField                                    
+                <TextField                                    
                     label="Estado"
                     variant="outlined"
                     type="text"
@@ -324,8 +336,36 @@ const FormCadastroUnidade = (props) => {
                       value: e.target.value,
                     })}
                     error={null}
-                    fullWidth                 
-                  /> 
+                    fullWidth     
+                    select            
+                  >
+                    <MenuItem value="AC" key="AC">AC</MenuItem>
+                    <MenuItem value="AL" key="AL">AL</MenuItem>
+                    <MenuItem value="AP" key="AP">AP</MenuItem>
+                    <MenuItem value="AM" key="AM">AM</MenuItem>
+                    <MenuItem value="BA" key="BA">BA</MenuItem>
+                    <MenuItem value="CE" key="CE">CE</MenuItem>
+                    <MenuItem value="DF" key="DF">DF</MenuItem>
+                    <MenuItem value="ES" key="ES">ES</MenuItem>
+                    <MenuItem value="GO" key="GO">GO</MenuItem>
+                    <MenuItem value="MA" key="MA">MA</MenuItem>
+                    <MenuItem value="MT" key="MT">MT</MenuItem>
+                    <MenuItem value="MS" key="MS">MS</MenuItem>
+                    <MenuItem value="MG" key="MG">MG</MenuItem>
+                    <MenuItem value="PA" key="PA">PA</MenuItem>
+                    <MenuItem value="PB" key="PB">PB</MenuItem>
+                    <MenuItem value="PE" key="PE">PE</MenuItem>
+                    <MenuItem value="PI" key="PI">PI</MenuItem>
+                    <MenuItem value="RJ" key="RJ">RJ</MenuItem>
+                    <MenuItem value="RN" key="RN">RN</MenuItem>
+                    <MenuItem value="RS" key="RS">RS</MenuItem>
+                    <MenuItem value="RO" key="RO">RO</MenuItem>
+                    <MenuItem value="RR" key="RR">RR</MenuItem>
+                    <MenuItem value="SC" key="SC">SC</MenuItem>
+                    <MenuItem value="SP" key="SP">SP</MenuItem>
+                    <MenuItem value="SE" key="SE">SE</MenuItem>
+                    <MenuItem value="TO" key="TO">TO</MenuItem>
+                  </TextField> 
                 </div>
                 <div className="input-block"> 
                   <TextField                                    

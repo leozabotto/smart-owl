@@ -10,7 +10,9 @@ function NavProvider({ children }) {
     handleRegister,
     cashFlow,
     handleCashFlow,
-  } = useNavigation();
+    selectiveProcess,
+    handleSelectiveProcess
+   } = useNavigation();
 
   return (
     <NavContext.Provider value={{ 
@@ -18,6 +20,8 @@ function NavProvider({ children }) {
       handleRegister, 
       cashFlow,
       handleCashFlow,
+      selectiveProcess,
+      handleSelectiveProcess
     }}>
       {children}
     </NavContext.Provider>

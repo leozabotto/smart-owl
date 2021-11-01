@@ -14,6 +14,7 @@ import './index.css';
 const Login = (props) => {
   useEffect(() => {
     document.title = `Login | Smart Owl`
+    console.log(props.type)
   }, []);
 
   const { handleLogin } = useContext(AuthContext);
@@ -31,9 +32,10 @@ const Login = (props) => {
     initialValues: {
       email: '',
       senha: '',
+      type: props.type
     },
     onSubmit: (values) => {
-      handleLogin(values.email, values.senha);
+      handleLogin({email: values.email, senha: values.senha }, props.type);
     },
   });
 
@@ -44,7 +46,7 @@ const Login = (props) => {
           <p><b> Área do&nbsp; 
             {props.type==='ADM' ? 'Administrador' : 'Candidato'}
           </b></p>
-          <form className="login-form" onSubmit={auth.handleSubmit}>
+          <form className="login-form" onSubmit={auth.handleSubmit}>           
             <div className="input-block">
               <TextField
                 name="email"
@@ -70,7 +72,10 @@ const Login = (props) => {
             </div>
             <div className="btn-submit">
               <PrimaryButton variant="contained" size="large" type="submit">Entrar</PrimaryButton>
-              <Link to="forgotten_senha">Esqueceu a senha?</Link>
+              {props.type==='ADM' ? '' : <Link to="criar_conta">Não tem cadastro? <span style={{
+                textDecoration: 'underline',
+                color: 'blue'
+              }}>Criar Conta</span></Link>}
             </div>
           </form>
         </div>

@@ -10,6 +10,9 @@ import {
   MenuItem,
 } from '@material-ui/core';
 
+import SelectUnidades from '../SelectUnidades';
+import SelectCursos from '../SelectCursos';
+
 import PrimaryButton from '../Button';
 import Modal from '../Modal';
 
@@ -25,17 +28,26 @@ const FormCadastroUnidade = (props) => {
   const { setSnack } = useContext(SnackContext);
 
   const [loading, setLoading] = useState(false);
+
+  const [unidade, setUnidade] = useState(null);
+  const [curso, setCurso] = useState(null);
+
+  const handleUnidadeChange = (value) => {
+    setUnidade(value);
+  }
+
+  const handleCursoChange = (value) => {
+    setCurso(value);
+  }
   
   const initialState = {   
     nome: "",
-    rua: "",
-    numero_endereco: "",
-    cep: "",
-    bairro: "",
-    estado: "",
-    cidade: "",
-    email: "",
-    telefone: "",
+    modalidade: "Online",
+    qtd_vagas: 0,
+    status: "Aberta",
+    idade_min: 0,
+    idade_max: 0,
+    periodo: "Manhã"
   }
 
   const reducer = (state, action) => {
@@ -45,46 +57,36 @@ const FormCadastroUnidade = (props) => {
           ...state,
           nome: action.value,
         }
-      case 'cgRua': 
+      case 'cgModalidade': 
         return {
           ...state,
-          rua: action.value,
+          modalidade: action.value,
         }
-      case 'cgNumeroEndereco': 
+      case 'cgQtdVagas': 
         return {
           ...state,
-          numero_endereco: action.value,
+          qtd_vagas: action.value,
         }
-      case 'cgCep': 
+      case 'cgStatus': 
         return {
           ...state,
-          cep: action.value,
+          status: action.value,
         }
-      case 'cgBairro': 
+      case 'cgIdadeMin': 
         return {
           ...state,
-          bairro: action.value,
+          idade_min: action.value,
         }
-      case 'cgEstado': 
+      case 'cgIdadeMax': 
         return {
           ...state,
-          estado: action.value,
+          idade_max: action.value,
         }
-      case 'cgCidade': 
+      case 'cgPeriodo': 
         return {
           ...state,
-          cidade: action.value,
-        }
-      case 'cgEmail': 
-        return {
-          ...state,
-          email: action.value,
-        }
-      case 'cgTelefone': 
-        return {
-          ...state,
-          telefone: action.value,
-        }
+          periodo: action.value,
+        }     
       case 'resetForm':       
         return {
           ...initialState,          
@@ -106,6 +108,24 @@ const FormCadastroUnidade = (props) => {
       });
       return;
     }
+
+    if (curso === null) {
+      setSnack({ 
+        message: 'Preencha todos os campos!', 
+        type: 'error', 
+        open: true
+      });
+      return;
+    }
+
+    if (unidade === null) {
+      setSnack({ 
+        message: 'Preencha todos os campos!', 
+        type: 'error', 
+        open: true
+      });
+      return;
+    }
   
     for (let i = 0; i < Object.keys(form).length; i++) {
       if(form[Object.keys(form)[i]] === '') {
@@ -116,23 +136,30 @@ const FormCadastroUnidade = (props) => {
         });
         return;
       }
-    }       
-
+    }         
+    
     setLoading(true);
 
     try {
       dispatch({ type: 'lockSubmit' });
 
-      const unidade = await api.post('/unidade', { ...form })
+      form.unidadeId = unidade.id;
+      form.cursoId = curso.id;
+
+      const turma = await api.post('/turma', { ...form })
       
       setSnack({
-        message: 'Unidade cadastrada!',
+        message: 'Turma cadastrada!',
         type: 'success',
         open: true,
       });
       
-      dispatch({ type: 'resetForm' });     
-      props.setUnidadeCriada(unidade);
+      dispatch({ type: 'resetForm' });  
+
+      turma.data.curso = curso;
+      turma.data.unidade = unidade;
+         
+      props.setTurmaCriada(turma);
       props.handleCreateModalClose();           
       
       setLoading(false);
@@ -151,7 +178,7 @@ const FormCadastroUnidade = (props) => {
     <Modal
       open={props.createModal}
       onClose={props.handleCreateModalClose}
-      title={`Nova Unidade`}
+      title={`Nova Turma`}
       actions={
         <>        
           <PrimaryButton onClick={props.handleCreateModalClose}>CANCELAR</PrimaryButton>
@@ -179,7 +206,7 @@ const FormCadastroUnidade = (props) => {
               onSubmit={handleSubmit} 
             >
               <HeaderSubtitle
-                title="Informações da Unidade"
+                title="Informações da Turma"
               />
               <div className="file-form-basic" style={{ display: 'flex', flexDirection: 'column', gap: 10}}>                                                                                             
 
@@ -198,30 +225,65 @@ const FormCadastroUnidade = (props) => {
                     fullWidth                 
                   />  
                 </div>
+                <div className="input-block">
+                  <SelectCursos 
+                    value={curso}
+                    onChange={handleCursoChange}
+                  />
+                </div>
+                <div className="input-block">
+                  <SelectUnidades 
+                    value={unidade}
+                    onChange={handleUnidadeChange}
+                  />
+                </div>
                 <div className="input-block"> 
                   <TextField                                    
-                    label="E-mail"
+                    label="Modalidade"
                     variant="outlined"
-                    type="email"
+                    select
                     autoComplete="off"
-                    value={form.email}
+                    value={form.modalidade}
                     onChange={(e) => dispatch({
-                      type: 'cgEmail',
+                      type: 'cgModalidade',
                       value: e.target.value,
                     })}
                     error={null}
                     fullWidth                 
-                  />  
+                  >
+                    <MenuItem value={"Online"} key={1}>Online</MenuItem>
+                    <MenuItem value={"Presencial"} key={2}>Presencial</MenuItem>
+                    <MenuItem value={"Semipresencial"} key={3}>Semipresencial</MenuItem>
+                  </TextField>  
                 </div>
                 <div className="input-block"> 
                   <TextField                                    
-                    label="Telefone"
+                    label="Período"
                     variant="outlined"
-                    type="text"
+                    select
                     autoComplete="off"
-                    value={form.telefone}
+                    value={form.periodo}
                     onChange={(e) => dispatch({
-                      type: 'cgTelefone',
+                      type: 'cgPeriodo',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  >
+                    <MenuItem value={"Manhã"} key={1}>Manhã</MenuItem>
+                    <MenuItem value={"Tarde"} key={2}>Tarde</MenuItem>
+                    <MenuItem value={"Noite"} key={3}>Noite</MenuItem>
+                  </TextField>  
+                </div>
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Qtd. Vagas"
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={form.qtd_vagas}
+                    onChange={(e) => dispatch({
+                      type: 'cgQtdVagas',
                       value: e.target.value,
                     })}
                     error={null}
@@ -230,122 +292,34 @@ const FormCadastroUnidade = (props) => {
                 </div>
                 <div className="input-block"> 
                   <TextField                                    
-                    label="Rua"
+                    label="Idade Min."
                     variant="outlined"
-                    type="text"
+                    type="number"
                     autoComplete="off"
-                    value={form.rua}
+                    value={form.idade_min}
                     onChange={(e) => dispatch({
-                      type: 'cgRua',
+                      type: 'cgIdadeMin',
                       value: e.target.value,
                     })}
                     error={null}
                     fullWidth                 
-                  />
+                  />    
                 </div>
                 <div className="input-block"> 
                   <TextField                                    
-                    label="Número do Endereço"
+                    label="Idade Max."
                     variant="outlined"
-                    type="text"
+                    type="number"
                     autoComplete="off"
-                    value={form.numero_endereco}
+                    value={form.idade_max}
                     onChange={(e) => dispatch({
-                      type: 'cgNumeroEndereco',
+                      type: 'cgIdadeMax',
                       value: e.target.value,
                     })}
                     error={null}
                     fullWidth                 
-                  /> 
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="CEP"
-                    variant="outlined"
-                    type="text"
-                    autoComplete="off"
-                    value={form.cep}
-                    onChange={(e) => dispatch({
-                      type: 'cgCep',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  /> 
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Bairro"
-                    variant="outlined"
-                    type="text"
-                    autoComplete="off"
-                    value={form.bairro}
-                    onChange={(e) => dispatch({
-                      type: 'cgBairro',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  /> 
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Estado"
-                    variant="outlined"
-                    type="text"
-                    autoComplete="off"
-                    value={form.estado}
-                    onChange={(e) => dispatch({
-                      type: 'cgEstado',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth     
-                    select            
-                  >
-                    <MenuItem value="AC" key="AC">AC</MenuItem>
-                    <MenuItem value="AL" key="AL">AL</MenuItem>
-                    <MenuItem value="AP" key="AP">AP</MenuItem>
-                    <MenuItem value="AM" key="AM">AM</MenuItem>
-                    <MenuItem value="BA" key="BA">BA</MenuItem>
-                    <MenuItem value="CE" key="CE">CE</MenuItem>
-                    <MenuItem value="DF" key="DF">DF</MenuItem>
-                    <MenuItem value="ES" key="ES">ES</MenuItem>
-                    <MenuItem value="GO" key="GO">GO</MenuItem>
-                    <MenuItem value="MA" key="MA">MA</MenuItem>
-                    <MenuItem value="MT" key="MT">MT</MenuItem>
-                    <MenuItem value="MS" key="MS">MS</MenuItem>
-                    <MenuItem value="MG" key="MG">MG</MenuItem>
-                    <MenuItem value="PA" key="PA">PA</MenuItem>
-                    <MenuItem value="PB" key="PB">PB</MenuItem>
-                    <MenuItem value="PE" key="PE">PE</MenuItem>
-                    <MenuItem value="PI" key="PI">PI</MenuItem>
-                    <MenuItem value="RJ" key="RJ">RJ</MenuItem>
-                    <MenuItem value="RN" key="RN">RN</MenuItem>
-                    <MenuItem value="RS" key="RS">RS</MenuItem>
-                    <MenuItem value="RO" key="RO">RO</MenuItem>
-                    <MenuItem value="RR" key="RR">RR</MenuItem>
-                    <MenuItem value="SC" key="SC">SC</MenuItem>
-                    <MenuItem value="SP" key="SP">SP</MenuItem>
-                    <MenuItem value="SE" key="SE">SE</MenuItem>
-                    <MenuItem value="TO" key="TO">TO</MenuItem>
-                  </TextField> 
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Cidade"
-                    variant="outlined"
-                    type="text"
-                    autoComplete="off"
-                    value={form.cidade}
-                    onChange={(e) => dispatch({
-                      type: 'cgCidade',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  />                 
-                </div>                             
+                  />    
+                </div>                                                       
               </div>                                                  
             </form>
           </div>

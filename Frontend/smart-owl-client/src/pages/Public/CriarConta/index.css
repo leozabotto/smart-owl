@@ -1,0 +1,134 @@
+div.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form.login-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+form.login-form div.input-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+form.login-form div.input-block input,
+form.login-form div.input-block select
+{
+  width: auto;
+  height: 20px;
+}
+
+form.login-form div.btn-submit {
+  display: grid;
+  grid-template-rows: 1fr;
+  gap: 1.2rem;
+
+  justify-content: center;
+  align-items: center;
+  
+  margin-top: 30px;
+}
+
+form.login-form div.btn-submit a{
+  color: var(--black);
+  text-decoration: none;
+}
+
+@media (min-width: 425px) {
+  form.login-form div.input-block input,
+  form.login-form div.input-block select  
+  {
+    width: 250px !important;
+    height: 20px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  form.login-form div.input-block input,
+  form.login-form div.input-block select  
+  {
+    width: 350px !important;
+    height: 20px !important;
+  }
+
+  form.login-form div.btn-submit {
+    grid-template-rows: none !important;
+    grid-template-columns: 1fr 2fr;
+
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  form.login-form div.btn-submit a {
+    justify-self: flex-end !important;
+  }
+}
+
+div.login-box{
+  background-color: var(--white);
+
+  width: 80vw;
+  height: 800px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+div.page-return {
+  display: flex;
+  align-items: center;
+}
+
+div.logo-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div.login-box img {
+  width: 100%;
+  height: auto;
+  margin: 20px;
+}
+
+div.login-box h4 {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+@media (min-width: 425px) {
+  div.login-box img {
+    width: 75% !important;
+  }  
+}
+
+@media (min-width: 600px) {
+  div.login-box {
+    width: 550px !important;
+    height: 800px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  div.login-box img {
+    width: 75% !important;
+  }  
+}
+
+@media (min-width: 1024px) {
+   
+}

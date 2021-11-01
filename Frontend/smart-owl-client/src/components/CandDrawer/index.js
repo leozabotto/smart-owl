@@ -14,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ListItemText from '@material-ui/core/ListItemText';
+import MenuBookIcon from '@material-ui/icons/MenuBookOutlined';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -122,94 +123,27 @@ const AdmDrawer = (props) => {
         <ListItem button 
           classes={{ selected: classes.selected }} 
           component={Link} 
-          to="/adm/painel" 
-          selected={location.pathname === "/adm/painel"}
+          to="/painel" 
+          selected={location.pathname === "/painel"}
         >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Início" />
         </ListItem> 
-
-        <ListItem button onClick={handleRegister}>
+                                         
+        <ListItem button 
+          classes={{ selected: classes.selected }}          
+          component={Link} 
+          to="/cursos" 
+          selected={location.pathname === "/cursos"}
+        >
           <ListItemIcon>
-            <FolderOutlinedIcon />
+            <MenuBookIcon />
           </ListItemIcon>
-          <ListItemText primary="Cadastros" />
-          {register ? <ExpandLess /> : <ExpandMore />}
+          <ListItemText primary="Catálogo de Cursos" />
         </ListItem>
-
-        <Collapse in={register} timeout="auto" unmountOnExit>    
-
-          <ListItem button 
-            classes={{ selected: classes.selected }} 
-            component={Link} 
-            className="listSpacing" 
-            to="/adm/cursos" 
-            selected={location.pathname === "/adm/cursos"}            
-          >
-            <ListItemIcon>
-              <BorderColorOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Cursos" />
-          </ListItem> 
-
-               
-          <ListItem button 
-            classes={{ selected: classes.selected }} 
-            className="listSpacing" 
-            component={Link} 
-            to="/adm/usuarios" 
-            selected={location.pathname === "/adm/usuarios"}
-            disabled
-          >
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary="Usuários" />
-          </ListItem>
-      
-          <List component="div" disablePadding>                                 
-            <ListItem button 
-              classes={{ selected: classes.selected }} 
-              className="listSpacing" 
-              component={Link} 
-              to="/adm/unidades" 
-              selected={location.pathname === "/adm/unidades"}
-            >
-              <ListItemIcon>
-                <PlaceIcon />
-              </ListItemIcon>
-              <ListItemText primary="Unidades" />
-            </ListItem>
-       
-          </List>     
-        </Collapse> 
-
-        <ListItem button onClick={handleSelectiveProcess}>
-          <ListItemIcon>
-            <AssignmentTurnedInOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Processo Seletivo" />
-          {selectiveProcess ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-
-        <Collapse in={selectiveProcess} timeout="auto" unmountOnExit>    
-
-          <ListItem button 
-            classes={{ selected: classes.selected }} 
-            component={Link} 
-            className="listSpacing" 
-            to="/adm/turmas" 
-            selected={location.pathname === "/adm/turmas"}            
-          >
-            <ListItemIcon>
-              <GroupOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Turmas" />
-          </ListItem>                            
-        </Collapse>                          
-                      
+                                                         
         <ListItem button 
           classes={{ selected: classes.selected }} 
           onClick={() => handleLogout()} 
@@ -321,7 +255,7 @@ const AdmDrawer = (props) => {
             <div className="container-info">
               <div className="module-name">
                 <div className="name">
-                  <h2>ADM</h2>
+                  <h2>CANDIDATO</h2>
                 </div>
                 <Divider />
               </div>

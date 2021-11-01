@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
 import { AuthContext } from '../contexts/AuthContext';
-import { SnackContext } from '../contexts/SnackContext';
+//import { SnackContext } from '../contexts/SnackContext';
 import Loading from '../pages/public/Loading';
 
 const PrivateRoute = ({ ...rest }) => {
 
-  const { signed, loading, permissions, role } = useContext(AuthContext);
-  const { setSnack } = useContext(SnackContext);
+  // permissions, role
+  const { signed, loading,  } = useContext(AuthContext);
+  // const { setSnack } = useContext(SnackContext);
   
   if (loading) {
     return <Loading/>;

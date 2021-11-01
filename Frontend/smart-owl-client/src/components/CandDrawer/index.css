@@ -1,0 +1,113 @@
+.drawer-list a {
+  color: #757575; 
+}
+
+.drawer-list-item:hover {
+  background-color: #54585e20; 
+}
+
+.drawer nav{
+  margin-top: 15px;
+  padding: 0;
+}
+
+.drawer a,
+.drawer div{
+  margin-bottom: 5px;
+}
+
+.drawer svg {
+  color: purple;
+}
+
+.drawer-mobile svg {
+  color: var(--white);
+}
+
+.drawer-mobile h6 {
+  font-weight: 400 !important;
+}
+
+.drawer-mobile header{
+  box-shadow: 0 0 5px rgba(51, 51, 51, 0.185);
+}
+
+.listSpacing {
+  padding-left: 40px !important;
+}
+
+.container-info {
+  background: linear-gradient(90deg, rgba(62,155,168,1) 0%, rgba(137,12,204,1) 0%, rgba(98,28,177,1) 18%, rgba(181,37,118,1) 100%, rgba(194,123,8,1) 100%);  color: #fff;;
+}
+
+.module-name {
+  margin: 20px;
+}
+
+.module-name .name {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.module-name hr {
+  background-color: var(--gray) !important;
+}
+
+.module-name .name h2 {
+  color: var(--gray);
+  font-weight: 400;
+}
+
+.user .user-info h3, .user .actions p, .user .actions a {
+  color: var(--gray);
+  font-weight: 400;
+}
+
+.user {
+  display: grid;
+
+  justify-content: center;
+  align-items: center;
+
+  margin: 20px 40px;
+}
+
+.user .user-info  {
+  display: grid;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  margin-bottom: 1px;
+}
+
+.user .user-info h3 {
+  font-size: 1.2rem;
+}
+
+.user .user-info .avatar {
+  width: 75px;
+  height: 75px;
+
+  margin-right: auto;
+  margin-left: auto;
+
+  margin-bottom: 10px;
+
+  background: var(--background);
+  color: purple;
+}
+
+.user .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 10px;
+  padding: 10px;
+
+  background-color: #70707052;
+  border-radius: 5px;
+}

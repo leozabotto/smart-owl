@@ -17,9 +17,11 @@ module.exports = {
         senha,
         genero,
         nascimento,
-        documentoCpf,
-        documentoRg
+        cpf,
+        rg,
       } = req.body;
+
+      console.log(req.body)
 
       const data = {
         nome,
@@ -27,8 +29,8 @@ module.exports = {
         senha,
         genero,
         nascimento,
-        documentoCpf,
-        documentoRg
+        documentoCpf: cpf,
+        documentoRg: rg,
       }
 
       if(!checkEmptyFields(data)) {
@@ -43,7 +45,8 @@ module.exports = {
       const candidatoCreate = await Candidato.create(data);
       return res.status(200).json(candidatoCreate);
     } catch (err) {
-      return res.status(404).json(err)
+      console.log(err);
+      return res.status(400).json(err)
     }
   },
 
@@ -58,8 +61,8 @@ module.exports = {
         senha,
         genero,
         nascimento,
-        documentoCpf,
-        documentoRg
+        cpf,
+        rg
       } = req.body;
 
       const data = {
@@ -68,8 +71,8 @@ module.exports = {
         senha,
         genero,
         nascimento,
-        documentoCpf,
-        documentoRg
+        documentoCpf: cpf,
+        documentoRg: rg,
       }
 
       const emailUsado = await Candidato.findOne({

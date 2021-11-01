@@ -152,6 +152,10 @@ const Turma = connection.define('turma', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
+  periodo: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  }
 }, {
   freezeTableName: true,
   paranoid: true,
@@ -188,7 +192,7 @@ const Candidato = connection.define('candidatos', {
     allowNull: false
   },
   nascimento: {
-    type: Sequelize.STRING,
+    type: Sequelize.DATEONLY,
     allowNull: false
   },
   documentoCpf: {

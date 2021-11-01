@@ -7,9 +7,9 @@ import { TextField } from '@material-ui/core';
 import api from '../../services/api';
 import { SnackContext } from '../../contexts/SnackContext';
 
-const SelectUnidades = (props) => {
+const SelectCursos = (props) => {
 
-  const [unidades, setUnidades] = useState([]);
+  const [cursos, setCursos] = useState([]);
   const history = useHistory();
 
   const { setSnack } = useContext(SnackContext);
@@ -17,26 +17,26 @@ const SelectUnidades = (props) => {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    async function getUnidades() {
+    async function getCursos() {
       try {
-        const res = await api.get('/unidade');
-        setUnidades(res.data);       
+        const res = await api.get('/curso');
+        setCursos(res.data);       
       } catch(err) {        
         setSnack({ 
-          message: 'Ocorreu um erro ao buscar as unidades. Caso persista, contate o suporte! ' + err, 
+          message: 'Ocorreu um erro ao buscar os cursos. Caso persista, contate o suporte! ' + err, 
           type: 'error', 
           open: true
         });
         history.push('/adm/painel');        
       }
     }
-    getUnidades();   
+    getCursos();   
   }, [history, setSnack]);
 
   useEffect(() => {
-    if (unidades !== null) {
+    if (cursos !== null) {
       setOptions(
-      unidades.map((option) => {
+      cursos.map((option) => {
         const firstLetter = option.nome[0].toUpperCase();
         return {
           firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
@@ -46,7 +46,7 @@ const SelectUnidades = (props) => {
       }));  
     }
     console.log(options)
-  }, [unidades])
+  }, [cursos])
 
   return (
     <>
@@ -58,12 +58,12 @@ const SelectUnidades = (props) => {
           groupBy={(option) => option.firstLetter}
           getOptionLabel={(option) => option.nome}  
           getOptionSelected={(option, value) => option.id === props.value.id}                
-          renderInput={(params) => <TextField {...params} id="selectUnidades" 
-          label="Unidade" variant="outlined" required={props.optional ? false : true} />}          
+          renderInput={(params) => <TextField {...params} id="SelectCursos" 
+          label="Curso" variant="outlined" required={props.optional ? false : true} />}          
         />
       </div>  
     </>
   )
 }
 
-export default SelectUnidades;
+export default SelectCursos;

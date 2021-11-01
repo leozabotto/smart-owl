@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import moment from 'moment';
 
 import { 
   CircularProgress  
@@ -7,10 +6,7 @@ import {
 
 import { DataGrid, ptBR } from '@material-ui/data-grid';
 
-import { useFormik } from 'formik';
 
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import AddIcon from '@material-ui/icons/Add';
 import PrintIcon from '@material-ui/icons/PrintOutlined';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined'
@@ -18,9 +14,7 @@ import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined'
 import AdmDrawer from '../../../components/AdmDrawer';
 import BackgroundCard from '../../../components/BackgroundCard';
 import PrimaryButton from '../../../components/Button';
-import Modal from '../../../components/Modal';
 import BackgroundCardHeader from '../../../components/BackgroundCardHeader';
-import FutureCalendar from '../../../components/FutureCalendar';
 import IconButton from '../../../components/IconButton'
 
 import FormCadastroCurso from '../../../components/FormCadastroCurso';
@@ -29,7 +23,6 @@ import { HeaderSubtitle } from '../../../components/HeaderTitle';
 import { SnackContext } from '../../../contexts/SnackContext';
 
 
-import download from 'downloadjs';
 import api from '../../../services/api';
 
 import './index.css';
@@ -48,7 +41,7 @@ const Cursos = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [processandoRelatorio, setProcessandoRelatorio] = useState(false); 
+  //const [processandoRelatorio, setProcessandoRelatorio] = useState(false); 
   
   const [cursos, setCursos] = useState([]);
 
@@ -81,7 +74,7 @@ const Cursos = () => {
     { 
       field: 'actions', 
       headerName: 'Ações', 
-      width: 220,
+      width: 100,
       sortable: false,
       renderCell: (account) => {                      
         return (<>            
@@ -99,19 +92,19 @@ const Cursos = () => {
     { 
       field: 'nome', 
       headerName: 'Nome', 
-      width: 200,
+      width: 400,
       sortable: true,      
     },
     { 
       field: 'descricao', 
       headerName: 'Descrição', 
-      width: 500,
+      width: 600,
       sortable: true,
     },
     { 
       field: 'carga_horaria', 
       headerName: 'Carga Horária', 
-      width: 100,
+      width: 200,
       sortable: true,
     },
   ];
@@ -163,7 +156,7 @@ const Cursos = () => {
       <div className="master-dashboard">                
         <BackgroundCard>
           <BackgroundCardHeader title="Cursos">
-            { processandoRelatorio ?
+            { /*processandoRelatorio*/ false ?
             <div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <CircularProgress />
             </div>

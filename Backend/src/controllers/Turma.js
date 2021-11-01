@@ -1,5 +1,7 @@
 const {
   Turma,
+  Curso,
+  Unidade,
 } = require('../database/models');
 
 const {
@@ -15,10 +17,8 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
-        status,
-        manha,
-        tarde,
-        noite,
+        periodo,
+        status,       
         cursoId,
         unidadeId,
       } = req.body;
@@ -29,9 +29,7 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
-        manha,
-        tarde,
-        noite,
+        periodo,       
         status,
         cursoId,
         unidadeId,
@@ -60,8 +58,10 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
+        periodo,
         status,
         cursoId,
+        unidadeId,
       } = req.body;
 
       const data = {
@@ -70,8 +70,10 @@ module.exports = {
         qtd_vagas,
         idade_min,
         idade_max,
+        periodo,
         status,
         cursoId,
+        unidadeId,
       }
 
       const turma = await Turma.findOne({
@@ -93,10 +95,10 @@ module.exports = {
       turma.qtd_vagas = qtd_vagas;
       turma.idade_min = idade_min;
       turma.idade_max = idade_max;
-      turma.hora_inicio = hora_inicio;
-      turma.hora_fim = hora_fim;
+      turma.periodo = periodo;
       turma.status = status;
       turma.cursoId = cursoId;
+      turma.unidadeId = unidadeId;
 
       await turma.save();
 
@@ -132,7 +134,23 @@ module.exports = {
 
   async handleFindAll(req, res) {
     try {
-      const turma = await Turma.findAll();
+
+      const { unidadeId, status } = req.query;
+
+      let whereCond = {}
+
+      if (unidadeId) {
+        whereCond.unidadeId = unidadeId;
+      }
+
+      if (status) {
+        whereCond.status = status;
+      }
+
+      const turma = await Turma.findAll({
+        where: whereCond,
+        include: [Curso, Unidade]
+      });
       res.status(200).send(turma);
     } catch (err) {
       console.log(err);

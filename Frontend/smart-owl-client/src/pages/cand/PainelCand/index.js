@@ -3,13 +3,13 @@ import React, { useContext, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 
 import BackgroundCard from '../../../components/BackgroundCard';
-import AdmDrawer from '../../../components/AdmDrawer';
+import CandDrawer from '../../../components/CandDrawer';
 import { HeaderTitle } from '../../../components/HeaderTitle';
 import { AuthContext } from '../../../contexts/AuthContext';
 
 import './index.css';
 
-const PainelAdm = () => {
+const PainelCand = () => {
   const { user, role } = useContext(AuthContext);
   
   useEffect(() => {
@@ -17,7 +17,7 @@ const PainelAdm = () => {
   }, [role])
 
   return (
-    <AdmDrawer title="Painel Admistrativo">
+    <CandDrawer title="Painel do Candidato">
       <BackgroundCard>
         <div className="master-dashboard">
           <HeaderTitle
@@ -50,8 +50,8 @@ const PainelAdm = () => {
           </Box>
         </div>
       </BackgroundCard>
-    </AdmDrawer>
+    </CandDrawer>
   );
 };
 
-export default PainelAdm;
+export default PainelCand;

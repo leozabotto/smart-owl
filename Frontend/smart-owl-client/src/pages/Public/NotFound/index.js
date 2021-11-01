@@ -7,12 +7,12 @@ import PrimaryButton from '../../../components/Button';
 
 import './index.css';
 
-import owl from '../../../assets/img/owl.png';
+import mainLogo from '../../../assets/img/mainLogo.png';
 
 const NotFound = () => {
 
   useEffect(() => {
-    document.title = 'GestFacil | Seleção de Módulo'
+    document.title = 'SmartOwl | Seleção de Módulo'
   }, [])
 
   return (
@@ -25,7 +25,7 @@ const NotFound = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <img className="responsive-logo" src={owl} alt="Gest Facil" />
+        <img className="responsive-logo" src={mainLogo} alt="Smart Owl Logo" />
       </Box>
 
     
@@ -48,7 +48,7 @@ const NotFound = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <p>A página que você tentou acessar não existe ou foi removida.</p>
+        <p>Ops! A página que você tentou acessar não existe ou foi removida. ☹️</p>
 
       </Box>
 

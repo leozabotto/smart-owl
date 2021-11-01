@@ -8,15 +8,20 @@ import {
 
 import ChooseModule from '../pages/public/ChooseModule';
 import NotFound from '../pages/public/NotFound';
-import CatalogoCursos from '../pages/public/CatalogoCursos';
+// import CatalogoCursos from '../pages/public/CatalogoCursos';
 import Login from '../pages/public/Login';
+import CriarConta from '../pages/public/CriarConta';
 import PublicRoute from './public.routes';
-import PrivateRoute from './private.routes';
 
 import PainelAdm from '../pages/adm/PainelAdm';
 import Unidades from '../pages/adm/Unidades';
 import Cursos from '../pages/adm/Cursos';
+import Turmas from '../pages/adm/Turmas';
 
+import PainelCand from '../pages/cand/PainelCand';
+import CatalogoCursos from '../pages/cand/CatalogoCursos';
+
+import PrivateRoute from './private.routes';
 import browserHistory from '../history';
 
 const Routes = () =>{
@@ -29,16 +34,21 @@ const Routes = () =>{
           component={() => <ChooseModule />} 
         />
 
-        <PublicRoute 
+        {/* <PublicRoute 
           exact path="/cursos" 
           component={() => <CatalogoCursos />} 
-        />
+        /> */}
        
         {/* Login */}
               
         <PublicRoute 
           exact path="/login" 
           component={() => <Login type="CAN" />} 
+        />
+
+        <PublicRoute 
+          exact path="/criar_conta" 
+          component={() => <CriarConta />} 
         />
 
         <PublicRoute 
@@ -50,7 +60,7 @@ const Routes = () =>{
 
         <PrivateRoute
           exact path="/adm/painel" 
-          component={() => <PainelAdm type="MASTER" />} 
+          component={() => <PainelAdm type="ADM" />} 
         /> 
 
         <PrivateRoute
@@ -61,9 +71,24 @@ const Routes = () =>{
         <PrivateRoute
           exact path="/adm/cursos" 
           component={() => <Cursos type="ADM" />} 
+        />
+
+        <PrivateRoute
+          exact path="/adm/turmas" 
+          component={() => <Turmas type="ADM" />} 
+        />
+
+        {/* Candidato */}
+        
+        <PrivateRoute
+          exact path="/painel" 
+          component={() => <PainelCand type="CAN" />} 
         /> 
 
-  
+        <PrivateRoute
+          exact path="/cursos" 
+          component={() => <CatalogoCursos ype="CAN" />} 
+        />
 
         <Route component={NotFound} />
       </Switch>

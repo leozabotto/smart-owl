@@ -192,7 +192,10 @@ const FormCadastroCurso = (props) => {
                       value: e.target.value,
                     })}
                     error={null}
-                    fullWidth                 
+                    fullWidth     
+                    rows={4}
+                    rowsMax={6}    
+                    multiline        
                   />  
                 </div>
                 <div className="input-block"> 

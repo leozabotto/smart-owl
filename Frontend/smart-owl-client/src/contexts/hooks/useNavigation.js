@@ -3,6 +3,7 @@ import { useState } from 'react';
 export default function useNavigation() {
   const [register, setRegister] = useState(false);
   const [cashFlow, setCashFlow] = useState(false);
+  const [selectiveProcess, setSelectiveProcess] = useState(false);
 
   const handleRegister = () => {
     setRegister(!register);
@@ -12,10 +13,16 @@ export default function useNavigation() {
     setCashFlow(!cashFlow);
   };
 
+  const handleSelectiveProcess = () => {
+    setSelectiveProcess(!selectiveProcess);
+  };
+
   return { 
     register, 
     handleRegister,
     cashFlow,
-    handleCashFlow
+    handleCashFlow,
+    selectiveProcess,
+    handleSelectiveProcess
   };
 }

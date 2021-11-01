@@ -83,10 +83,14 @@ const CatalogoCursos = () => {
         title={selecionado.nome}
         actions={
           <>
-        
+            <PrimaryButton onClick={() => { handleDeleteModalClose(); handleUnselectToDelete() }} color="primary">Cancelar</PrimaryButton>
+            <PrimaryButton onClick={handleDelete}>Sim</PrimaryButton>        
           </>
         }
-        >
+      >
+        <p>
+          <strong>ATENÇÃO: </strong> está ação é <b>permanente</b> e afetará o valor total de contas a pagar.
+        </p>
       </Modal>
 
     </div>
