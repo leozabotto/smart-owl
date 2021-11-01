@@ -1,7 +1,10 @@
 
 const {
-  Usuario
+  Administrador,
+  PermissoesAdmin,
 } = require('../database/models');
+
+const connection = require('../database/connection');
 
 const bcrypt = require('bcrypt');
 
@@ -11,29 +14,35 @@ const {
 
 module.exports = {
   async handleCreate(req, res){
+
+    const transaction = await connection.transaction();
+
     try {
       const {   
         nome,
         email,
-        senha,
-        tipo,
+        senha,        
+        super_usuario
       } = req.body;
 
-      const emailUsado = await Usuario.findOne({
+      const emailUsado = await Administrador.findOne({
         where: {
           email,
         }
       });
 
       if (emailUsado !== null) {
-        return res.status(400).send({ mensagem: "Email em utilização!"});
+        return res.status(400).send({ mensagem: "Email em uso!"});
       }
 
       const data = {      
         nome,
         email,
-        senha,
-        tipo,
+        senha,        
+      }
+
+      const permissoes = {
+        super_usuario,
       }
 
       if (!checkEmptyFields(data)) {
@@ -45,14 +54,27 @@ module.exports = {
 
       data.senha = hash;
     
-      const usuario = await Usuario.create(data);
-      return res.status(200).send(usuario);
-    }catch (err) {
+      const administrador = await Administrador.create(data, { transaction, });
+
+      permissoes.administradorId = administrador.id;
+
+      const permissoes_administrador = await PermissoesAdmin.create(permissoes, { transaction, });
+
+      await transaction.commit();
+
+      return res.status(200).json({ administrador, permissoes_administrador });
+
+    } catch (err) {
+      transaction.rollback();
       return res.status(400).json(err);
     }
-
   },
 
+
+
+
+
+  
   async handleEdit(req, res){
     try {
       const { id } = req.params;

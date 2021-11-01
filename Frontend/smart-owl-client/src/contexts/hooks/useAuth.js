@@ -54,7 +54,7 @@ export default function useAuth() {
       const response = await api.post('/login', { 
         email: userData.email, 
         senha: userData.senha,
-        type, 
+        tipo: type, 
       });   
       
       let token_decoded = jwt_decode(response.data.token);
@@ -64,7 +64,7 @@ export default function useAuth() {
         email: token_decoded.email,
       }
       
-      setPermissions(token_decoded.permissions);
+      setPermissions(token_decoded.permissoes_administrador);
       setRole(token_decoded.tipo);
       setUser(user);
 

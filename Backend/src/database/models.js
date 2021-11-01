@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 const connection = require('./connection');
 
-const Usuario = connection.define('usuario', {
+const Administrador = connection.define('administrador', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -25,10 +25,6 @@ const Usuario = connection.define('usuario', {
     defaultValue: true,
     allowNull: false,
   },
-  tipo: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  }
 }, {
   freezeTableName: true,
   paranoid: true,
@@ -40,14 +36,12 @@ const PermissoesAdmin = connection.define('permissoes_administrador', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  cadastros: {
+  super_usuario: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
-    defaultValue: true,
-  },
+  }, 
 }, {
   freezeTableName: true,
-  paranoid: true,
 });
 
 const Unidade = connection.define('unidade', {
@@ -96,8 +90,6 @@ const Unidade = connection.define('unidade', {
   freezeTableName: true,
   paranoid: true,
 });
-
-
 
 const Curso = connection.define('curso', {
   id: {
@@ -208,11 +200,11 @@ const Candidato = connection.define('candidatos', {
   paranoid: true,
 });
 
-Usuario.hasOne(PermissoesAdmin);
-PermissoesAdmin.belongsTo(Usuario);
+Administrador.hasOne(PermissoesAdmin);
+PermissoesAdmin.belongsTo(Administrador);
 
-Usuario.belongsToMany(Unidade, { through: AdminUnidade });
-Unidade.belongsToMany(Usuario, { through: AdminUnidade });
+Administrador.belongsToMany(Unidade, { through: AdminUnidade });
+Unidade.belongsToMany(Administrador, { through: AdminUnidade });
 
 Unidade.hasMany(Turma);
 Turma.belongsTo(Unidade);
@@ -221,11 +213,17 @@ Turma.belongsTo(Curso);
 Curso.hasMany(Turma);
 
 module.exports = {
-  AdminUnidade,
-  Curso,
+  Administrador,
   PermissoesAdmin,
+  AdminUnidade,
+
+  Curso,
   Turma,
   Unidade,
-  Usuario,
   Candidato,
 }
+
+/*async function sync () {
+  await connection.sync({ force: true })
+}
+sync()*/
