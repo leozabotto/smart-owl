@@ -71,6 +71,7 @@ const Routes = () =>{
         <PrivateRoute
           exact path="/adm/cursos" 
           component={() => <Cursos type="ADM" />} 
+          permission="cadastros"
         />
 
         <PrivateRoute

@@ -34,7 +34,7 @@ export default function useAuth() {
           setUser(JSON.parse(user));
           api.defaults.headers.Authorization = `Bearer ${token}`;
 
-          setPermissions(token_decoded.permissions);
+          setPermissions(token_decoded.permissoes_administrador);
           setRole(token_decoded.tipo);
           setUserId(token_decoded.id);
           setLoading(false);

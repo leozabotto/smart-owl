@@ -96,6 +96,11 @@ const Unidade = connection.define('unidade', {
   cidade: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  ativo: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: true
   }
 }, {
   freezeTableName: true,

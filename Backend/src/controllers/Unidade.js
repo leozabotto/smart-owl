@@ -59,6 +59,7 @@ module.exports = {
         bairro,
         estado,
         cidade,
+        ativo,
       } = req.body;
 
       const data = {
@@ -71,6 +72,7 @@ module.exports = {
         bairro,
         estado,
         cidade,
+        ativo,
       }
 
       const unidade = await Unidade.findOne({
@@ -96,6 +98,7 @@ module.exports = {
       unidade.bairro = bairro;
       unidade.estado = estado;
       unidade.cidade = cidade;
+      unidade.ativo = ativo;
 
       await unidade.save();
 
@@ -129,8 +132,20 @@ module.exports = {
 
   async handleFindAll(req, res) {
     try {
-      const unidades = await Unidade.findAll();
-      res.status(200).send(unidades);
+      const { ativo } = req.query;
+
+      let params = {};
+
+      if (ativo !== undefined) {
+        params.ativo = ativo;
+      }
+
+      const unidades = await Unidade.findAll({
+        where: {
+          ...params
+        }
+      });
+      res.status(200).json(unidades);
     } catch (err) {
       res.status(400).json(err);
     }

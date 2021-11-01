@@ -73,7 +73,7 @@ const Unidades = () => {
     { 
       field: 'actions', 
       headerName: 'Ações', 
-      width: 220,
+      width: 100,
       sortable: false,
       renderCell: (account) => {                      
         return (<>            
@@ -106,6 +106,15 @@ const Unidades = () => {
       width: 200,
       sortable: true,
     },
+    { 
+      field: 'ativo', 
+      headerName: 'Status', 
+      width: 200,
+      sortable: true,
+      renderCell: (unidade) => {
+        return unidade.row.ativo === "1" ? "ATIVA" : "INATIVA"
+      }
+    },
   ];
 
   useEffect(() => {
@@ -116,6 +125,7 @@ const Unidades = () => {
         setLoading(true);
         const unidades = await api.get('/unidade');
         setUnidades(unidades.data);
+        console.log(unidades)
         setLoading(false);
       } catch (err) {
         setLoading(false);

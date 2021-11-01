@@ -19,7 +19,11 @@ const SelectUnidades = (props) => {
   useEffect(() => {
     async function getUnidades() {
       try {
-        const res = await api.get('/unidade');
+        const res = await api.get('/unidade', {
+          params: {
+            ativo: props.ativo
+          }
+        });
         setUnidades(res.data);       
       } catch(err) {        
         setSnack({ 

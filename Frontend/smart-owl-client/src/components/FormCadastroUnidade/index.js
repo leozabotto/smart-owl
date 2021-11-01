@@ -142,6 +142,7 @@ const FormCadastroUnidade = (props) => {
         type: 'error', 
         open: true
       });
+      console.log(err);
       dispatch({ type: 'unlockSubmit' });        
       setLoading(false);
     }

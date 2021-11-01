@@ -5,6 +5,8 @@ import React, {
   useEffect
  } from 'react';
 
+import { FormControlLabel, Switch } from '@material-ui/core';
+
 import { 
   TextField, 
   CircularProgress,
@@ -86,6 +88,11 @@ const FormCadastroUnidade = (props) => {
           ...state,
           telefone: action.value,
         }
+      case 'cgAtivo': 
+        return {
+          ...state,
+          ativo: action.value,
+        }
       case 'resetForm':       
         return {
           ...initialState,          
@@ -132,7 +139,12 @@ const FormCadastroUnidade = (props) => {
         open: true,
       });
       
-      dispatch({ type: 'resetForm' });     
+      dispatch({ type: 'resetForm' });   
+
+      console.log(unidade)
+      
+      unidade.data.ativo = unidade.data.ativo === true ? "1" : "0";
+      
       props.setUnidadeEditada(unidade); 
       props.handleEditModalClose();          
       
@@ -162,7 +174,9 @@ const FormCadastroUnidade = (props) => {
         dispatch({ type: 'cgEstado', value: props.unidadeParaEditar.estado });             
         dispatch({ type: 'cgCidade', value: props.unidadeParaEditar.cidade });             
         dispatch({ type: 'cgEmail', value: props.unidadeParaEditar.email });             
-        dispatch({ type: 'cgTelefone', value: props.unidadeParaEditar.telefone });             
+        dispatch({ type: 'cgTelefone', value: props.unidadeParaEditar.telefone });
+        dispatch({ type: 'cgAtivo', value: props.unidadeParaEditar.ativo === "1" ? true : false });
+             
         
         setLoading(false);
       } catch (err) {
@@ -381,7 +395,14 @@ const FormCadastroUnidade = (props) => {
                     error={null}
                     fullWidth                 
                   />                 
-                </div>                             
+                </div>
+                <div className="input-block">
+                <FormControlLabel control={
+                  <Switch 
+                    checked={form.ativo}
+                    onChange={(e) => dispatch({ type: "cgAtivo", value: e.target.checked})}
+                  />
+                } label="Ativa" /></div>                             
               </div>                                                  
             </form>
           </div>
