@@ -12,13 +12,17 @@ module.exports = {
       const {
         nome,
         descricao,
-        carga_horaria
+        ch,
+        idade_min,
+        idade_max,
       } = req.body;
 
       const data = {
         nome,
         descricao,
-        carga_horaria
+        ch,
+        idade_min,
+        idade_max,
       }
 
       if(!checkEmptyFields(data)) {
@@ -29,6 +33,7 @@ module.exports = {
       return res.status(200).json(curso);
 
     } catch (err) {
+      console.log(err)
       return res.status(400).json(err);
     }
   },
@@ -40,14 +45,22 @@ module.exports = {
       const {
         nome,
         descricao,
-        carga_horaria
+        ch,
+        idade_min,
+        idade_max,
+        ativo,
       } = req.body;
 
       const data = {
         nome,
         descricao,
-        carga_horaria
+        ch,
+        idade_min,
+        idade_max,
+        ativo,
       }
+    
+      console.log(data)
 
       const curso = await Curso.findOne({
         where: {
@@ -65,7 +78,10 @@ module.exports = {
 
       curso.nome = nome;
       curso.descricao = descricao;
-      curso.carga_horaria = carga_horaria;
+      curso.ch = ch;
+      curso.idade_min = idade_min;
+      curso.idade_max = idade_max;
+      curso.ativo = ativo;
 
       await curso.save();
 

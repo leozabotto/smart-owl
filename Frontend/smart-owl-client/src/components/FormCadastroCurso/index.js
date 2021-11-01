@@ -28,7 +28,7 @@ const FormCadastroCurso = (props) => {
   const initialState = {   
     nome: "",
     descricao: "",
-    carga_horaria: ""
+    ch: ""
   }
 
   const reducer = (state, action) => {
@@ -46,8 +46,18 @@ const FormCadastroCurso = (props) => {
       case 'cgCargaHoraria': 
         return {
           ...state,
-          carga_horaria: parseInt(action.value) < 0 ? action.value * -1 : action.value ,
+          ch: parseInt(action.value) < 0 ? action.value * -1 : action.value ,
         }  
+      case 'cgIdadeMin': 
+        return {
+          ...state,
+          idade_min: action.value,
+        }
+      case 'cgIdadeMax': 
+        return {
+          ...state,
+          idade_max: action.value,
+        }
       case 'resetForm':       
         return {
           ...initialState,          
@@ -152,6 +162,51 @@ const FormCadastroCurso = (props) => {
                 </div>
                 <div className="input-block"> 
                   <TextField                                    
+                    label="Carga Horária"
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={form.ch}
+                    onChange={(e) => dispatch({
+                      type: 'cgCargaHoraria',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  />  
+                </div> 
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Idade Min."
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={form.idade_min}
+                    onChange={(e) => dispatch({
+                      type: 'cgIdadeMin',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  />    
+                </div>
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Idade Max."
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={form.idade_max}
+                    onChange={(e) => dispatch({
+                      type: 'cgIdadeMax',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  />    
+                </div>  
+                <div className="input-block"> 
+                  <TextField                                    
                     label="Descrição"
                     variant="outlined"
                     type="text"
@@ -167,22 +222,7 @@ const FormCadastroCurso = (props) => {
                     error={null}
                     fullWidth                 
                   />  
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Carga Horária"
-                    variant="outlined"
-                    type="number"
-                    autoComplete="off"
-                    value={form.carga_horaria}
-                    onChange={(e) => dispatch({
-                      type: 'cgCargaHoraria',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  />  
-                </div>                                                     
+                </div>                                                                  
               </div>                                                  
             </form>
           </div>

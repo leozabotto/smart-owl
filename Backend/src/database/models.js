@@ -121,9 +121,22 @@ const Curso = connection.define('curso', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  carga_horaria: {
+  ch: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  idade_min: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  idade_max: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  ativo: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   },
 }, {
   freezeTableName: true,
@@ -150,14 +163,6 @@ const Turma = connection.define('turma', {
   },
   status: {
     type: Sequelize.STRING,
-    allowNull: false
-  },
-  idade_min: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  idade_max: {
-    type: Sequelize.INTEGER,
     allowNull: false
   },
   periodo: {

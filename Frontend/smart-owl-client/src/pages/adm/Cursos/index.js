@@ -96,17 +96,38 @@ const Cursos = () => {
       sortable: true,      
     },
     { 
+      field: 'idade_min', 
+      headerName: 'Idade Mín.', 
+      width: 150,
+      sortable: true,
+    },
+    { 
+      field: 'idade_max', 
+      headerName: 'Idade Max.', 
+      width: 150,
+      sortable: true,
+    },
+    { 
+      field: 'ch', 
+      headerName: 'C.H.', 
+      width: 100,
+      sortable: true,
+    },
+    { 
+      field: 'ativo', 
+      headerName: 'Status', 
+      width: 200,
+      sortable: true,
+      renderCell: (curso) => {
+        return curso.row.ativo === true ? "ATIVO" : "INATIVO"
+      }
+    }, 
+    { 
       field: 'descricao', 
       headerName: 'Descrição', 
       width: 600,
       sortable: true,
-    },
-    { 
-      field: 'carga_horaria', 
-      headerName: 'Carga Horária', 
-      width: 200,
-      sortable: true,
-    },
+    },      
   ];
 
   useEffect(() => {

@@ -71,17 +71,7 @@ const FormCadastroUnidade = (props) => {
         return {
           ...state,
           status: action.value,
-        }
-      case 'cgIdadeMin': 
-        return {
-          ...state,
-          idade_min: action.value,
-        }
-      case 'cgIdadeMax': 
-        return {
-          ...state,
-          idade_max: action.value,
-        }
+        }      
       case 'cgPeriodo': 
         return {
           ...state,
@@ -289,37 +279,7 @@ const FormCadastroUnidade = (props) => {
                     error={null}
                     fullWidth                 
                   />    
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Idade Min."
-                    variant="outlined"
-                    type="number"
-                    autoComplete="off"
-                    value={form.idade_min}
-                    onChange={(e) => dispatch({
-                      type: 'cgIdadeMin',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  />    
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Idade Max."
-                    variant="outlined"
-                    type="number"
-                    autoComplete="off"
-                    value={form.idade_max}
-                    onChange={(e) => dispatch({
-                      type: 'cgIdadeMax',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  />    
-                </div>                                                       
+                </div>                                                                    
               </div>                                                  
             </form>
           </div>

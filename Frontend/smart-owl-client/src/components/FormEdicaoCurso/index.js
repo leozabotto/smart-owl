@@ -16,6 +16,8 @@ import Modal from '../Modal';
 import { HeaderSubtitle } from '../HeaderTitle';
 import { SnackContext } from '../../contexts/SnackContext';
 
+import { FormControlLabel, Switch } from '@material-ui/core';
+
 import './index.css';
 import api from '../../services/api';
 
@@ -47,8 +49,23 @@ const FormCadastroCurso = (props) => {
       case 'cgCargaHoraria': 
         return {
           ...state,
-          carga_horaria: action.value,
+          ch: action.value,
         }  
+      case 'cgIdadeMin': 
+        return {
+          ...state,
+          idade_min: action.value,
+        }
+      case 'cgIdadeMax': 
+        return {
+          ...state,
+          idade_max: action.value,
+        }
+      case 'cgAtivo': 
+        return {
+          ...state,
+          ativo: action.value,
+        }
       case 'resetForm':       
         return {
           ...initialState,          
@@ -108,8 +125,11 @@ const FormCadastroCurso = (props) => {
                       
         dispatch({ type: 'cgNome', value: props.cursoParaEditar.nome });             
         dispatch({ type: 'cgDescricao', value: props.cursoParaEditar.descricao });             
-        dispatch({ type: 'cgCargaHoraria', value: props.cursoParaEditar.carga_horaria });                         
-        
+        dispatch({ type: 'cgCargaHoraria', value: props.cursoParaEditar.ch });                         
+        dispatch({ type: 'cgIdadeMin', value: props.cursoParaEditar.idade_min });                         
+        dispatch({ type: 'cgIdadeMax', value: props.cursoParaEditar.idade_max });                         
+        dispatch({ type: 'cgAtivo', value: props.cursoParaEditar.ativo ? true: false});
+
         setLoading(false);
       } catch (err) {
         console.log(err)
@@ -121,10 +141,15 @@ const FormCadastroCurso = (props) => {
         setLoading(false);
         props.handleEditModalClose();
       }
-    }
-
+    }    
+    
     if (props.cursoParaEditar !== undefined && props.cursoParaEditar !== null) {
-      setUnidade(); 
+      setUnidade();
+      setSnack({
+        message: 'Editar um curso afetará todas as turmas já existentes vinculadas a ele!',
+        type: 'warning',
+        open: true
+      }); 
     }
 
   }, [props.cursoParaEditar]);
@@ -163,8 +188,9 @@ const FormCadastroCurso = (props) => {
               <HeaderSubtitle
                 title="Informações do Curso"
               />
-              <div className="file-form-basic" style={{ display: 'flex', flexDirection: 'column', gap: 10}}>                                                                                             
 
+             
+              <div className="file-form-basic" style={{ display: 'flex', flexDirection: 'column', gap: 10}}>                                                                                             
                 <div className="input-block">            
                   <TextField                                    
                     label="Nome"
@@ -179,7 +205,52 @@ const FormCadastroCurso = (props) => {
                     error={null}
                     fullWidth                 
                   />  
+                </div>               
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Idade Min."
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={form.idade_min}
+                    onChange={(e) => dispatch({
+                      type: 'cgIdadeMin',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  />    
                 </div>
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Idade Max."
+                    variant="outlined"
+                    type="number"
+                    autoComplete="off"
+                    value={form.idade_max}
+                    onChange={(e) => dispatch({
+                      type: 'cgIdadeMax',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  />    
+                </div>  
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Carga Horária"
+                    variant="outlined"
+                    type="text"
+                    autoComplete="off"
+                    value={form.ch}
+                    onChange={(e) => dispatch({
+                      type: 'cgCargaHoraria',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth                 
+                  />  
+                </div>  
                 <div className="input-block"> 
                   <TextField                                    
                     label="Descrição"
@@ -197,22 +268,14 @@ const FormCadastroCurso = (props) => {
                     rowsMax={6}    
                     multiline        
                   />  
-                </div>
-                <div className="input-block"> 
-                  <TextField                                    
-                    label="Carga Horária"
-                    variant="outlined"
-                    type="text"
-                    autoComplete="off"
-                    value={form.carga_horaria}
-                    onChange={(e) => dispatch({
-                      type: 'cgCargaHoraria',
-                      value: e.target.value,
-                    })}
-                    error={null}
-                    fullWidth                 
-                  />  
-                </div>                                       
+                </div>  
+                <div className="input-block">
+                <FormControlLabel control={
+                  <Switch 
+                    checked={form.ativo}
+                    onChange={(e) => dispatch({ type: "cgAtivo", value: e.target.checked})}
+                  />
+                } label="Ativo" /></div>                                   
               </div>                                                  
             </form>
           </div>
