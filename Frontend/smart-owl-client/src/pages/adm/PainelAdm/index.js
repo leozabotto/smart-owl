@@ -17,7 +17,7 @@ const PainelAdm = () => {
   }, [role])
 
   return (
-    <AdmDrawer title="Painel Admistrativo">
+    <AdmDrawer title="Painel Administrativo">
       <BackgroundCard>
         <div className="master-dashboard">
           <HeaderTitle

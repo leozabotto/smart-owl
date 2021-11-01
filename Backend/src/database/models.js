@@ -36,9 +36,20 @@ const PermissoesAdmin = connection.define('permissoes_administrador', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
+  cadastros: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  processo_seletivo: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
   super_usuario: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
+    defaultValue: false,
   }, 
 }, {
   freezeTableName: true,
@@ -224,6 +235,6 @@ module.exports = {
 }
 
 /*async function sync () {
-  await connection.sync({ force: true })
+  await connection.sync({ alter: true })
 }
 sync()*/

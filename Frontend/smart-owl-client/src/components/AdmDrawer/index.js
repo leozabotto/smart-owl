@@ -80,8 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AdmDrawer = (props) => {
 
-  const { user, handleLogout } = useContext(AuthContext);
-  //const [userType, setUserType] = useState();
+  const { user, handleLogout, permissions } = useContext(AuthContext);
 
   const history = useHistory();
 
@@ -131,61 +130,73 @@ const AdmDrawer = (props) => {
           <ListItemText primary="Início" />
         </ListItem> 
 
-        <ListItem button onClick={handleRegister}>
-          <ListItemIcon>
-            <FolderOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Cadastros" />
-          {register ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
 
-        <Collapse in={register} timeout="auto" unmountOnExit>    
-
-          <ListItem button 
-            classes={{ selected: classes.selected }} 
-            component={Link} 
-            className="listSpacing" 
-            to="/adm/cursos" 
-            selected={location.pathname === "/adm/cursos"}            
-          >
+        {!permissions.super_usuario && !permissions.cadastros
+        ? ''
+        :
+          <>
+          <ListItem button onClick={handleRegister}>
             <ListItemIcon>
-              <BorderColorOutlinedIcon />
+              <FolderOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary="Cursos" />
-          </ListItem> 
-
-               
-          <ListItem button 
-            classes={{ selected: classes.selected }} 
-            className="listSpacing" 
-            component={Link} 
-            to="/adm/usuarios" 
-            selected={location.pathname === "/adm/usuarios"}
-            disabled
-          >
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary="Usuários" />
+            <ListItemText primary="Cadastros" />
+            {register ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-      
-          <List component="div" disablePadding>                                 
+
+          <Collapse in={register} timeout="auto" unmountOnExit>    
+
+            <ListItem button 
+              classes={{ selected: classes.selected }} 
+              component={Link} 
+              className="listSpacing" 
+              to="/adm/cursos" 
+              selected={location.pathname === "/adm/cursos"}            
+            >
+              <ListItemIcon>
+                <BorderColorOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Cursos" />
+            </ListItem> 
+
+            {!permissions.super_usuario ? '' : <>
             <ListItem button 
               classes={{ selected: classes.selected }} 
               className="listSpacing" 
               component={Link} 
-              to="/adm/unidades" 
-              selected={location.pathname === "/adm/unidades"}
+              to="/adm/usuarios" 
+              selected={location.pathname === "/adm/usuarios"}
+              disabled
             >
               <ListItemIcon>
-                <PlaceIcon />
+                <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Unidades" />
+              <ListItemText primary="Usuários" />
             </ListItem>
+        
+           
+            <List component="div" disablePadding>                                 
+              <ListItem button 
+                classes={{ selected: classes.selected }} 
+                className="listSpacing" 
+                component={Link} 
+                to="/adm/unidades" 
+                selected={location.pathname === "/adm/unidades"}
+              >
+                <ListItemIcon>
+                  <PlaceIcon />
+                </ListItemIcon>
+                <ListItemText primary="Unidades" />
+              </ListItem>
+            </List>     
+            </>}
+          </Collapse>          
+          </>
+        }
        
-          </List>     
-        </Collapse> 
-
+      {!permissions.super_usuario && !permissions.processo_seletivo
+        ? ''
+        :
+        <>
         <ListItem button onClick={handleSelectiveProcess}>
           <ListItemIcon>
             <AssignmentTurnedInOutlinedIcon />
@@ -208,7 +219,9 @@ const AdmDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="Turmas" />
           </ListItem>                            
-        </Collapse>                          
+        </Collapse>  
+        </>
+      }                        
                       
         <ListItem button 
           classes={{ selected: classes.selected }} 

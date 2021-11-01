@@ -69,7 +69,7 @@ export default function useAuth() {
       setUser(user);
 
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.token);     
       
       api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
 
