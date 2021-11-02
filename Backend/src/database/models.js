@@ -165,8 +165,20 @@ const Turma = connection.define('turma', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  hora_inicio: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  hora_termino: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   periodo: {
     type: Sequelize.STRING,
+    allowNull: false,
+  },
+  pcd: {
+    type: Sequelize.BOOLEAN,
     allowNull: false,
   }
 }, {

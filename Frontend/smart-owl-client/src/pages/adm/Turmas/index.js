@@ -14,9 +14,9 @@ import AdmDrawer from '../../../components/AdmDrawer';
 import BackgroundCard from '../../../components/BackgroundCard';
 import PrimaryButton from '../../../components/Button';
 import BackgroundCardHeader from '../../../components/BackgroundCardHeader';
-import IconButton from '../../../components/IconButton'
+import IconButton from '../../../components/IconButton';
 
-import FormCadastroTurmas from '../../../components/FormCadastroTurmas';
+import FormCadastroTurma from '../../../components/FormCadastroTurma';
 
 import { HeaderSubtitle } from '../../../components/HeaderTitle';
 import { SnackContext } from '../../../contexts/SnackContext';
@@ -25,7 +25,7 @@ import api from '../../../services/api';
 
 import './index.css';
 
-import FormEdicaoUnidade from '../../../components/FormEdicaoUnidade';
+import FormEdicaoTurma from '../../../components/FormEdicaoTurma';
 import SelectUnidades from '../../../components/SelectUnidades';
 
 
@@ -33,9 +33,9 @@ const Unidades = () => {
 
   const { setSnack } = useContext(SnackContext);      
   
-  const [unidadeParaEditar, setUnidadeParaEditar] = useState(null);
+  const [turmaParaEditar, setTurmaParaEditar] = useState(null);
   const [modalEdicao, setModalEdicao] = useState(false);
-  const [unidadeEditada, setTurmaEditada] = useState({});
+  const [turmaEditada, setTurmaEditada] = useState({});
 
   const [modalCadastro, setModalCadastro] = useState(false);
   const [turmaCriada, setTurmaCriada] = useState({});
@@ -75,12 +75,12 @@ const Unidades = () => {
   }
   
   const handleSelecionarParaEditar = (account) => {
-    setUnidadeParaEditar(account); 
+    setTurmaParaEditar(account); 
     handleEditModalOpen(); 
   }
 
   const handleUnselectToEdit = () => {
-    setUnidadeParaEditar(null);
+    setTurmaParaEditar(null);
   }   
 
   const handleFilter = async () => {
@@ -115,11 +115,11 @@ const Unidades = () => {
       renderCell: (account) => {                      
         return (<>            
           <IconButton 
-           title={"Editar Unidade"}
+           title={"Editar Turma"}
             onClick={() => {        
               handleSelecionarParaEditar(account.row);        
             }
-          } disabled>
+          }>
             <CreateOutlinedIcon />
           </IconButton>                                
         </>);
@@ -168,6 +168,15 @@ const Unidades = () => {
       sortable: true,
     },
     { 
+      field: 'pcd', 
+      headerName: 'PCD?', 
+      width: 200,
+      sortable: true,
+      renderCell: (turma) => {
+        return turma.row.pcd === true ? 'Sim' : 'Não'
+      }
+    },
+    { 
       field: 'status', 
       headerName: 'Status', 
       width: 200,
@@ -189,16 +198,16 @@ const Unidades = () => {
   }, [turmaCriada])
 
   useEffect(() => {
-    if(Object.keys(unidadeEditada).length !== 0) {
-      let unidade = {...unidadeEditada.data };      
-      /*setUnidades(unidades.map(unid => {
-        if (unid.id === unidade.id) {
-          unid = unidade;
+    if(Object.keys(turmaEditada).length !== 0) {
+      let turma = {...turmaEditada.data };      
+      setTurmas(turmas.map(t => {
+        if (t.id === turma.id) {
+          t = turma;
         }
-        return unid;
-      }));*/
+        return t;
+      }));
     } 
-  }, [unidadeEditada])
+  }, [turmaEditada])
 
   return (
     <AdmDrawer title="Turmas">
@@ -280,20 +289,20 @@ const Unidades = () => {
         </BackgroundCard>                  
       </div>
 
-      <FormCadastroTurmas     
+      <FormCadastroTurma  
         createModal={modalCadastro} 
         handleCreateModalClose={handleCreateModalClose}   
         type={'-'}     
-        setTurmaCriada={setTurmaCriada}
+        setTurmaCriada={setTurmaCriada}        
         allowKeepPosting
       />
 
-      <FormEdicaoUnidade 
+      <FormEdicaoTurma 
         editModal={modalEdicao} 
         handleEditModalClose={handleEditModalClose}   
         type={'-'}     
         setTurmaEditada={setTurmaEditada}     
-        unidadeParaEditar={unidadeParaEditar}
+        turmaParaEditar={turmaParaEditar}
         handleUnselectToEdit={handleUnselectToEdit}
       />
     </AdmDrawer>

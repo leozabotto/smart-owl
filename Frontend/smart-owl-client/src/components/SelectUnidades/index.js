@@ -63,7 +63,9 @@ const SelectUnidades = (props) => {
           getOptionLabel={(option) => option.nome}  
           getOptionSelected={(option, value) => option.id === props.value.id}                
           renderInput={(params) => <TextField {...params} id="selectUnidades" 
-          label="Unidade" variant="outlined" required={props.optional ? false : true} />}          
+          label="Unidade" variant="outlined" required={props.optional ? false : true} 
+          disabled={props.disabled}
+          />}          
         />
       </div>  
     </>

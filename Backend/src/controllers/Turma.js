@@ -15,8 +15,9 @@ module.exports = {
         nome,
         modalidade,
         qtd_vagas,
-        idade_min,
-        idade_max,
+        hora_inicio,
+        hora_termino,
+        pcd,
         periodo,
         status,       
         cursoId,
@@ -27,15 +28,16 @@ module.exports = {
         nome,
         modalidade,
         qtd_vagas,
-        idade_min,
-        idade_max,
+        hora_inicio,
+        hora_termino,
+        pcd,
         periodo,       
         status,
         cursoId,
         unidadeId,
       }
 
-      if(!checkEmptyFields(data)) {
+      if(!checkEmptyFields(data)) {        
         return res.status(400).send({ mensagem: "Preencha todos os campos obrigatórios!"});
       }
 
@@ -56,8 +58,9 @@ module.exports = {
         nome,
         modalidade,
         qtd_vagas,
-        idade_min,
-        idade_max,
+        hora_inicio,
+        hora_termino,
+        pcd,
         periodo,
         status,
         cursoId,
@@ -68,8 +71,9 @@ module.exports = {
         nome,
         modalidade,
         qtd_vagas,
-        idade_min,
-        idade_max,
+        hora_inicio,
+        hora_termino,
+        pcd,
         periodo,
         status,
         cursoId,
@@ -93,8 +97,9 @@ module.exports = {
       turma.nome = nome;
       turma.modalidade = modalidade;
       turma.qtd_vagas = qtd_vagas;
-      turma.idade_min = idade_min;
-      turma.idade_max = idade_max;
+      turma.hora_inicio = hora_inicio;
+      turma.hora_termino = hora_termino;
+      turma.pcd = pcd;
       turma.periodo = periodo;
       turma.status = status;
       turma.cursoId = cursoId;

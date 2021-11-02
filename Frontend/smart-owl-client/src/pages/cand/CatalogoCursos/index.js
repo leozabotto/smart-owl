@@ -16,7 +16,7 @@ import PrimaryButton from '../../../components/Button';
 import BackgroundCardHeader from '../../../components/BackgroundCardHeader';
 import IconButton from '../../../components/IconButton'
 
-import FormCadastroTurmas from '../../../components/FormCadastroTurmas';
+import FormCadastroTurma from '../../../components/FormCadastroTurma';
 
 import { HeaderSubtitle } from '../../../components/HeaderTitle';
 import { SnackContext } from '../../../contexts/SnackContext';

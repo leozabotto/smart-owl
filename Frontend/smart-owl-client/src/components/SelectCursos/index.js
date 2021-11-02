@@ -19,7 +19,11 @@ const SelectCursos = (props) => {
   useEffect(() => {
     async function getCursos() {
       try {
-        const res = await api.get('/curso');
+        const res = await api.get('/curso', {
+          params: {
+            ativo: props.ativo
+          }
+        });
         setCursos(res.data);       
       } catch(err) {        
         setSnack({ 
@@ -59,7 +63,9 @@ const SelectCursos = (props) => {
           getOptionLabel={(option) => option.nome}  
           getOptionSelected={(option, value) => option.id === props.value.id}                
           renderInput={(params) => <TextField {...params} id="SelectCursos" 
-          label="Curso" variant="outlined" required={props.optional ? false : true} />}          
+          label="Curso" variant="outlined" required={props.optional ? false : true}
+          disabled={props.disabled}
+          />}          
         />
       </div>  
     </>

@@ -117,7 +117,20 @@ module.exports = {
 
   async handleFindAll(req, res) {
     try {
-      const cursos = await Curso.findAll();
+
+      const { ativo } = req.query;
+
+      let params = {};
+
+      if (ativo !== undefined) {
+        params.ativo = ativo;
+      }
+
+      const cursos = await Curso.findAll({
+        where: {
+          ...params
+        }
+      });
       res.status(200).send(cursos);
     } catch (err) {
       console.log(err);

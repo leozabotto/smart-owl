@@ -1,7 +1,8 @@
 import React, { 
   useContext, 
   useState, 
-  useReducer 
+  useReducer,
+  useEffect
  } from 'react';
 
 import { 
@@ -9,6 +10,8 @@ import {
   CircularProgress,
   MenuItem,
 } from '@material-ui/core';
+
+import { FormControlLabel, Switch } from '@material-ui/core';
 
 import SelectUnidades from '../SelectUnidades';
 import SelectCursos from '../SelectCursos';
@@ -23,7 +26,7 @@ import './index.css';
 import api from '../../services/api';
 
 
-const FormCadastroUnidade = (props) => {
+const FormEdicaoTurmas = (props) => {
 
   const { setSnack } = useContext(SnackContext);
 
@@ -76,6 +79,21 @@ const FormCadastroUnidade = (props) => {
         return {
           ...state,
           periodo: action.value,
+        }     
+      case 'cgInicio': 
+        return {
+          ...state,
+          hora_inicio: action.value,
+        }     
+      case 'cgTermino': 
+        return {
+          ...state,
+          hora_termino: action.value,
+        } 
+      case 'cgPcd': 
+        return {
+          ...state,
+          pcd: action.value,
         }     
       case 'resetForm':       
         return {
@@ -136,10 +154,10 @@ const FormCadastroUnidade = (props) => {
       form.unidadeId = unidade.id;
       form.cursoId = curso.id;
 
-      const turma = await api.post('/turma', { ...form })
+      const turma = await api.put(`/turma/${props.turmaParaEditar.id}`, { ...form })
       
       setSnack({
-        message: 'Turma cadastrada!',
+        message: 'Turma atualizada!',
         type: 'success',
         open: true,
       });
@@ -149,8 +167,8 @@ const FormCadastroUnidade = (props) => {
       turma.data.curso = curso;
       turma.data.unidade = unidade;
          
-      props.setTurmaCriada(turma);
-      props.handleCreateModalClose();           
+      props.setTurmaEditada(turma);
+      props.handleEditModalClose();           
       
       setLoading(false);
     } catch (err) {   
@@ -164,15 +182,57 @@ const FormCadastroUnidade = (props) => {
     }
   }
 
+  useEffect(() => {
+
+    async function setTurma() {   
+      try {        
+        setLoading(true);
+                      
+        dispatch({ type: 'cgNome', value: props.turmaParaEditar.nome });             
+        dispatch({ type: 'cgModalidade', value: props.turmaParaEditar.modalidade });             
+        dispatch({ type: 'cgQtdVagas', value: props.turmaParaEditar.qtd_vagas });                         
+        dispatch({ type: 'cgPeriodo', value: props.turmaParaEditar.periodo });                         
+        dispatch({ type: 'cgInicio', value: props.turmaParaEditar.hora_inicio });                         
+        dispatch({ type: 'cgTermino', value: props.turmaParaEditar.hora_termino });                                                     
+        dispatch({ type: 'cgPcd', value: props.turmaParaEditar.pcd });
+
+        setUnidade(props.turmaParaEditar.unidade);
+        setCurso(props.turmaParaEditar.curso);
+
+        setLoading(false);
+      } catch (err) {
+        console.log(err)
+        setSnack({ 
+          message: 'Ocorreu um erro ao buscar a turma. ' + err, 
+          type: 'error', 
+          open: true
+        });
+        setLoading(false);
+        props.handleEditModalClose();
+      }
+    }    
+    
+    if (props.turmaParaEditar !== undefined && props.turmaParaEditar !== null) {
+      setTurma();
+      setSnack({
+        message: 'Editar uma turma afetará todas as inscrições já existentes vinculadas a ela. Tome cuidado!',
+        type: 'warning',
+        open: true
+      }); 
+    }
+
+  }, [props.turmaParaEditar]);
+
+
   return (
     <Modal
-      open={props.createModal}
-      onClose={props.handleCreateModalClose}
+      open={props.editModal}
+      onClose={props.handleEditModalClose}
       title={`Nova Turma`}
       actions={
         <>        
-          <PrimaryButton onClick={props.handleCreateModalClose}>CANCELAR</PrimaryButton>
-          <PrimaryButton onClick={() => handleSubmit()}>CADASTRAR</PrimaryButton>
+          <PrimaryButton onClick={props.handleEditModalClose}>CANCELAR</PrimaryButton>
+          <PrimaryButton onClick={() => handleSubmit()}>ATUALIZAR</PrimaryButton>
         </>
       }
       > 
@@ -212,19 +272,24 @@ const FormCadastroUnidade = (props) => {
                       value: e.target.value,
                     })}
                     error={null}
-                    fullWidth                 
+                    fullWidth    
+                    required={true}                          
                   />  
                 </div>
                 <div className="input-block">
                   <SelectCursos 
                     value={curso}
                     onChange={handleCursoChange}
+                    ativo={"1"}
+                    disabled={true}
                   />
                 </div>
                 <div className="input-block">
                   <SelectUnidades 
                     value={unidade}
                     onChange={handleUnidadeChange}
+                    ativo={"1"}
+                    disabled={true}
                   />
                 </div>
                 <div className="input-block"> 
@@ -239,7 +304,9 @@ const FormCadastroUnidade = (props) => {
                       value: e.target.value,
                     })}
                     error={null}
-                    fullWidth                 
+                    fullWidth     
+                    required={true}   
+                    disabled={true}                               
                   >
                     <MenuItem value={"Online"} key={1}>Online</MenuItem>
                     <MenuItem value={"Presencial"} key={2}>Presencial</MenuItem>
@@ -258,13 +325,47 @@ const FormCadastroUnidade = (props) => {
                       value: e.target.value,
                     })}
                     error={null}
-                    fullWidth                 
+                    fullWidth   
+                    required={true}
+                    disabled={true}                          
                   >
                     <MenuItem value={"Manhã"} key={1}>Manhã</MenuItem>
                     <MenuItem value={"Tarde"} key={2}>Tarde</MenuItem>
                     <MenuItem value={"Noite"} key={3}>Noite</MenuItem>
                   </TextField>  
                 </div>
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Hora de Início"
+                    variant="outlined"
+                    type="text"
+                    autoComplete="off"
+                    value={form.hora_inicio}
+                    onChange={(e) => dispatch({
+                      type: 'cgInicio',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth 
+                    required={true}                             
+                  />    
+                </div>                                                                    
+                <div className="input-block"> 
+                  <TextField                                    
+                    label="Hora de Término"
+                    variant="outlined"
+                    type="text"
+                    autoComplete="off"
+                    value={form.hora_termino}
+                    onChange={(e) => dispatch({
+                      type: 'cgTermino',
+                      value: e.target.value,
+                    })}
+                    error={null}
+                    fullWidth    
+                    required={true}             
+                  />    
+                </div>                                                                    
                 <div className="input-block"> 
                   <TextField                                    
                     label="Qtd. Vagas"
@@ -277,9 +378,17 @@ const FormCadastroUnidade = (props) => {
                       value: e.target.value,
                     })}
                     error={null}
-                    fullWidth                 
+                    fullWidth     
+                    required={true}                         
                   />    
-                </div>                                                                    
+                </div> 
+                <div className="input-block">
+                <FormControlLabel control={
+                  <Switch 
+                    checked={form.pcd}
+                    onChange={(e) => dispatch({ type: "cgPcd", value: e.target.checked})}
+                  />
+                } label="PCD" /></div>                                                                    
               </div>                                                  
             </form>
           </div>
@@ -288,4 +397,4 @@ const FormCadastroUnidade = (props) => {
   );
 };
 
-export default FormCadastroUnidade;
+export default FormEdicaoTurmas;
