@@ -16,7 +16,10 @@ import Menu from '@material-ui/core/Menu';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import StorageOutlinedIcon from '@material-ui/icons/StorageOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import AccountCircle from '@material-ui/icons/AccountCircleOutlined';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
@@ -187,6 +190,19 @@ const AdmDrawer = (props) => {
                 </ListItemIcon>
                 <ListItemText primary="Unidades" />
               </ListItem>
+
+              <ListItem button 
+                classes={{ selected: classes.selected }} 
+                component={Link} 
+                className="listSpacing" 
+                to="/adm/turmas" 
+                selected={location.pathname === "/adm/turmas"}            
+              >
+                <ListItemIcon>
+                  <GroupOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Turmas" />
+              </ListItem>  
             </List>     
             </>}
           </Collapse>          
@@ -206,19 +222,32 @@ const AdmDrawer = (props) => {
         </ListItem>
 
         <Collapse in={selectiveProcess} timeout="auto" unmountOnExit>    
+          <ListItem button 
+            classes={{ selected: classes.selected }} 
+            component={Link} 
+            className="listSpacing" 
+            to="/adm/banco_questoes" 
+            selected={location.pathname === "/adm/banco_questoes"}            
+          >
+            <ListItemIcon>
+              <CreateOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Questões" />
+          </ListItem> 
 
           <ListItem button 
             classes={{ selected: classes.selected }} 
             component={Link} 
             className="listSpacing" 
-            to="/adm/turmas" 
-            selected={location.pathname === "/adm/turmas"}            
+            to="/adm/banco_redacao" 
+            selected={location.pathname === "/adm/banco_redacao"}            
           >
             <ListItemIcon>
-              <GroupOutlinedIcon />
+              <DescriptionOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary="Turmas" />
-          </ListItem>                            
+            <ListItemText primary="Redação" />
+          </ListItem> 
+                                   
         </Collapse>  
         </>
       }                        
