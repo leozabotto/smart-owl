@@ -111,3 +111,34 @@
   background-color: #70707052;
   border-radius: 5px;
 }
+
+.container-turma {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.card-turma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color:  var(--white);
+  background: linear-gradient(90deg, rgba(62,155,168,1) 0%, rgba(137,12,204,1) 0%, rgba(98,28,177,1) 18%, rgba(181,37,118,1) 100%, rgba(194,123,8,1) 100%);  color: #fff;
+  
+  width: 400px;
+  height: 260px;
+  border-radius: 15px;
+  
+  margin-right: 20px;
+  margin-bottom: 20px;
+
+  transition: transform 0.6s;
+}
+
+.card-turma:hover {
+  transform: scale(1.08);
+  transition: 0.6s;
+  cursor: pointer;
+}

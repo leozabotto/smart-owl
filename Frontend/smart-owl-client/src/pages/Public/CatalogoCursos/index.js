@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { 
-  CircularProgress  
+  CircularProgress ,
+  MenuItem,
+  TextField,
 } from '@material-ui/core'
 
 import AddIcon from '@material-ui/icons/Add';
@@ -18,9 +20,12 @@ import IconButton from '../../../components/IconButton'
 
 import FormCadastroCurso from '../../../components/FormCadastroCurso';
 
-import { HeaderSubtitle } from '../../../components/HeaderTitle';
+import { HeaderSubtitle, HeaderTitle } from '../../../components/HeaderTitle';
 import { SnackContext } from '../../../contexts/SnackContext';
 
+import SelectUnidades from '../../../components/SelectUnidades';
+
+import api from '../../../services/api';
 
 
 import './index.css';
@@ -73,7 +78,43 @@ const CatalogoCursos = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const [unidade, setUnidade] = useState(null);
+  const handleUnidadeChange = (value) => {
+    setUnidade(value);
+  }
+
+  const [turmas, setTurmas]  = useState([]);
+  const [buscou, setBuscou] = useState(false);
+
+  const { setSnack } = useContext(SnackContext);
+
+  const handleFilter = async () => {
+    try {
+
+      setLoading(true);
+      const turmas = await api.get('/turma', { 
+        params: {
+          unidadeId: unidade.id,          
+        }
+      });
+
+      setTurmas(turmas.data);
+      setBuscou(true);
+
+      setLoading(false);
+
+    } catch (err) {
+      setSnack({ 
+        message: 'Ocorreu um erro ao buscar as turmas. Caso persista, contate o suporte! ' + err, 
+        type: 'error', 
+        open: true
+      });
+
+      console.log(err);
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -81,17 +122,27 @@ const CatalogoCursos = (props) => {
         <div className={classes.toolbar} />
           <div className="master-dashboard">                
             <BackgroundCard>
-              <BackgroundCardHeader title="Cursos Disponíveis" showBackBtn>
-                { /*processandoRelatorio*/ false ?
-                <div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <CircularProgress />
-                </div>
-                :
-                <>                                                          
-                </>
-              }
-              </BackgroundCardHeader>
+              <HeaderTitle 
+                title="Cursos Disponíveis"
+                showBackButton
+                previousPage="/"
+              />
+
               <HeaderSubtitle/>
+
+              <div className="filter-form-container">
+            <form className="filter-form" onSubmit={null} id="filter-form">
+              <div className="filter-form-basic">
+                <SelectUnidades 
+                  value={unidade}
+                  onChange={handleUnidadeChange}
+                />             
+                <div className="input-block">
+                  <PrimaryButton size="large" variant="contained" onClick={() => handleFilter()}>Buscar</PrimaryButton>
+                </div> 
+              </div>
+            </form>
+          </div>
             
               {
                 loading ?
@@ -100,6 +151,45 @@ const CatalogoCursos = (props) => {
                 </div>
                 :
                 <>
+                {
+                  turmas.length === 0 && buscou ?
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '200px'}}>  
+                    <p>Não há turmas disponíveis para a unidade selecionada. ☹️</p>
+                  </div>
+                  : 
+                    buscou && turmas.length !== 0
+                    ?
+                    
+                    <div className="container-turma">
+                      <div className="card-turma">
+                        <h1>Título (Período)</h1>
+                        <p><b>Início:</b></p>
+                        <p><b>Fim:</b></p>
+                      </div>
+                      <div className="card-turma">
+                        <h1>Título (Período)</h1>
+                        <p><b>Início:</b></p>
+                        <p><b>Fim:</b></p>
+                      </div>
+                      <div className="card-turma">
+                        <h1>Título (Período)</h1>
+                        <p><b>Início:</b></p>
+                        <p><b>Fim:</b></p>
+                      </div>
+                      <div className="card-turma">
+                        <h1>Título (Período)</h1>
+                        <p><b>Início:</b></p>
+                        <p><b>Fim:</b></p>
+                      </div>
+                    </div>
+
+
+
+                    :
+                    ''
+                }
+                
+
                
                 </>
               }                                                              

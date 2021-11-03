@@ -204,7 +204,7 @@ const FormCadastroQuestao = (props) => {
               onSubmit={handleSubmit} 
             >
               <HeaderSubtitle
-                title="Informações da Redação"
+                title="Informações da Questão"
               />
               <div className="file-form-basic" style={{ display: 'flex', flexDirection: 'column', gap: 10}}>                                                                                             
 

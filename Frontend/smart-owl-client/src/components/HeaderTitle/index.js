@@ -21,7 +21,7 @@ const HeaderTitle = ({title, subtitle, showBackButton, previousPage}) => {
             to={previousPage}
             style={{...style}}
           >
-            <ArrowBackIcon />
+            <ArrowBackIcon style={{color: "orange"}}/>
           </Link>
         </div>
         : ''
