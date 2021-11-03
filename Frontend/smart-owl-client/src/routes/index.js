@@ -17,9 +17,11 @@ import PainelAdm from '../pages/adm/PainelAdm';
 import Unidades from '../pages/adm/Unidades';
 import Cursos from '../pages/adm/Cursos';
 import Turmas from '../pages/adm/Turmas';
+import BancoRedacao from '../pages/adm/BancoRedacao';
+import BancoQuestoes from '../pages/adm/BancoQuestoes';
 
 import PainelCand from '../pages/cand/PainelCand';
-import CatalogoCursos from '../pages/cand/CatalogoCursos';
+import CatalogoCursos from '../pages/public/CatalogoCursos';
 
 import PrivateRoute from './private.routes';
 import browserHistory from '../history';
@@ -34,10 +36,10 @@ const Routes = () =>{
           component={() => <ChooseModule />} 
         />
 
-        {/* <PublicRoute 
+        <PublicRoute 
           exact path="/cursos" 
           component={() => <CatalogoCursos />} 
-        /> */}
+        />
        
         {/* Login */}
               
@@ -77,6 +79,16 @@ const Routes = () =>{
         <PrivateRoute
           exact path="/adm/turmas" 
           component={() => <Turmas type="ADM" />} 
+        />
+        
+        <PrivateRoute
+          exact path="/adm/banco_redacao" 
+          component={() => <BancoRedacao type="ADM" />} 
+        />
+
+        <PrivateRoute
+          exact path="/adm/banco_questoes" 
+          component={() => <BancoQuestoes type="ADM" />} 
         />
 
         {/* Candidato */}

@@ -1,0 +1,36 @@
+.file-form-container form.file-form .file-form-basic {
+  display: grid;
+  gap: 10px;
+}
+
+.file-form-container form.file-form .file-form-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 5rem;
+}
+
+@media (min-width: 768px){
+  .file-form-container form.file-form .file-form-basic {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .file-form-container form.file-form .file-form-button {
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    
+  }
+}
+
+@media (min-width: 1024px){
+  .file-form-container form.file-form .file-form-basic {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (min-width: 1440px){
+  .file-form-container form.file-form .file-form-basic {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}

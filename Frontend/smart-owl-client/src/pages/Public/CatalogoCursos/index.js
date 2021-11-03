@@ -1,102 +1,113 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import Box from '@material-ui/core/Box';
-import Modal from '@material-ui/core/Modal/Modal';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import PersonIcon from '@material-ui/icons/Person';
+import { 
+  CircularProgress  
+} from '@material-ui/core'
 
-import CardLink from '../../../components/CardLink';
-import CreateIcon from '@material-ui/icons/Create';
-import SecurityIcon from '@material-ui/icons/Security';
+import AddIcon from '@material-ui/icons/Add';
+import PrintIcon from '@material-ui/icons/PrintOutlined';
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined'
 
-import mainLogo from '../../../assets/img/mainLogo.png';
+import AdmDrawer from '../../../components/AdmDrawer';
+import BackgroundCard from '../../../components/BackgroundCard';
+import PrimaryButton from '../../../components/Button';
+import BackgroundCardHeader from '../../../components/BackgroundCardHeader';
+import IconButton from '../../../components/IconButton'
+
+import FormCadastroCurso from '../../../components/FormCadastroCurso';
+
+import { HeaderSubtitle } from '../../../components/HeaderTitle';
+import { SnackContext } from '../../../contexts/SnackContext';
+
+
+
 import './index.css';
 
-import api from '../../../services/api';
+const drawerWidth = 280;
 
-const CatalogoCursos = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  drawer: {
+    [theme.breakpoints.up('md')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    [theme.breakpoints.up('md')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      zIndex: theme.zIndex.drawer + 1,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  // necessary for content to be below app bar
+  toolbar: {
+    [theme.breakpoints.down('sm')]: theme.mixins.toolbar,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(3),
+    },
+  },
+  selected: {
+    borderRight: '5px solid purple',
+  },
+}));
 
-  const [cursos, setCursos] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [selecionado, setSelecionado] = useState({});
+const CatalogoCursos = (props) => {
 
-  const handleModalOpen = () => {
-    setOpenModal(true);
-  }
+  const classes = useStyles();
+  const theme = useTheme();
 
-  const handleModalClose = () => {
-    setOpenModal(true);
-  }
-
-  const handleSelect = (curso) => {
-    setSelecionado(curso);
-
-  }
-
-  const handleUnselect = () => {
-    setSelecionado([]);
-  }
-
-  useEffect(() => {
-    document.title = 'Cursos do IOS | Smart Owl'
-
-    async function getCursos() {
-      try {
-        const res1 = await api.get('/curso');
-        setCursos(res1.data);
-      } catch (err) {
-        alert('Opa! Deu algo errado aí...' + err.message);
-      }
-    }
-    getCursos();
-  }, []); 
+  const [loading, setLoading] = useState(true);
 
   return (
-    <div className="chooseModule">
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        css={{ height: 35 + 'vh' }}
-      >
-        <img className="responsive-logo" src={mainLogo} alt="Gest Facil" /> <br/>
-        <h4> Cursos Disponíveis </h4>
-      </Box>
-
-      <div className="cursos">
-        {
-          cursos.map(curso => {
-            return (
-              <button className="card-curso" onClick={() => { 
-                handleSelect(curso);             
-              }}>{curso.nome}</button>
-            )
-          })
-        }
-        
-      </div>
-
-      <Modal    
-        open={openModal}    
-        onClose={() => console.log('a')}
-        title={selecionado.nome}
-        actions={
-          <>
-            <PrimaryButton onClick={() => { handleDeleteModalClose(); handleUnselectToDelete() }} color="primary">Cancelar</PrimaryButton>
-            <PrimaryButton onClick={handleDelete}>Sim</PrimaryButton>        
-          </>
-        }
-      >
-        <p>
-          <strong>ATENÇÃO: </strong> está ação é <b>permanente</b> e afetará o valor total de contas a pagar.
-        </p>
-      </Modal>
-
+    <div className={classes.root}>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+          <div className="master-dashboard">                
+            <BackgroundCard>
+              <BackgroundCardHeader title="Cursos Disponíveis" showBackBtn>
+                { /*processandoRelatorio*/ false ?
+                <div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <CircularProgress />
+                </div>
+                :
+                <>                                                          
+                </>
+              }
+              </BackgroundCardHeader>
+              <HeaderSubtitle/>
+            
+              {
+                loading ?
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px'}}>              
+                  <CircularProgress />
+                </div>
+                :
+                <>
+               
+                </>
+              }                                                              
+            </BackgroundCard>
+        </div>
+      </main>
     </div>
-
-    
   );
-};
+}
 
 export default CatalogoCursos;
