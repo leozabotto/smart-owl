@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -17,6 +17,8 @@ import BackgroundCard from '../../../components/BackgroundCard';
 import PrimaryButton from '../../../components/Button';
 import BackgroundCardHeader from '../../../components/BackgroundCardHeader';
 import IconButton from '../../../components/IconButton'
+
+import Modal from '../../../components/Modal';
 
 import FormCadastroCurso from '../../../components/FormCadastroCurso';
 
@@ -78,11 +80,27 @@ const CatalogoCursos = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const [selecionada, setSelecionada] = useState({});
+
+  const handleSelecionar = (turma) => {
+    setSelecionada(turma);
+    handleOpenModal();
+  }
+
   const [loading, setLoading] = useState(false);
 
   const [unidade, setUnidade] = useState(null);
   const handleUnidadeChange = (value) => {
     setUnidade(value);
+  }
+
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   }
 
   const [turmas, setTurmas]  = useState([]);
@@ -161,39 +179,51 @@ const CatalogoCursos = (props) => {
                     ?
                     
                     <div className="container-turma">
-                      <div className="card-turma">
-                        <h1>Título (Período)</h1>
-                        <p><b>Início:</b></p>
-                        <p><b>Fim:</b></p>
-                      </div>
-                      <div className="card-turma">
-                        <h1>Título (Período)</h1>
-                        <p><b>Início:</b></p>
-                        <p><b>Fim:</b></p>
-                      </div>
-                      <div className="card-turma">
-                        <h1>Título (Período)</h1>
-                        <p><b>Início:</b></p>
-                        <p><b>Fim:</b></p>
-                      </div>
-                      <div className="card-turma">
-                        <h1>Título (Período)</h1>
-                        <p><b>Início:</b></p>
-                        <p><b>Fim:</b></p>
-                      </div>
+                      {
+                        turmas.map(turma => {
+                        return (
+                          <div className="card-turma" onClick={() => handleSelecionar(turma)}>
+                            <h1>{turma.curso.nome}</h1>
+                            <h2>({turma.periodo})</h2>                       
+                          </div>)
+                        })
+                      }                                          
                     </div>
-
-
-
                     :
                     ''
-                }
-                
-
-               
+                }                               
                 </>
               }                                                              
             </BackgroundCard>
+            
+            {
+              Object.keys(selecionada).length !== 0 ?
+                <Modal      
+                open={openModal}
+                onClose={handleCloseModal}
+                title={`${selecionada.curso.nome} (${selecionada.periodo})`}
+                actions={
+                  <>
+                    <PrimaryButton onClick={() => { handleCloseModal(); }} color="secondary">Cancelar</PrimaryButton>
+                    <PrimaryButton onClick={() => { handleCloseModal(); }} color="primary">Inscrever-se</PrimaryButton>
+                  </>
+                }
+              >        
+                <p><b>Descrição:</b></p>
+                <p style={{marginTop: '10px'}}>{selecionada.curso.descricao}</p>
+
+                <p style={{marginTop: '10px'}}><b>Carga Horária:</b> {selecionada.curso.ch}</p>
+              
+                <p style={{marginTop: '20px'}}><b>Hora de Início:</b> {selecionada.hora_inicio}</p>
+                <p><b>Hora de Término:</b> {selecionada.hora_termino}</p>
+
+                <p style={{marginTop: '40px'}}><b>Unidade:</b></p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr'}}>
+                  <p><b>{selecionada.unidade.nome}</b> - {selecionada.unidade.rua}, {selecionada.unidade.numero_endereco} - {selecionada.unidade.bairro}, {selecionada.unidade.cidade} - {selecionada.unidade.estado} - {selecionada.unidade.cep} </p>                
+                </div>
+              </Modal>
+              : ''
+            }           
         </div>
       </main>
     </div>
