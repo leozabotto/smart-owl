@@ -36,7 +36,7 @@ const Routes = () =>{
           component={() => <ChooseModule />} 
         />
 
-        <PublicRoute 
+        <Route 
           exact path="/cursos" 
           component={() => <CatalogoCursos />} 
         />
@@ -96,12 +96,7 @@ const Routes = () =>{
         <PrivateRoute
           exact path="/painel" 
           component={() => <PainelCand type="CAN" />} 
-        /> 
-
-        <PrivateRoute
-          exact path="/cursos" 
-          component={() => <CatalogoCursos ype="CAN" />} 
-        />
+        />        
 
         <Route component={NotFound} />
       </Switch>

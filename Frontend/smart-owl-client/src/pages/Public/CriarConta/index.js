@@ -24,10 +24,14 @@ import mainLogo from '../../../assets/img/mainLogo.png';
 import './index.css';
 import api from '../../../services/api';
 
+import useQuery from '../../../contexts/hooks/useQuery';
+
 const Login = (props) => {
   useEffect(() => {
     document.title = `Criar Conta | Smart Owl`
   }, []);
+
+  const query = useQuery();
 
   const { setSnack } = useContext(SnackContext);
 
@@ -79,7 +83,7 @@ const Login = (props) => {
       });
 
       setTimeout(() => {
-        history.push('/login');
+        history.push(`/login${query.get('turma') ? `?turma=${query.get('turma')}` : ''}`);
       }, 1500)
 
     } catch (err) {

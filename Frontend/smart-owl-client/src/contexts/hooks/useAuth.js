@@ -47,7 +47,7 @@ export default function useAuth() {
     
   }, []);
 
-  async function handleLogin(userData, type) {
+  async function handleLogin(userData, type, redirect) {
 
     try {
 
@@ -63,6 +63,8 @@ export default function useAuth() {
         nome: token_decoded.nome,
         email: token_decoded.email,
       }
+
+      console.log(redirect)
       
       setPermissions(token_decoded.permissoes_administrador);
       setRole(token_decoded.tipo);

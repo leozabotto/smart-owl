@@ -189,20 +189,7 @@ const AdmDrawer = (props) => {
                   <PlaceIcon />
                 </ListItemIcon>
                 <ListItemText primary="Unidades" />
-              </ListItem>
-
-              <ListItem button 
-                classes={{ selected: classes.selected }} 
-                component={Link} 
-                className="listSpacing" 
-                to="/adm/turmas" 
-                selected={location.pathname === "/adm/turmas"}            
-              >
-                <ListItemIcon>
-                  <GroupOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary="Turmas" />
-              </ListItem>  
+              </ListItem>                
             </List>     
             </>}
           </Collapse>          
@@ -212,7 +199,7 @@ const AdmDrawer = (props) => {
       {!permissions.super_usuario && !permissions.processo_seletivo
         ? ''
         :
-        <>
+        <>        
         <ListItem button onClick={handleSelectiveProcess}>
           <ListItemIcon>
             <AssignmentTurnedInOutlinedIcon />
@@ -221,13 +208,26 @@ const AdmDrawer = (props) => {
           {selectiveProcess ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
 
-        <Collapse in={selectiveProcess} timeout="auto" unmountOnExit>    
+        <Collapse in={selectiveProcess} timeout="auto" unmountOnExit> 
+          <ListItem button 
+            classes={{ selected: classes.selected }} 
+            component={Link} 
+            className="listSpacing" 
+            to="/adm/turmas" 
+            selected={location.pathname === "/adm/turmas"}            
+          >
+            <ListItemIcon>
+              <GroupOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Turmas" />
+          </ListItem>   
           <ListItem button 
             classes={{ selected: classes.selected }} 
             component={Link} 
             className="listSpacing" 
             to="/adm/banco_questoes" 
-            selected={location.pathname === "/adm/banco_questoes"}            
+            selected={location.pathname === "/adm/banco_questoes"} 
+            disabled           
           >
             <ListItemIcon>
               <CreateOutlinedIcon />
@@ -240,7 +240,8 @@ const AdmDrawer = (props) => {
             component={Link} 
             className="listSpacing" 
             to="/adm/banco_redacao" 
-            selected={location.pathname === "/adm/banco_redacao"}            
+            selected={location.pathname === "/adm/banco_redacao"}   
+            disabled         
           >
             <ListItemIcon>
               <DescriptionOutlinedIcon />

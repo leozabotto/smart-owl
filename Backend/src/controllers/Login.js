@@ -45,6 +45,29 @@ module.exports = {
           payload = { ...usuario.dataValues };
           payload.senha = undefined;              
         }     
+      } else if (tipo === "CAN")  {
+
+        const usuario = await Candidato.findOne(
+          { 
+            where: { email },   
+          },
+        );
+        
+        if(usuario === null || !usuario) {
+          return res.status(404).json({ mensagem: 'E-mail ou Senha inválidos!' });
+        }
+
+        usuario.dataValues.tipo = "CAND";
+
+        const senhaCorreta = bcrypt.compareSync(senha, usuario.dataValues.senha);  
+
+        if (!senhaCorreta) {
+          return res.status(404).json({ mensagem: 'E-mail ou Senha inválidos!' });      
+        } else {
+          payload = { ...usuario.dataValues };
+          payload.senha = undefined;              
+        }     
+
       } else {
         return res.status(400).json({ mensagem: 'Tipo de Login inválido!'});
       }

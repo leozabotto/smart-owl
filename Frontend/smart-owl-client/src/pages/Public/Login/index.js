@@ -11,11 +11,15 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import './index.css';
 
+import useQuery from '../../../contexts/hooks/useQuery';
+
 const Login = (props) => {
+  
   useEffect(() => {
-    document.title = `Login | Smart Owl`
-    console.log(props.type)
+    document.title = `Login | Smart Owl`; 
   }, []);
+
+  const query = useQuery();
 
   const { handleLogin } = useContext(AuthContext);
 
@@ -35,7 +39,18 @@ const Login = (props) => {
       type: props.type
     },
     onSubmit: (values) => {
-      handleLogin({email: values.email, senha: values.senha }, props.type);
+      const origem = query.get('origem');
+      const turma = query.get('turma');
+
+      let redirect = false;
+
+      if (origem === 'catalogo') {
+        redirect = {
+          turma,
+        }
+      }
+
+      handleLogin({email: values.email, senha: values.senha }, props.type, redirect);
     },
   });
 
@@ -72,7 +87,7 @@ const Login = (props) => {
             </div>
             <div className="btn-submit">
               <PrimaryButton variant="contained" size="large" type="submit">Entrar</PrimaryButton>
-              {props.type==='ADM' ? '' : <Link to="criar_conta">Não tem cadastro? <span style={{
+              {props.type==='ADM' ? '' : <Link to={`criar_conta${query.get('turma') ? `?turma=${query.get('turma')}` : ''}`}>Não tem cadastro? <span style={{
                 textDecoration: 'underline',
                 color: 'blue'
               }}>Criar Conta</span></Link>}

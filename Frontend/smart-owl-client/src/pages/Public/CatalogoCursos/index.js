@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -31,6 +32,7 @@ import api from '../../../services/api';
 
 
 import './index.css';
+import useQuery from '../../../contexts/hooks/useQuery';
 
 const drawerWidth = 280;
 
@@ -78,7 +80,9 @@ const useStyles = makeStyles((theme) => ({
 const CatalogoCursos = (props) => {
 
   const classes = useStyles();
-  const theme = useTheme();
+  const history = useHistory();
+
+  const query = useQuery();
 
   const [selecionada, setSelecionada] = useState({});
 
@@ -131,6 +135,14 @@ const CatalogoCursos = (props) => {
       });
 
       console.log(err);
+    }
+  }
+
+  const handleRedirectToSubscription = (turmaId) => {
+    if (query.get('user') === 'true') {
+      return history.push(`/inscrever_se?turma=${turmaId}`);
+    } else {
+      return history.push(`/login?origem=catalogo&turma=${turmaId}`);
     }
   }
 
@@ -205,7 +217,7 @@ const CatalogoCursos = (props) => {
                 actions={
                   <>
                     <PrimaryButton onClick={() => { handleCloseModal(); }} color="secondary">Cancelar</PrimaryButton>
-                    <PrimaryButton onClick={() => { handleCloseModal(); }} color="primary">Inscrever-se</PrimaryButton>
+                    <PrimaryButton onClick={() => { handleCloseModal(); handleRedirectToSubscription(selecionada.id);}} color="primary">Inscrever-se</PrimaryButton>
                   </>
                 }
               >        

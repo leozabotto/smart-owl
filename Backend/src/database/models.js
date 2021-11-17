@@ -206,7 +206,8 @@ const Candidato = connection.define('candidatos', {
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
   },
   senha: {
     type: Sequelize.STRING,
@@ -220,11 +221,12 @@ const Candidato = connection.define('candidatos', {
     type: Sequelize.DATEONLY,
     allowNull: false
   },
-  documentoCpf: {
+  cpf: {
     type: Sequelize.STRING,
-    allowNull:false
+    allowNull:false,
+    unique: true,
   },
-  documentoRg: {
+  rg: {
     type: Sequelize.STRING,
     allowNull: true
   },

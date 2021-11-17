@@ -21,16 +21,14 @@ module.exports = {
         rg,
       } = req.body;
 
-      console.log(req.body)
-
       const data = {
         nome,
         email,
         senha,
         genero,
         nascimento,
-        documentoCpf: cpf,
-        documentoRg: rg,
+        cpf,
+        rg,
       }
 
       if(!checkEmptyFields(data)) {
