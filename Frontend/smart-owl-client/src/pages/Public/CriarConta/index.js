@@ -49,7 +49,35 @@ const Login = (props) => {
       .required(true),     
     genero: yup.string()
     .required(true),
+    cor_raca: yup.string()
+    .required(true),
     nome: yup.string()
+    .required(true),
+    nome_mae: yup.string()
+    .required(true),
+    nome_pai: yup.string()
+    .required(true),
+    celular: yup.string()
+    .required(true),
+    telefone_residencial: yup.string()
+    .required(true),
+    cep: yup.string()
+    .required(true),
+    logradouro: yup.string()
+    .required(true),
+    numero: yup.string()
+    .required(true),
+    complemento: yup.string()
+    .required(true),
+    bairro: yup.string()
+    .required(true),
+    municipio: yup.string()
+    .required(true),
+    uf: yup.string()
+    .required(true),
+    escolaridade: yup.string()
+    .required(true),
+    pcd: yup.boolean()
     .required(true),
   });
 
@@ -59,8 +87,22 @@ const Login = (props) => {
       email: '',
       senha: '',     
       nascimento: '',
-      genero: 'Masculino',
+      genero: '',
       nome: '',
+      cor_raca: '',
+      nome_mae: '',
+      nome_pai: '',
+      celular: '',
+      telefone_residencial: '',
+      cep: '',
+      logradouro: '',
+      numero: '',
+      complemento: '',
+      bairro: '',
+      municipio: '',
+      uf: '',
+      escolaridade: '',
+      pcd: false,
     },
     onSubmit: (values) => {
       handleCreate(values);
@@ -182,6 +224,197 @@ const Login = (props) => {
             </div>
             <div className="input-block">
               <TextField
+                name="cor_raca"
+                label="Cor/Raça"
+                type="text"
+                variant="outlined"
+                value={auth.values.cor_raca}
+                onChange={auth.handleChange}
+                error={auth.touched.cor_raca && Boolean(auth.errors.cor_raca)}
+                helperText={auth.touched.cor_raca && auth.errors.cor_raca}
+                select
+                fullWidth
+              >
+                <MenuItem value={"Branca"} key={1}>Branca</MenuItem>
+                <MenuItem value={"Preta"} key={2}>Preta</MenuItem>
+                <MenuItem value={"Parda"} key={3}>Parda</MenuItem>
+                <MenuItem value={"Amarela"} key={4}>Amarela</MenuItem>
+                <MenuItem value={"Indígena"} key={5}>Indígena</MenuItem>
+              </TextField>
+            </div>
+            <div className="input-block">
+              <TextField
+                name="nome_mae"
+                label="Nome da Mãe"
+                type="text"
+                variant="outlined"
+                value={auth.values.nome_mae}
+                onChange={auth.handleChange}
+                error={auth.touched.nome_mae && Boolean(auth.errors.nome_mae)}
+                helperText={auth.touched.nome_mae && auth.errors.nome_mae}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="nome_pai"
+                label="Nome do Pai"
+                type="text"
+                variant="outlined"
+                value={auth.values.nome_pai}
+                onChange={auth.handleChange}
+                error={auth.touched.nome_pai && Boolean(auth.errors.nome_pai)}
+                helperText={auth.touched.nome_pai && auth.errors.nome_pai}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="celular"
+                label="Celular"
+                type="text"
+                variant="outlined"
+                value={auth.values.celular}
+                onChange={auth.handleChange}
+                error={auth.touched.celular && Boolean(auth.errors.celular)}
+                helperText={auth.touched.celular && auth.errors.celular}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="telefone_residencial"
+                label="Telefone Residencial"
+                type="text"
+                variant="outlined"
+                value={auth.values.telefone_residencial}
+                onChange={auth.handleChange}
+                error={auth.touched.telefone_residencial && Boolean(auth.errors.telefone_residencial)}
+                helperText={auth.touched.telefone_residencial && auth.errors.telefone_residencial}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="cep"
+                label="CEP"
+                type="text"
+                variant="outlined"
+                value={auth.values.cep}
+                onChange={auth.handleChange}
+                error={auth.touched.cep && Boolean(auth.errors.cep)}
+                helperText={auth.touched.cep && auth.errors.cep}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="logradouro"
+                label="Logradouro"
+                type="text"
+                variant="outlined"
+                value={auth.values.logradouro}
+                onChange={auth.handleChange}
+                error={auth.touched.logradouro && Boolean(auth.errors.logradouro)}
+                helperText={auth.touched.logradouro && auth.errors.logradouro}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="numero"
+                label="Núm. Endereço"
+                type="text"
+                variant="outlined"
+                value={auth.values.numero}
+                onChange={auth.handleChange}
+                error={auth.touched.numero && Boolean(auth.errors.numero)}
+                helperText={auth.touched.numero && auth.errors.numero}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="complemento"
+                label="Complemento"
+                type="text"
+                variant="outlined"
+                value={auth.values.complemento}
+                onChange={auth.handleChange}
+                error={auth.touched.complemento && Boolean(auth.errors.complemento)}
+                helperText={auth.touched.complemento && auth.errors.complemento}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="bairro"
+                label="Bairro"
+                type="text"
+                variant="outlined"
+                value={auth.values.bairro}
+                onChange={auth.handleChange}
+                error={auth.touched.bairro && Boolean(auth.errors.bairro)}
+                helperText={auth.touched.bairro && auth.errors.bairro}
+                fullWidth
+              />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="municipio"
+                label="Município"
+                type="text"
+                variant="outlined"
+                value={auth.values.municipio}
+                onChange={auth.handleChange}
+                error={auth.touched.municipio && Boolean(auth.errors.municipio)}
+                helperText={auth.touched.municipio && auth.errors.municipio}
+                fullWidth
+              />
+            </div>
+            <div className="input-block"> 
+              <TextField                                    
+                label="UF"
+                variant="outlined"
+                type="text"
+                autoComplete="off"
+                value={auth.values.uf}
+                onChange={auth.handleChange}
+                error={auth.touched.uf && Boolean(auth.errors.uf)}
+                helperText={auth.touched.uf && auth.errors.uf}
+                fullWidth     
+                select            
+              >
+                <MenuItem value="AC" key="AC">AC</MenuItem>
+                <MenuItem value="AL" key="AL">AL</MenuItem>
+                <MenuItem value="AP" key="AP">AP</MenuItem>
+                <MenuItem value="AM" key="AM">AM</MenuItem>
+                <MenuItem value="BA" key="BA">BA</MenuItem>
+                <MenuItem value="CE" key="CE">CE</MenuItem>
+                <MenuItem value="DF" key="DF">DF</MenuItem>
+                <MenuItem value="ES" key="ES">ES</MenuItem>
+                <MenuItem value="GO" key="GO">GO</MenuItem>
+                <MenuItem value="MA" key="MA">MA</MenuItem>
+                <MenuItem value="MT" key="MT">MT</MenuItem>
+                <MenuItem value="MS" key="MS">MS</MenuItem>
+                <MenuItem value="MG" key="MG">MG</MenuItem>
+                <MenuItem value="PA" key="PA">PA</MenuItem>
+                <MenuItem value="PB" key="PB">PB</MenuItem>
+                <MenuItem value="PE" key="PE">PE</MenuItem>
+                <MenuItem value="PI" key="PI">PI</MenuItem>
+                <MenuItem value="RJ" key="RJ">RJ</MenuItem>
+                <MenuItem value="RN" key="RN">RN</MenuItem>
+                <MenuItem value="RS" key="RS">RS</MenuItem>
+                <MenuItem value="RO" key="RO">RO</MenuItem>
+                <MenuItem value="RR" key="RR">RR</MenuItem>
+                <MenuItem value="SC" key="SC">SC</MenuItem>
+                <MenuItem value="SP" key="SP">SP</MenuItem>
+                <MenuItem value="SE" key="SE">SE</MenuItem>
+                <MenuItem value="TO" key="TO">TO</MenuItem>
+              </TextField> 
+            </div>
+            <div className="input-block">
+              <TextField
                 name="email"
                 label="E-mail"
                 type="email"
@@ -204,6 +437,23 @@ const Login = (props) => {
                 error={auth.touched.senha && Boolean(auth.errors.senha)}
                 fullWidth
               />
+            </div>
+            <div className="input-block">
+              <TextField
+                name="pcd"
+                label="Você é uma Pessoa com Deficiência (PCD)?"
+                type="text"
+                variant="outlined"
+                value={auth.values.pcd}
+                onChange={auth.handleChange}
+                error={auth.touched.pcd && Boolean(auth.errors.pcd)}
+                helperText={auth.touched.pcd && auth.errors.pcd}
+                select
+                fullWidth
+              >
+                <MenuItem value={false} key={1}>Não</MenuItem>
+                <MenuItem value={true} key={2}>Sim</MenuItem>              
+              </TextField>
             </div>
             
             <div className="btn-submit">

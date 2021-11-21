@@ -230,10 +230,199 @@ const Candidato = connection.define('candidatos', {
     type: Sequelize.STRING,
     allowNull: true
   },
+  cor_raca: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  dt_nascimento: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  pcd: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false
+  },
+  nome_mae: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  nome_pai: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  celular: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  telefone_residencial: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  cep: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  logradouro: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  numero: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  complemento: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  bairro: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  municipio: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  uf: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  escolaridade: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 },{
   freezeTableName: true,
-  paranoid: true,
-});
+  paranoid: true
+})
+
+const Inscricao = connection.define('inscricao', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  protocolo: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  nota_redacao: {
+    type: Sequelize.FLOAT,
+    allowNull: true
+  },
+  nota_portugues: {
+    type: Sequelize.FLOAT,
+    allowNull: true
+  },
+  nota_matematica: {
+    type: Sequelize.FLOAT,
+    allowNull: true
+  },
+  encerrada: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  situacao: {
+    type: Sequelize.BOOLEAN,
+    allowNull: true
+  },
+  matricula_solicitada: {
+    type: Sequelize.STRING,
+    allowNull: true
+  }
+})
+
+const Tema_redacao = connection.define('tema_redacao', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  titulo: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  enunciado: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  ativo: {
+    type: Sequelize.BOOLEAN,
+    allowNull: true
+  }
+})
+
+const Questoes = connection.define('questoes', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  enunciado: {
+    type:Sequelize.STRING,
+    allowNull: true
+  },
+  dificuldade: {
+    type:Sequelize.STRING,
+    allowNull: true
+  },
+  disciplina: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  correta: {
+    type:Sequelize.STRING,
+    allowNull: true
+  },
+  alt_A: {
+    type:Sequelize.STRING,
+    allowNull: false
+  },
+  alt_B: {
+    type:Sequelize.STRING,
+    allowNull: false
+  },
+  alt_C: {
+    type:Sequelize.STRING,
+    allowNull: false
+  },
+  alt_D: {
+    type:Sequelize.STRING,
+    allowNull: false
+  },
+  alt_E: {
+    type:Sequelize.STRING,
+    allowNull: false
+  },
+  ativo: {
+    type: Sequelize.BOOLEAN,
+    allowNull: true
+  }
+
+})
+
+const Documentos = connection.define('documentos', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  rg_frente: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  rg_verso: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  comp_endereco: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  comp_escolar: {
+    type: Sequelize.STRING,
+    allowNull: true
+  }
+})
 
 Administrador.hasOne(PermissoesAdmin);
 PermissoesAdmin.belongsTo(Administrador);
@@ -256,9 +445,14 @@ module.exports = {
   Turma,
   Unidade,
   Candidato,
+
+  Inscricao,
+  Tema_redacao,
+  Questoes,
+  Documentos,
 }
 
-/*async function sync () {
+async function sync () {
   await connection.sync({ alter: true })
 }
-sync()*/
+sync()

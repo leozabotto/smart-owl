@@ -1,37 +1,46 @@
-import React, { useContext, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import React, { 
+  useContext, 
+  useState 
+} from 'react';
 
-import { Avatar, Collapse, Divider, Grid, Hidden } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuBookIcon from '@material-ui/icons/MenuBookOutlined';
+import {
+   Link, 
+   useHistory, 
+   useLocation 
+} from 'react-router-dom';
 
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { 
+  Avatar, 
+  Divider, 
+  Grid, 
+  Hidden,
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  CssBaseline,
+  Typography,
+  IconButton,
+  ListItem,
+  MenuItem,
+  Menu,
+  ListItemText,
+} from '@material-ui/core';
+
+import { 
+  makeStyles, 
+  useTheme 
+} from '@material-ui/core/styles';
+
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
-import AccountCircle from '@material-ui/icons/AccountCircleOutlined';
-import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import PlaceIcon from '@material-ui/icons/PlaceOutlined';
-import PersonIcon from '@material-ui/icons/PersonOutlined';
-import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
-import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
-import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
-
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MenuBookIcon from '@material-ui/icons/MenuBookOutlined';
+import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
+import AccountCircle from '@material-ui/icons/AccountCircleOutlined';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 
-import { NavContext } from '../../contexts/NavContext';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import './index.css';
@@ -61,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
   toolbar: {
     [theme.breakpoints.down('sm')]: theme.mixins.toolbar,
   },
@@ -80,19 +88,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AdmDrawer = (props) => {
-
-  const { user, handleLogout } = useContext(AuthContext);
-  //const [userType, setUserType] = useState();
-
   const history = useHistory();
-
-  const { 
-    register, 
-    handleRegister, 
-    selectiveProcess,
-    handleSelectiveProcess
-  } = useContext(NavContext);
+  
   const { window } = props;
+  const { user, handleLogout } = useContext(AuthContext);
+
   const classes = useStyles();
   const theme = useTheme();
 
@@ -135,13 +135,37 @@ const AdmDrawer = (props) => {
         <ListItem button 
           classes={{ selected: classes.selected }}          
           component={Link} 
-          to="/cursos?user=true" 
+          to="/cursos" 
           selected={location.pathname === "/cursos"}
         >
           <ListItemIcon>
             <MenuBookIcon />
           </ListItemIcon>
           <ListItemText primary="Catálogo de Cursos" />
+        </ListItem>
+
+        <ListItem button 
+          classes={{ selected: classes.selected }}          
+          component={Link} 
+          to="/historico_inscricoes" 
+          selected={location.pathname === "/historico_inscricoes"}
+        >
+          <ListItemIcon>
+            <HistoryOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Histórico de Inscrições" />
+        </ListItem>
+
+        <ListItem button 
+          classes={{ selected: classes.selected }}          
+          component={Link} 
+          to="/meus_dados" 
+          selected={location.pathname === "/meus_dados"}
+        >
+          <ListItemIcon>
+            <PersonOutlineOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Meus Dados" />
         </ListItem>
                                                          
         <ListItem button 
@@ -215,7 +239,6 @@ const AdmDrawer = (props) => {
                     open={openMenu}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={() => history.push('/cli/profile')}>Meu Perfil</MenuItem>
                     <MenuItem onClick={handleLogout}>Sair</MenuItem>
                   </Menu>
                 </Grid>
@@ -236,7 +259,7 @@ const AdmDrawer = (props) => {
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true,
             }}
           >
             <div className="drawer">

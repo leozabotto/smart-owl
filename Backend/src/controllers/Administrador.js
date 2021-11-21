@@ -4,7 +4,7 @@ const {
   PermissoesAdmin,
 } = require('../database/models');
 
-const connection = require('../database/connection');
+//const connection = require('../database/connection');
 
 const bcrypt = require('bcrypt');
 
@@ -69,10 +69,6 @@ module.exports = {
       return res.status(400).json(err);
     }
   },
-
-
-
-
 
   
   async handleEdit(req, res){

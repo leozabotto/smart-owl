@@ -19,6 +19,23 @@ module.exports = {
         nascimento,
         cpf,
         rg,
+        cor_raca,
+        dt_nascimento,
+        naturalidade,
+        nacionalidade,
+        pcd,
+        nome_mae,
+        nome_pai,
+        celular,
+        telefone_residencial,
+        cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        municipio,
+        uf,
+        escolaridade
       } = req.body;
 
       const data = {
@@ -29,6 +46,23 @@ module.exports = {
         nascimento,
         cpf,
         rg,
+        cor_raca,
+        dt_nascimento,
+        naturalidade,
+        nacionalidade,
+        pcd,
+        nome_mae,
+        nome_pai,
+        celular,
+        telefone_residencial,
+        cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        municipio,
+        uf,
+        escolaridade,
       }
 
       if(!checkEmptyFields(data)) {
@@ -60,7 +94,24 @@ module.exports = {
         genero,
         nascimento,
         cpf,
-        rg
+        rg,
+        cor_raca,
+        dt_nascimento,
+        naturalidade,
+        nacionalidade,
+        pcd,
+        nome_mae,
+        nome_pai,
+        celular,
+        telefone_residencial,
+        cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        municipio,
+        uf,
+        escolaridade
       } = req.body;
 
       const data = {
@@ -69,8 +120,25 @@ module.exports = {
         senha,
         genero,
         nascimento,
-        documentoCpf: cpf,
-        documentoRg: rg,
+        cpf: cpf,
+        rg: rg,
+        cor_raca,
+        dt_nascimento,
+        naturalidade,
+        nacionalidade,
+        pcd,
+        nome_mae,
+        nome_pai,
+        celular,
+        telefone_residencial,
+        cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        municipio,
+        uf,
+        escolaridade,
       }
 
       const emailUsado = await Candidato.findOne({
@@ -97,8 +165,23 @@ module.exports = {
       candidato.email = email;
       candidato.genero = genero;
       candidato.nascimento = nascimento;
-      candidato.documentoCpf = documentoCpf;
-      candidato.documentoRg = documentoRg;
+      candidato.cpf = cpf;
+      candidato.rg = rg;
+      candidato.cor_raca = cor_raca;
+      candidato.dt_nascimento = dt_nascimento;
+      candidato.naturalidade = naturalidade;
+      candidato.nacionalidade = nacionalidade;
+      candidato.pcd = pcd;
+      candidato.nome_mae = nome_mae;
+      candidato.nome_pai = nome_pai;
+      candidato.celular = celular;
+      candidato.telefone_residencial = telefone_residencial;
+      candidato.cep = cep;
+      candidato.logradouro = logradouro;
+      candidato.bairro = bairro;
+      candidato.municipio = municipio;
+      candidato.uf = uf;
+      candidato.escolaridade = escolaridade;
 
       if (senha !== "" && senha !== undefined) {
         const salt = await bcrypt.genSaltSync(10);
