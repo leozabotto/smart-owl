@@ -180,6 +180,22 @@ const Turma = connection.define('turma', {
   pcd: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
+  },
+  data_prova: {
+    type: Sequelize.DATEONLY,
+    allowNull: false,
+  },
+  hora_prova: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  data_encerramento: {
+    type: Sequelize.DATEONLY,
+    allowNull: false,
+  },
+  data_resultado: {
+    type: Sequelize.DATEONLY,
+    allowNull: false,
   }
 }, {
   freezeTableName: true,
@@ -194,7 +210,7 @@ const AdminUnidade = connection.define('admin_unidade', {
   },
 });
 
-const Candidato = connection.define('candidatos', {
+const Candidato = connection.define('candidato', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -234,7 +250,7 @@ const Candidato = connection.define('candidatos', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  dt_nascimento: {
+  nascimento: {
     type: Sequelize.STRING,
     allowNull: true
   },
@@ -248,7 +264,7 @@ const Candidato = connection.define('candidatos', {
   },
   nome_pai: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   },
   celular: {
     type: Sequelize.STRING,
@@ -272,7 +288,7 @@ const Candidato = connection.define('candidatos', {
   },
   complemento: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   },
   bairro: {
     type: Sequelize.STRING,
@@ -293,42 +309,6 @@ const Candidato = connection.define('candidatos', {
 },{
   freezeTableName: true,
   paranoid: true
-})
-
-const Inscricao = connection.define('inscricao', {
-  id: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true
-  },
-  protocolo: {
-    type: Sequelize.STRING,
-    allowNull: true
-  },
-  nota_redacao: {
-    type: Sequelize.FLOAT,
-    allowNull: true
-  },
-  nota_portugues: {
-    type: Sequelize.FLOAT,
-    allowNull: true
-  },
-  nota_matematica: {
-    type: Sequelize.FLOAT,
-    allowNull: true
-  },
-  encerrada: {
-    type: Sequelize.STRING,
-    allowNull: true
-  },
-  situacao: {
-    type: Sequelize.BOOLEAN,
-    allowNull: true
-  },
-  matricula_solicitada: {
-    type: Sequelize.STRING,
-    allowNull: true
-  }
 })
 
 const Tema_redacao = connection.define('tema_redacao', {
@@ -424,6 +404,33 @@ const Documentos = connection.define('documentos', {
   }
 })
 
+const Inscricao = connection.define('inscricao', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  nota_prova: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
+  nota_redacao: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },  
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'PROVA PENDENTE'
+  },
+  encerrada: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
+}, { initialAutoIncrement: 202101, freezeTableName: true })
+
+
 Administrador.hasOne(PermissoesAdmin);
 PermissoesAdmin.belongsTo(Administrador);
 
@@ -435,6 +442,11 @@ Turma.belongsTo(Unidade);
 
 Turma.belongsTo(Curso);
 Curso.hasMany(Turma);
+
+Inscricao.belongsTo(Candidato);
+Inscricao.belongsTo(Turma);
+Candidato.hasMany(Inscricao);
+Turma.hasMany(Inscricao);
 
 module.exports = {
   Administrador,
@@ -450,9 +462,11 @@ module.exports = {
   Tema_redacao,
   Questoes,
   Documentos,
+
+  Inscricao,
 }
 
-async function sync () {
+/*async function sync () {
   await connection.sync({ alter: true })
 }
-sync()
+sync()*/

@@ -36,7 +36,7 @@ module.exports = {
         municipio,
         uf,
         escolaridade
-      } = req.body;
+      } = req.body;        
 
       const data = {
         nome,
@@ -52,21 +52,17 @@ module.exports = {
         nacionalidade,
         pcd,
         nome_mae,
-        nome_pai,
+        nome_pai: nome_pai === '' ? null : nome_pai,
         celular,
         telefone_residencial,
         cep,
         logradouro,
         numero,
-        complemento,
+        complemento: complemento === '' ? null : complemento,
         bairro,
         municipio,
         uf,
         escolaridade,
-      }
-
-      if(!checkEmptyFields(data)) {
-        return res.status(400).send({mensagem: "Preencha todos os campos obrigatórios!"})
       }
 
       const salt = await bcrypt.genSaltSync(10);
@@ -106,7 +102,7 @@ module.exports = {
         telefone_residencial,
         cep,
         logradouro,
-        numero,
+        numero_endereco,
         complemento,
         bairro,
         municipio,
@@ -133,7 +129,7 @@ module.exports = {
         telefone_residencial,
         cep,
         logradouro,
-        numero,
+        numero_endereco,
         complemento,
         bairro,
         municipio,
@@ -179,6 +175,7 @@ module.exports = {
       candidato.cep = cep;
       candidato.logradouro = logradouro;
       candidato.bairro = bairro;
+      candidato.numero_endereco = numero_endereco;
       candidato.municipio = municipio;
       candidato.uf = uf;
       candidato.escolaridade = escolaridade;
@@ -186,14 +183,15 @@ module.exports = {
       if (senha !== "" && senha !== undefined) {
         const salt = await bcrypt.genSaltSync(10);
         const hash = await bcrypt.hashSync(senha, salt);
-        usuario.senha = hash;
+        candidato.senha = hash;
       }
       await candidato.save();
 
       res.status(200).send(candidato)
 
     }catch (err) {
-      res.status(400).json(err)
+      res.status(400).json(err);
+      console.log(err)
     }
   },
 

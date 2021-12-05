@@ -20,7 +20,7 @@ routes.use(Curso);
 routes.use(Turma)
 routes.use(Login)
 routes.use(Candidato)
-route.use(Inscricao)
+routes.use(Inscricao)
 // route.use(Questoes)
 // route.use(Tema_redacao)
 

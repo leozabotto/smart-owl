@@ -6,7 +6,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-import ChooseModule from '../pages/public/ChooseModule';
+import SelecaoModulo from '../pages/public/SelecaoModulo';
 import NotFound from '../pages/public/NotFound';
 // import CatalogoCursos from '../pages/public/CatalogoCursos';
 import Login from '../pages/public/Login';
@@ -25,6 +25,9 @@ import CatalogoCursos from '../pages/public/CatalogoCursos';
 
 import PrivateRoute from './private.routes';
 import browserHistory from '../history';
+import MeusDados from '../pages/cand/MeusDados';
+import HistoricoInscricoes from '../pages/cand/HistoricoInscricoes';
+import CatalogoCursosPriv from '../pages/cand/CatalogoCursosPriv';
 
 const Routes = () =>{
   return (
@@ -33,12 +36,17 @@ const Routes = () =>{
 
         <PublicRoute 
           exact path="/" 
-          component={() => <ChooseModule />} 
+          component={() => <SelecaoModulo />} 
         />
-
-        <Route 
+       
+        <PublicRoute 
           exact path="/cursos" 
           component={() => <CatalogoCursos />} 
+        />
+
+        <PrivateRoute 
+          exact path="/cursos_priv" 
+          component={() => <CatalogoCursosPriv />} 
         />
        
         {/* Login */}
@@ -59,6 +67,8 @@ const Routes = () =>{
         />    
 
         {/* Administração */}
+
+        {/*
 
         <PrivateRoute
           exact path="/adm/painel" 
@@ -89,14 +99,28 @@ const Routes = () =>{
         <PrivateRoute
           exact path="/adm/banco_questoes" 
           component={() => <BancoQuestoes type="ADM" />} 
-        />
+        />*/}
 
         {/* Candidato */}
         
+       
+
         <PrivateRoute
           exact path="/painel" 
           component={() => <PainelCand type="CAN" />} 
-        />        
+        /> 
+
+        <PrivateRoute
+          exact path="/meus_dados" 
+          component={() => <MeusDados type="CAN" />} 
+        /> 
+
+        <PrivateRoute
+          exact path="/historico_inscricoes" 
+          component={() => <HistoricoInscricoes type="CAN" />} 
+        /> 
+
+
 
         <Route component={NotFound} />
       </Switch>

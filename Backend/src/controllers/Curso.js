@@ -60,8 +60,6 @@ module.exports = {
         ativo,
       }
     
-      console.log(data)
-
       const curso = await Curso.findOne({
         where: {
           id,

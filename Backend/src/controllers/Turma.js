@@ -22,6 +22,10 @@ module.exports = {
         status,       
         cursoId,
         unidadeId,
+        data_prova,
+        hora_prova,
+        data_encerramento,
+        data_resultado,
       } = req.body;
 
       const data = {
@@ -35,6 +39,10 @@ module.exports = {
         status,
         cursoId,
         unidadeId,
+        data_prova,
+        hora_prova,
+        data_encerramento,
+        data_resultado,
       }
 
       if(!checkEmptyFields(data)) {        
@@ -65,6 +73,10 @@ module.exports = {
         status,
         cursoId,
         unidadeId,
+        data_prova,
+        hora_prova,
+        data_encerramento,
+        data_resultado,
       } = req.body;
 
       const data = {
@@ -78,6 +90,10 @@ module.exports = {
         status,
         cursoId,
         unidadeId,
+        data_prova,
+        hora_prova,
+        data_encerramento,
+        data_resultado,
       }
 
       const turma = await Turma.findOne({
@@ -104,6 +120,10 @@ module.exports = {
       turma.status = status;
       turma.cursoId = cursoId;
       turma.unidadeId = unidadeId;
+      turma.turma.data_prova = data_prova;
+      turma.hora_prova = hora_prova;
+      turma.data_encerramento = data_encerramento;
+      turma.data_resultado = data_resultado;
 
       await turma.save();
 

@@ -1,6 +1,0 @@
-.data-grid {
-  margin-top: 40px !important;
-  display: grid !important;
-  grid-template-columns: 1fr;
-  gap: 40px;
-}

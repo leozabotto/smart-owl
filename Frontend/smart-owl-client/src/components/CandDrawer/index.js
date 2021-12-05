@@ -135,8 +135,8 @@ const AdmDrawer = (props) => {
         <ListItem button 
           classes={{ selected: classes.selected }}          
           component={Link} 
-          to="/cursos" 
-          selected={location.pathname === "/cursos"}
+          to="/cursos_priv" 
+          selected={location.pathname === "/cursos_priv"}
         >
           <ListItemIcon>
             <MenuBookIcon />

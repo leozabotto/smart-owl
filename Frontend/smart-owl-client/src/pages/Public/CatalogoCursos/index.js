@@ -3,6 +3,8 @@ import { useHistory } from 'react-router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
+import moment from 'moment';
+
 import { 
   CircularProgress ,
   MenuItem,
@@ -217,7 +219,7 @@ const CatalogoCursos = (props) => {
                 actions={
                   <>
                     <PrimaryButton onClick={() => { handleCloseModal(); }} color="secondary">Cancelar</PrimaryButton>
-                    <PrimaryButton onClick={() => { handleCloseModal(); handleRedirectToSubscription(selecionada.id);}} color="primary">Inscrever-se</PrimaryButton>
+                    <PrimaryButton onClick={() => { handleCloseModal(); history.push("/login")}} color="primary">Inscrever-se</PrimaryButton>
                   </>
                 }
               >        
@@ -229,10 +231,14 @@ const CatalogoCursos = (props) => {
                 <p style={{marginTop: '20px'}}><b>Hora de Início:</b> {selecionada.hora_inicio}</p>
                 <p><b>Hora de Término:</b> {selecionada.hora_termino}</p>
 
+                <p style={{marginTop: '20px'}}><b>Idade mínima:</b> {selecionada.curso.idade_min === 0 ? 'N/A' : selecionada.curso.idade_min }</p>
+                <p><b>Idade máxima:</b> {selecionada.curso.idade_max === 0 ? 'N/A' : selecionada.curso.idade_max }</p>
+
                 <p style={{marginTop: '40px'}}><b>Unidade:</b></p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr'}}>
                   <p><b>{selecionada.unidade.nome}</b> - {selecionada.unidade.rua}, {selecionada.unidade.numero_endereco} - {selecionada.unidade.bairro}, {selecionada.unidade.cidade} - {selecionada.unidade.estado} - {selecionada.unidade.cep} </p>                
                 </div>
+                <p style={{marginTop: '40px'}}><b>Inscrições até</b> {moment(selecionada.data_encerramento).format("DD/MM/YYYY")}</p>              
               </Modal>
               : ''
             }           

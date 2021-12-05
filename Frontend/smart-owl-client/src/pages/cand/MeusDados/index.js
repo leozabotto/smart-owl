@@ -26,65 +26,119 @@ import api from '../../../services/api';
 
 import useQuery from '../../../contexts/hooks/useQuery';
 
-const Login = (props) => {
+import jwtDecode from 'jwt-decode';
+
+const MeusDados = (props) => {
   useEffect(() => {
-    document.title = `Criar Conta | Smart Owl`
+    document.title = `Meus Dados | Smart Owl`;
+
+    const token = jwtDecode(localStorage.getItem('token'));
+    const candidatoId =  token.id;
+      
+  
+
+   
+
+    async function getCandidato() {
+      try {
+
+        const inscricao = await api.get('/inscricao', {
+          params: {
+            candidatoId,
+            encerrada: "0"
+          }
+        });
+
+        if (inscricao.data.length !== 0) {
+          setSnack({ 
+            message: 'Você não pode editar seus dados enquanto estiver inscrito numa turma em aberto!', 
+            type: 'error', 
+            open: true
+          });
+    
+          history.push('/painel')
+        }
+
+        const candidato = await api.get(`/candidato/${candidatoId}`);
+        candidato.data.senha = undefined;
+        setNascimento(candidato.data.nascimento);
+        setGenero(candidato.data.genero);
+        setCorRaca(candidato.data.cor_raca);
+        setEscolaridade(candidato.data.escolaridade);
+        setPcd(candidato.data.pcd);
+        setInitialValues(candidato.data);
+        setUf(candidato.data.uf);
+
+  
+
+      } catch (err) {
+        setSnack({ 
+          message: 'Ocorreu um erro ao buscar seus dados! ' + err, 
+          type: 'error', 
+          open: true
+        });
+
+        history.push('/');
+      }
+    }
+
+    getCandidato();
+
   }, []);
+
+
+  const [initialValues, setInitialValues] = useState({})
 
   const query = useQuery();
 
   const { setSnack } = useContext(SnackContext);
+  const { handleLogout } = useContext(AuthContext);
 
   const [nascimento, setNascimento] = useState(null); 
+  const [genero, setGenero] = useState(null);
+  const [cor_raca, setCorRaca] = useState(null);
+  const [uf, setUf] = useState(null);
+  const [escolaridade, setEscolaridade] = useState(null);
+  const [pcd, setPcd] = useState(null);
 
   const { handleLogin } = useContext(AuthContext);
 
   const history = useHistory();
 
   const auth = useFormik({
-    initialValues: {
-      email: '',
-      senha: '',     
-      nascimento: '',
-      genero: '',
-      nome: '',
-      cor_raca: '',
-      nome_mae: '',
-      nome_pai: '',
-      celular: '',
-      telefone_residencial: '',
-      cep: '',
-      logradouro: '',
-      numero: '',
-      complemento: '',
-      bairro: '',
-      municipio: '',
-      uf: '',
-      escolaridade: '',
-      pcd: false,
-    },
+    initialValues,
     onSubmit: (values) => {
-      handleCreate(values);
+      handleEdit(values);
     },
+    enableReinitialize: true
   });
   
-  const handleCreate = async (values) => {
+  const handleEdit = async (values) => {
+
+    const token = jwtDecode(localStorage.getItem('token'));
+    const candidatoId =  token.id;
 
     auth.values.nascimento = nascimento;
+    auth.values.uf = uf;
+    auth.values.escolarodade = escolaridade;
+    auth.values.cor_raca = cor_raca;
+    auth.values.pcd = pcd;
+    auth.values.genero = genero;
 
     try {
-      const candidato = await api.post('/candidato', {
+      const candidato = await api.put(`/candidato/${candidatoId}`, {
         ...auth.values
-      });     
+      });
 
       setSnack({ 
-        message: 'Conta criada com sucesso! Você será redirecionado para o login...', 
+        message: 'Dados editados com sucesso! Você será desconectado, em seguida, entre novamente. 😉', 
         type: 'success', 
         open: true
       });
 
       setTimeout(() => {
-        history.push(`/login`);
+        handleLogout();
+        history.push("/login");
       }, 1500)
 
     } catch (err) {
@@ -103,14 +157,14 @@ const Login = (props) => {
 
       
         <div className="page-return">
-          <Link to={'/login'}><IconsButton size="medium"><ArrowBackIcon /></IconsButton></Link>
+          <Link to={'/painel'}><IconsButton size="medium"><ArrowBackIcon /></IconsButton></Link>
         </div>
         <div className="logo-header">
           <img src={mainLogo} alt="Smart Owl" />
           <h4>{props.title}</h4>
         </div>
         <div className="login-form">
-          <p><b> Criar Conta </b></p>
+          <p><b> Meus Dados </b></p>
           <form className="login-form" onSubmit={auth.handleSubmit}>            
             <div className="input-block">
               <TextField
@@ -123,7 +177,8 @@ const Login = (props) => {
                 error={auth.touched.cpf && Boolean(auth.errors.cpf)}
                 helperText={auth.touched.cpf && auth.errors.cpf}
                 fullWidth
-                required={true}
+                disabled
+                required
               />
             </div>
             <div className="input-block">
@@ -136,8 +191,9 @@ const Login = (props) => {
                 onChange={auth.handleChange}
                 error={auth.touched.rg && Boolean(auth.errors.rg)}
                 helperText={auth.touched.rg && auth.errors.rg}  
-                fullWidth     
-                required={true}       
+                fullWidth    
+                disabled  
+                required      
               />
             </div>
             <div className="input-block">
@@ -151,7 +207,7 @@ const Login = (props) => {
                 error={auth.touched.nome && Boolean(auth.errors.nome)}
                 helperText={auth.touched.nome && auth.errors.nome}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
@@ -164,7 +220,6 @@ const Login = (props) => {
                 onChange={setNascimento}
                 fullWidth
                 required
-                required={true}
             />
             </div>
             <div className="input-block">
@@ -173,17 +228,15 @@ const Login = (props) => {
                 label="Gênero"
                 type="text"
                 variant="outlined"
-                value={auth.values.genero}
-                onChange={auth.handleChange}
-                error={auth.touched.genero && Boolean(auth.errors.genero)}
-                helperText={auth.touched.genero && auth.errors.genero}
+                value={genero}
+                onChange={(e) => setGenero(e.target.value)}              
                 select
                 fullWidth
-                required={true}
+                required
               >
-                <MenuItem value={"Masculino"} key={1}>Masculino</MenuItem>
-                <MenuItem value={"Feminino"} key={2}>Feminino</MenuItem>
-                <MenuItem value={"Outro"} key={3}>Outro</MenuItem>
+                <MenuItem value={"Masculino"} key={"Masculino"}>Masculino</MenuItem>
+                <MenuItem value={"Feminino"} key={"Feminino"}>Feminino</MenuItem>
+                <MenuItem value={"Outro"} key={"Outro"}>Outro</MenuItem>
               </TextField>
             </div>
             <div className="input-block">
@@ -192,13 +245,11 @@ const Login = (props) => {
                 label="Cor/Raça"
                 type="text"
                 variant="outlined"
-                value={auth.values.cor_raca}
-                onChange={auth.handleChange}
-                error={auth.touched.cor_raca && Boolean(auth.errors.cor_raca)}
-                helperText={auth.touched.cor_raca && auth.errors.cor_raca}
+                value={cor_raca}
+                onChange={(e) => setCorRaca(e.target.value)}              
                 select
                 fullWidth
-                required={true}
+                required
               >
                 <MenuItem value={"Branca"} key={1}>Branca</MenuItem>
                 <MenuItem value={"Preta"} key={2}>Preta</MenuItem>
@@ -218,7 +269,7 @@ const Login = (props) => {
                 error={auth.touched.nome_mae && Boolean(auth.errors.nome_mae)}
                 helperText={auth.touched.nome_mae && auth.errors.nome_mae}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
@@ -231,7 +282,7 @@ const Login = (props) => {
                 onChange={auth.handleChange}
                 error={auth.touched.nome_pai && Boolean(auth.errors.nome_pai)}
                 helperText={auth.touched.nome_pai && auth.errors.nome_pai}
-                fullWidth             
+                fullWidth                
               />
             </div>
             <div className="input-block">
@@ -245,7 +296,7 @@ const Login = (props) => {
                 error={auth.touched.celular && Boolean(auth.errors.celular)}
                 helperText={auth.touched.celular && auth.errors.celular}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
@@ -259,7 +310,7 @@ const Login = (props) => {
                 error={auth.touched.telefone_residencial && Boolean(auth.errors.telefone_residencial)}
                 helperText={auth.touched.telefone_residencial && auth.errors.telefone_residencial}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
@@ -273,7 +324,7 @@ const Login = (props) => {
                 error={auth.touched.cep && Boolean(auth.errors.cep)}
                 helperText={auth.touched.cep && auth.errors.cep}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
@@ -287,7 +338,7 @@ const Login = (props) => {
                 error={auth.touched.logradouro && Boolean(auth.errors.logradouro)}
                 helperText={auth.touched.logradouro && auth.errors.logradouro}
                 fullWidth
-                required={true}
+                required              
               />
             </div>
             <div className="input-block">
@@ -301,7 +352,7 @@ const Login = (props) => {
                 error={auth.touched.numero && Boolean(auth.errors.numero)}
                 helperText={auth.touched.numero && auth.errors.numero}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
@@ -314,7 +365,7 @@ const Login = (props) => {
                 onChange={auth.handleChange}
                 error={auth.touched.complemento && Boolean(auth.errors.complemento)}
                 helperText={auth.touched.complemento && auth.errors.complemento}
-                fullWidth
+                fullWidth                
               />
             </div>
             <div className="input-block">
@@ -328,7 +379,7 @@ const Login = (props) => {
                 error={auth.touched.bairro && Boolean(auth.errors.bairro)}
                 helperText={auth.touched.bairro && auth.errors.bairro}
                 fullWidth
-                required={true}
+                required                
               />
             </div>
             <div className="input-block">
@@ -342,23 +393,21 @@ const Login = (props) => {
                 error={auth.touched.municipio && Boolean(auth.errors.municipio)}
                 helperText={auth.touched.municipio && auth.errors.municipio}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block"> 
-              <TextField                                    
-                label="UF"
+              <TextField  
                 name="uf"
+                label="UF"
                 variant="outlined"
                 type="text"
                 autoComplete="off"
-                value={auth.values.uf}
-                onChange={auth.handleChange}
-                error={auth.touched.uf && Boolean(auth.errors.uf)}
-                helperText={auth.touched.uf && auth.errors.uf}
+                value={uf}
+                onChange={(e) => setUf(e.target.value)}  
                 fullWidth     
-                select     
-                required={true}       
+                select    
+                required        
               >
                 <MenuItem value="AC" key="AC">AC</MenuItem>
                 <MenuItem value="AL" key="AL">AL</MenuItem>
@@ -395,10 +444,8 @@ const Login = (props) => {
                 variant="outlined"
                 type="text"
                 autoComplete="off"
-                value={auth.values.escolaridade}
-                onChange={auth.handleChange}
-                error={auth.touched.escolaridade && Boolean(auth.errors.escolaridade)}
-                helperText={auth.touched.escolaridade && auth.errors.escolaridade}
+                value={escolaridade}
+                onChange={(e) => setEscolaridade(e.target.value)}              
                 fullWidth     
                 select     
                 required={true}       
@@ -422,20 +469,19 @@ const Login = (props) => {
                 error={auth.touched.email && Boolean(auth.errors.email)}
                 helperText={auth.touched.email && auth.errors.email}
                 fullWidth
-                required={true}
+                required
               />
             </div>
             <div className="input-block">
               <TextField
                 name="senha"
-                label="Senha"
+                label="Senha (Só preencha se desejar alterar!)"
                 type="password"
                 variant="outlined"
                 value={auth.values.senha}
                 onChange={auth.handleChange}
                 error={auth.touched.senha && Boolean(auth.errors.senha)}
                 fullWidth
-                required={true}
               />
             </div>
             <div className="input-block">
@@ -444,13 +490,11 @@ const Login = (props) => {
                 label="Você é uma Pessoa com Deficiência (PCD)?"
                 type="text"
                 variant="outlined"
-                value={auth.values.pcd}
-                onChange={auth.handleChange}
-                error={auth.touched.pcd && Boolean(auth.errors.pcd)}
-                helperText={auth.touched.pcd && auth.errors.pcd}
+                value={pcd}
+                onChange={(e) => setPcd(e.target.value)}              
                 select
                 fullWidth
-                required={true}
+                required
               >
                 <MenuItem value={false} key={1}>Não</MenuItem>
                 <MenuItem value={true} key={2}>Sim</MenuItem>              
@@ -458,7 +502,7 @@ const Login = (props) => {
             </div>
             
             <div className="btn-submit">
-              <PrimaryButton variant="contained" size="large" type="submit">CADASTRAR</PrimaryButton>
+              <PrimaryButton variant="contained" size="large" type="submit">SALVAR</PrimaryButton>
             </div>
           </form>
         </div>
@@ -467,4 +511,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default MeusDados;

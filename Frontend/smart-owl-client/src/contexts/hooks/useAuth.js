@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import jwt_decode from "jwt-decode";
 
+import moment from "moment";
+
 import { SnackContext } from '../SnackContext';
 import history from '../../history';
 
@@ -62,9 +64,9 @@ export default function useAuth() {
       const user = {
         nome: token_decoded.nome,
         email: token_decoded.email,
+        idade: moment().diff(moment(token_decoded.nascimento), 'years'),
+        pcd: token_decoded.pcd
       }
-
-      console.log(redirect)
       
       setPermissions(token_decoded.permissoes_administrador);
       setRole(token_decoded.tipo);
